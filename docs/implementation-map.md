@@ -22,8 +22,8 @@ This map ties each public requirement to its declarative source, executable sour
 
 | Package | Specification | SlotSpec and graph | Static evidence | Live evidence |
 |---|---|---|---|---|
-| Joy-Con OSC | `joycon-plugin.md` | `joycon-osc-plugin.resoslots.json`, `BYOHapticsJoyConOSCOutput.pg` | 35 slots, 95 components, contract and defaults validated | Pending |
-| Haptira OSC | `haptira-plugin.md` | `haptira-osc-plugin.resoslots.json`, `BYOHapticsHaptiraOSCOutput.pg` | 41 slots, 120 components, contract and defaults validated | Pending |
+| Joy-Con OSC | `joycon-plugin.md` | `joycon-osc-plugin.resoslots.json`, `BYOHapticsJoyConOSCOutput.pg` | 35 slots, 95 components, contract and defaults validated | Row 0/`left` and Row 1/`right` Force passed |
+| Haptira OSC | `haptira-plugin.md` | `haptira-osc-plugin.resoslots.json`, `BYOHapticsHaptiraOSCOutput.pg` | 42 slots, 123 components, contract, defaults, and rear backing validated | Channels `00`, `01`, and `02` passed |
 
 Both graphs consume the same transport-neutral Output Bus. Row Targets remain opaque to the Host and are interpreted only by the selected Plugin.
 

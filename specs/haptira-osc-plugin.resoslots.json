@@ -223,6 +223,53 @@
           }
         },
         {
+          "alias": "package.backingMaterial",
+          "type": "[FrooxEngine]FrooxEngine.UI_UnlitMaterial",
+          "members": {
+            "AlphaCutoff": {
+              "type": "float",
+              "value": 0.5
+            },
+            "AlphaClip": {
+              "type": "bool",
+              "value": true
+            },
+            "TextureMode": {
+              "type": "enum",
+              "value": "DirectColor",
+              "enumType": "UnlitTextureMode"
+            },
+            "BlendMode": {
+              "type": "enum",
+              "value": "Alpha",
+              "enumType": "BlendMode"
+            },
+            "Sidedness": {
+              "type": "enum",
+              "value": "Back",
+              "enumType": "Sidedness"
+            },
+            "ZWrite": {
+              "type": "enum",
+              "value": "On",
+              "enumType": "ZWrite"
+            },
+            "ZTest": {
+              "type": "enum",
+              "value": "LessOrEqual",
+              "enumType": "ZTest"
+            },
+            "OffsetFactor": {
+              "type": "float",
+              "value": -1
+            },
+            "OffsetUnits": {
+              "type": "float",
+              "value": 100
+            }
+          }
+        },
+        {
           "alias": "package.mainFont",
           "type": "[FrooxEngine]FrooxEngine.StaticFont",
           "members": {
@@ -388,6 +435,70 @@
         {
           "alias": "package.accent.ignoreLayout",
           "type": "[FrooxEngine]FrooxEngine.UIX.IgnoreLayout"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Background/Backing",
+      "components": [
+        {
+          "alias": "package.backing.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.backing.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.045,
+                "g": 0.055,
+                "b": 0.075,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
         }
       ]
     },
@@ -2827,6 +2938,18 @@
       "component": "package.background.image",
       "member": "Material",
       "componentRef": "package.panelMaterial",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Material>"
+    },
+    {
+      "component": "package.backing.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.backing.image",
+      "member": "Material",
+      "componentRef": "package.backingMaterial",
       "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Material>"
     },
     {

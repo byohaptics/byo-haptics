@@ -15,6 +15,8 @@ Document version: `0.1.0`
 
 The user enters the device IPv4 address manually. Automatic discovery is outside the initial milestone. The plugin derives its sender endpoint from Device Address and Device Port and remains inactive when either value is invalid.
 
+The card uses an opaque back-only backing layer so address and port controls are not visible through its rear face.
+
 ## Target Routing
 
 Target must be a two-digit channel from `00` through `15`. Other values are ignored.
