@@ -1,0 +1,8 @@
+module Smoke
+
+in Value: bool
+out Result: bool
+
+where {
+    Result = Value;
+}

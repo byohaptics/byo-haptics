@@ -29,7 +29,8 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 ## Phase 2: Build Toolchain
 
 - [x] Add SlotSpec builder without runtime ID fallbacks.
-- [ ] Add ProtoGraph compile and deploy scripts.
+- [x] Add generic ProtoGraph compile tooling.
+- [ ] Add host deployment after the first host SlotSpec and sheet exist.
 - [ ] Add generated-ID and fixed-ID validation.
 - [ ] Add version synchronization for host and both plugins.
 - [ ] Add validators for host and Plugin Package specs.
