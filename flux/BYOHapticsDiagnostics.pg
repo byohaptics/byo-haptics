@@ -1,0 +1,147 @@
+﻿/// Read-only values for inspecting runtime state in ModuPrint.
+module BYOHapticsDiagnostics
+
+in ToolRoot: Slot element
+in Installed: bool
+in PanelVisible: bool
+in Row0Force: float
+in Row0Vibration: float
+in Row0Pain: float
+in Row0Temperature: float
+in Row1Force: float
+in Row1Vibration: float
+in Row1Pain: float
+in Row1Temperature: float
+in Row2Force: float
+in Row2Vibration: float
+in Row2Pain: float
+in Row2Temperature: float
+in Row3Force: float
+in Row3Vibration: float
+in Row3Pain: float
+in Row3Temperature: float
+in OutputBusActive: bool
+in OutputBusConnected: bool
+in OutputBusConnectionStatusAvailable: bool
+in OutputBusRow0Force: float
+in OutputBusRow0Vibration: float
+in OutputBusRow0Pain: float
+in OutputBusRow0Temperature: float
+in OutputBusRow1Force: float
+in OutputBusRow1Vibration: float
+in OutputBusRow1Pain: float
+in OutputBusRow1Temperature: float
+in OutputBusRow2Force: float
+in OutputBusRow2Vibration: float
+in OutputBusRow2Pain: float
+in OutputBusRow2Temperature: float
+in OutputBusRow3Force: float
+in OutputBusRow3Vibration: float
+in OutputBusRow3Pain: float
+in OutputBusRow3Temperature: float
+in OutputBusTarget0: string
+in OutputBusTarget1: string
+in OutputBusTarget2: string
+in OutputBusTarget3: string
+
+out ActiveUser: User
+out ToolParent: Slot
+out InstalledState: bool
+out PanelVisibleState: bool
+out PluginActive: bool
+out PluginConnected: bool
+out PluginConnectionStatusAvailable: bool
+out PluginDisconnected: bool
+out Row0RawForce: float
+out Row0RawVibration: float
+out Row0RawPain: float
+out Row0RawTemperature: float
+out Row1RawForce: float
+out Row1RawVibration: float
+out Row1RawPain: float
+out Row1RawTemperature: float
+out Row2RawForce: float
+out Row2RawVibration: float
+out Row2RawPain: float
+out Row2RawTemperature: float
+out Row3RawForce: float
+out Row3RawVibration: float
+out Row3RawPain: float
+out Row3RawTemperature: float
+out OutputRow0Force: float
+out OutputRow0Vibration: float
+out OutputRow0Pain: float
+out OutputRow0Temperature: float
+out OutputRow1Force: float
+out OutputRow1Vibration: float
+out OutputRow1Pain: float
+out OutputRow1Temperature: float
+out OutputRow2Force: float
+out OutputRow2Vibration: float
+out OutputRow2Pain: float
+out OutputRow2Temperature: float
+out OutputRow3Force: float
+out OutputRow3Vibration: float
+out OutputRow3Pain: float
+out OutputRow3Temperature: float
+out OutputRow0Target: string
+out OutputRow1Target: string
+out OutputRow2Target: string
+out OutputRow3Target: string
+
+where {
+    ActiveUser = LocalUser;
+    IsUnderLocalUser = IsChildOf(
+        Instance=ToolRoot,
+        Other=UserRootSlot(User=ActiveUser),
+        IncludeSelf=true);
+    PluginActive = if IsUnderLocalUser then OutputBusActive else false;
+    ToolParent = GetParentSlot(Instance=ToolRoot);
+    InstalledState = Installed;
+    PanelVisibleState = PanelVisible;
+    // Connected is synchronized by the active plugin so remote clients can
+    // display the installed user's transport state.
+    PluginConnected = OutputBusConnected;
+    PluginConnectionStatusAvailable = OutputBusConnectionStatusAvailable;
+    PluginDisconnected =
+        if PluginActive then
+            (if OutputBusConnectionStatusAvailable then not OutputBusConnected else false)
+        else false;
+    Row0RawForce = Row0Force;
+    Row0RawVibration = Row0Vibration;
+    Row0RawPain = Row0Pain;
+    Row0RawTemperature = Row0Temperature;
+    Row1RawForce = Row1Force;
+    Row1RawVibration = Row1Vibration;
+    Row1RawPain = Row1Pain;
+    Row1RawTemperature = Row1Temperature;
+    Row2RawForce = Row2Force;
+    Row2RawVibration = Row2Vibration;
+    Row2RawPain = Row2Pain;
+    Row2RawTemperature = Row2Temperature;
+    Row3RawForce = Row3Force;
+    Row3RawVibration = Row3Vibration;
+    Row3RawPain = Row3Pain;
+    Row3RawTemperature = Row3Temperature;
+    OutputRow0Force = if PluginActive then OutputBusRow0Force else 0.0;
+    OutputRow0Vibration = if PluginActive then OutputBusRow0Vibration else 0.0;
+    OutputRow0Pain = if PluginActive then OutputBusRow0Pain else 0.0;
+    OutputRow0Temperature = if PluginActive then OutputBusRow0Temperature else 0.0;
+    OutputRow1Force = if PluginActive then OutputBusRow1Force else 0.0;
+    OutputRow1Vibration = if PluginActive then OutputBusRow1Vibration else 0.0;
+    OutputRow1Pain = if PluginActive then OutputBusRow1Pain else 0.0;
+    OutputRow1Temperature = if PluginActive then OutputBusRow1Temperature else 0.0;
+    OutputRow2Force = if PluginActive then OutputBusRow2Force else 0.0;
+    OutputRow2Vibration = if PluginActive then OutputBusRow2Vibration else 0.0;
+    OutputRow2Pain = if PluginActive then OutputBusRow2Pain else 0.0;
+    OutputRow2Temperature = if PluginActive then OutputBusRow2Temperature else 0.0;
+    OutputRow3Force = if PluginActive then OutputBusRow3Force else 0.0;
+    OutputRow3Vibration = if PluginActive then OutputBusRow3Vibration else 0.0;
+    OutputRow3Pain = if PluginActive then OutputBusRow3Pain else 0.0;
+    OutputRow3Temperature = if PluginActive then OutputBusRow3Temperature else 0.0;
+    OutputRow0Target = OutputBusTarget0;
+    OutputRow1Target = OutputBusTarget1;
+    OutputRow2Target = OutputBusTarget2;
+    OutputRow3Target = OutputBusTarget3;
+}
+

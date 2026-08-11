@@ -43,8 +43,8 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Implement and compile the positioning sheet.
 - [x] Implement and compile source binding and sampler sheets.
 - [x] Implement and compile Output Bus, plugin discovery, and Package Manager sheets.
-- [ ] Implement read-only diagnostics sheet.
-- [ ] Compile all sheets and validate references.
+- [x] Implement and compile the read-only diagnostics sheet.
+- [x] Compile all sheets and validate SlotSpec references.
 
 ## Phase 4: Plugin Reconstruction
 

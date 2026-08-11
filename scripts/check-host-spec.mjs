@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 const spec = JSON.parse(fs.readFileSync(new URL("../specs/byo-haptics.resoslots.json", import.meta.url), "utf8"));
-const version = fs.readFileSync(new URL("../VERSION", import.meta.url), "utf8").trim();
+const version = JSON.parse(fs.readFileSync(new URL("../versions.json", import.meta.url), "utf8")).product;
 const components = new Map(
   spec.slots.flatMap((slot) => (slot.components ?? []).map((component) => [component.alias, component])),
 );
