@@ -35,6 +35,8 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Add version synchronization for host and both plugins.
 - [x] Add a validator for the host SlotSpec.
 - [x] Add validators for both Plugin Package specs.
+- [x] Configure Windows CI with pinned FluxSDK and Bridge linting.
+- [x] Add a sanitized Windows package build for the Joy-Con Bridge CLI and GUI.
 
 ## Phase 3: Host Reconstruction
 
@@ -62,6 +64,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Run the local publication policy check.
 - [x] Run `ponytail-review` and apply accepted reductions.
 - [x] Commit the reproducible static build.
+- [x] Verify the Bridge release archive contains no private build path or hardware identifier.
 
 ## Phase 6: Live Verification
 

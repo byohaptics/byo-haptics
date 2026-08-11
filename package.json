@@ -6,6 +6,8 @@
   "scripts": {
     "compile:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile-host.ps1",
     "compile:plugins": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile-plugins.ps1",
+    "build:bridge": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-joycon-bridge.ps1",
+    "lint:bridge": "cargo fmt --manifest-path bridges/joycon-rumble/Cargo.toml -- --check && cargo clippy --manifest-path bridges/joycon-rumble/Cargo.toml --all-targets -- -D warnings",
     "test:bridge": "cargo test --manifest-path bridges/joycon-rumble/Cargo.toml --all-targets",
     "deploy:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-host.ps1",
     "deploy:joycon": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-plugin.ps1 -Plugin joycon",

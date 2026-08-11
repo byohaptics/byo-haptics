@@ -16,13 +16,14 @@ Implementation must follow the specifications. When a test exposes missing or in
 ## Development Loop
 
 1. Read `docs/current-handoff.md` and `docs/todo.md`.
-2. Select the first unchecked task whose prerequisites are complete.
-3. Make the smallest implementation that satisfies that task.
-4. Run `npm test`.
-5. Run an over-engineering review and remove unnecessary complexity.
-6. Update the task and handoff documents.
-7. Commit one coherent change.
-8. Continue unless user input or a live Resonite test is required.
+2. Confirm `git config core.hooksPath` is `.githooks` and `PUBLICATION_DENYLIST` is available.
+3. Select the first unchecked task whose prerequisites are complete.
+4. Make the smallest implementation that satisfies that task.
+5. Run `npm test`.
+6. Run an over-engineering review and remove unnecessary complexity.
+7. Update the task and handoff documents.
+8. Commit one coherent change.
+9. Continue unless user input or a live Resonite test is required.
 
 Do not deploy when Resonite is unavailable or when the user has prohibited deployment.
 

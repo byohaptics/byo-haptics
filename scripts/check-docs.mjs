@@ -5,6 +5,7 @@ const required = [
   "AGENTS.md",
   "docs/project-scope.md",
   "docs/architecture.md",
+  "docs/building.md",
   "docs/output-plugin-contract.md",
   "docs/output-plugin-package.md",
   "docs/joycon-plugin.md",

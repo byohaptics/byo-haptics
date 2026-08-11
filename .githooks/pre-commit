@@ -1,0 +1,4 @@
+#!/bin/sh
+
+node scripts/check-publication-policy.mjs || exit 1
+npm test

@@ -7,10 +7,30 @@ on:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
+    env:
+      PUBLICATION_DENYLIST: ${{ vars.PUBLICATION_DENYLIST }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Install build tools
+        shell: pwsh
+        run: |
+          rustup component add rustfmt clippy
+          dotnet tool install --global Papaltine.FluxSDK --version 1.8.0
+      - name: Require publication policy
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:PUBLICATION_DENYLIST)) {
+            throw 'Configure the PUBLICATION_DENYLIST repository variable before enabling CI.'
+          }
       - run: npm test
+      - run: npm run lint:bridge
+      - run: npm run compile:host
+      - run: npm run compile:plugins
+      - run: node scripts/check-publication-policy.mjs
