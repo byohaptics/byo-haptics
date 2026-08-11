@@ -8,7 +8,7 @@ The history-free public repository foundation exists locally at version `0.1.0`.
 
 The first live deployment completed in `byohaptics World` under Resonite user `byohaptics` on 2026-08-12. World Root now contains one public `BYOHaptics` Host, one Joy-Con OSC Plugin Package, and one Haptira OSC Plugin Package. The Host deployed eight sheets and each plugin deployed one sheet with zero module-discovery errors. ResoniteLink readback confirmed Host and plugin version `v0.1.0`, Output Plugin contract `1`, and both public Plugin IDs. Functional VR, lifecycle, plugin drop/ejection, network, and device tests remain pending. The pre-existing private `myHaptics` root was not modified.
 
-Joy-Con Bridge and Plugin defaults now use `9010/UDP` to avoid common face-tracking ports. Bridge controller bindings default to `bluetooth_address = "auto"`, which selects the first connected controller of each configured side; an explicit address remains available for disambiguation. A live startup check recognized both paired controllers, but end-to-end rumble after this fix still requires confirmation.
+Joy-Con Bridge and Plugin defaults now use `9010/UDP` to avoid common face-tracking ports. Bridge controller bindings default to `bluetooth_address = "auto"`, which selects the first connected controller of each configured side; an explicit address remains available for disambiguation. Live Force tests passed end to end: Row 0/Target `left` drove Joy-Con (L), and Row 1/Target `right` drove Joy-Con (R).
 
 No functional Resonite test has been completed. No GitHub repository has been created or pushed.
 

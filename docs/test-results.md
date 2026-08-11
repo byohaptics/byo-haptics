@@ -12,6 +12,7 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-12 | `c9a25b4` | `byohaptics` | Own world (`byohaptics World`) | Host and plugin manifests | Read back public version, contract, and Plugin IDs through ResoniteLink | Pass | Host `v0.1.0`; both plugins `v0.1.0`; contract `1`; IDs `io.github.byohaptics.output.joycon.osc` and `io.github.byohaptics.output.haptira.osc`. |
 | 2026-08-12 | `f7da531` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con Bridge | Row 0 Force sampler reacts but paired Joy-Con does not | Fail | OSC endpoint, heartbeat, plugin Active, plugin Connected, Target `left`, and HID openability were valid. Public defaults still filtered devices through sanitized placeholder Bluetooth addresses. |
 | 2026-08-12 | working tree after `f7da531` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con Bridge | Start Bridge with automatic side binding | Pass | Updated Bridge connected both paired controllers as `left`/ID 1 and `right`/ID 2 on `127.0.0.1:9010`. End-to-end rumble retest remains pending. |
+| 2026-08-12 | `d916a3d` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con Plugin and Bridge | Route Force from Row 0/Target `left` and Row 1/Target `right` | Pass | Row 0 drove Joy-Con (L), and Row 1 drove Joy-Con (R). This confirms end-to-end sampler, Output Bus, OSC, automatic side binding, and HID output for Force. |
 
 ## Required Result Detail
 
