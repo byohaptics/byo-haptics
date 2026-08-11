@@ -20,6 +20,8 @@ Version `0.1.0` is under reconstruction and is not a release.
 - [Build plan and tasks](docs/todo.md)
 - [Test plan](docs/test-plan.md)
 - [Known limitations](docs/limitations.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
 
 ## Accounts
 

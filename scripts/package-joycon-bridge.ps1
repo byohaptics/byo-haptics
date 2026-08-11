@@ -34,4 +34,6 @@ Copy-Item -LiteralPath (Join-Path $bridge 'joycon-rumble.example.toml') -Destina
 
 if (Test-Path -LiteralPath $archive) { Remove-Item -LiteralPath $archive }
 Compress-Archive -Path (Join-Path $stage '*') -DestinationPath $archive
+$checksum = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+Set-Content -LiteralPath "$archive.sha256" -Encoding ASCII -Value "$checksum  $(Split-Path -Leaf $archive)"
 Write-Output "Created $archive"

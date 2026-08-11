@@ -3,6 +3,8 @@ import fs from "node:fs";
 const required = [
   "README.md",
   "AGENTS.md",
+  "CONTRIBUTING.md",
+  "SECURITY.md",
   "docs/project-scope.md",
   "docs/architecture.md",
   "docs/building.md",

@@ -51,7 +51,7 @@ The GitHub repository must define the same value as the Actions repository varia
 npm run build:bridge
 ```
 
-This creates `build/joycon-rumble-bridge-v<version>-windows-x64.zip` containing the CLI, GUI, README, and a placeholder-only configuration example. The archive does not contain controller addresses or generated calibration data.
+This creates `build/joycon-rumble-bridge-v<version>-windows-x64.zip` containing the CLI, GUI, README, and a placeholder-only configuration example. A matching `.zip.sha256` file is generated beside it. The archive does not contain controller addresses or generated calibration data.
 
 ## Scene Deployment
 
