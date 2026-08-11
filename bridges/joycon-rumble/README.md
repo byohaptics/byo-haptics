@@ -37,7 +37,7 @@ Use `cargo run -- --dry-run` to inspect received output without opening controll
 
 ## Defaults
 
-- OSC receiver: `127.0.0.1:9001`
+- OSC receiver: `127.0.0.1:9010`
 - namespace: `joyconrumble`
 - heartbeat timeout: `2000 ms`
 - Target names: `left`, `right`

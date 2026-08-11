@@ -53,7 +53,7 @@ pub struct Config {
 impl Default for Config {
     fn default() -> Self {
         Self {
-            listen: "127.0.0.1:9001".parse().expect("valid default address"),
+            listen: "127.0.0.1:9010".parse().expect("valid default address"),
             namespace: "joyconrumble".into(),
             heartbeat_timeout_ms: 2000,
             low_freq_hz: 160.0,
@@ -330,8 +330,8 @@ fn print_help() {
     println!(
         "joycon-rumble-bridge\n\
          --config joycon-rumble.toml\n\
-         --listen 127.0.0.1:9001\n\
-         --listen-port 9001\n\
+         --listen 127.0.0.1:9010\n\
+         --listen-port 9010\n\
          --namespace joyconrumble\n\
          --heartbeat-timeout-ms 2000\n\
          --low-freq 160\n\
@@ -403,14 +403,14 @@ id = 2
             "--config".into(),
             path.to_string_lossy().into_owned(),
             "--listen-port".into(),
-            "9001".into(),
+            "9010".into(),
             "--device".into(),
             "left,001122334455,left,3".into(),
             "--save-config".into(),
         ])
         .unwrap();
 
-        assert_eq!(config.listen.to_string(), "127.0.0.1:9001");
+        assert_eq!(config.listen.to_string(), "127.0.0.1:9010");
         assert_eq!(config.namespace, "from-file");
         let left = config
             .devices
@@ -422,7 +422,7 @@ id = 2
         assert_eq!(left.id, 3);
 
         let saved = fs::read_to_string(&path).unwrap();
-        assert!(saved.contains("127.0.0.1:9001"));
+        assert!(saved.contains("127.0.0.1:9010"));
         assert!(saved.contains("001122334455"));
         fs::remove_file(path).unwrap();
     }

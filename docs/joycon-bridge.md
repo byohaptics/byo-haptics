@@ -11,7 +11,7 @@ Document version: `0.1.0`
 
 ## Wire Protocol
 
-The Bridge listens on `127.0.0.1:9001` by default. `<target>` must exactly match a configured `devices[].osc_address`.
+The Bridge listens on `127.0.0.1:9010` by default. Ports `9000` and `9001` are avoided because they are commonly used by face-tracking applications. `<target>` must exactly match a configured `devices[].osc_address`.
 
 ```text
 /avatar/parameters/<namespace>/status/port                  int32

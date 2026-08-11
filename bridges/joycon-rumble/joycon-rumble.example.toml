@@ -1,4 +1,4 @@
-listen = "127.0.0.1:9001"
+listen = "127.0.0.1:9010"
 namespace = "joyconrumble"
 heartbeat_timeout_ms = 2000
 low_freq_hz = 160.0

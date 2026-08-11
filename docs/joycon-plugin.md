@@ -9,7 +9,7 @@ Document version: `0.1.0`
 - Bridge API version: `0.1.0`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: OSC over UDP
-- Default send port: `9001`
+- Default send port: `9010`
 - Default acknowledgement port: `9002`
 
 ## Target Routing

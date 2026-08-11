@@ -123,7 +123,7 @@ impl Default for App {
             side: Side::Right,
             csv_path: "joycon-imu-sweep.csv".into(),
             profile_path: "joycon-rumble-profiles.toml".into(),
-            listen: "0.0.0.0:9001".into(),
+            listen: "0.0.0.0:9010".into(),
             busy: false,
             scan_completed: false,
             left_detected: false,
@@ -377,7 +377,7 @@ fn view(app: &App) -> Element<'_, Message> {
             text("3. OSCブリッジ").size(20),
             row![
                 text("待受アドレス").width(Length::Fixed(170.0)),
-                text_input("0.0.0.0:9001", &app.listen)
+                text_input("0.0.0.0:9010", &app.listen)
                     .on_input(Message::ListenChanged)
                     .width(Length::Fixed(220.0)),
                 horizontal_space(),
