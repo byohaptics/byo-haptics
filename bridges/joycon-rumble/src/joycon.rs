@@ -785,12 +785,14 @@ impl HidJoyConBackend {
             let Some(binding) = self.binding(side).cloned() else {
                 continue;
             };
-            let serial = device.serial_number().unwrap_or("");
-            let Ok(serial_address) = normalize_bluetooth_address(serial) else {
-                continue;
-            };
-            if serial_address != binding.bluetooth_address {
-                continue;
+            if binding.bluetooth_address != "auto" {
+                let serial = device.serial_number().unwrap_or("");
+                let Ok(serial_address) = normalize_bluetooth_address(serial) else {
+                    continue;
+                };
+                if serial_address != binding.bluetooth_address {
+                    continue;
+                }
             }
 
             let hid_device = match device.open_device(&api) {

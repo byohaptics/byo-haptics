@@ -62,13 +62,13 @@ impl Default for Config {
             devices: vec![
                 DeviceConfig {
                     side: DeviceSide::Left,
-                    bluetooth_address: "000000000000".into(),
+                    bluetooth_address: "auto".into(),
                     osc_address: "left".into(),
                     id: 1,
                 },
                 DeviceConfig {
                     side: DeviceSide::Right,
-                    bluetooth_address: "000000000001".into(),
+                    bluetooth_address: "auto".into(),
                     osc_address: "right".into(),
                     id: 2,
                 },
@@ -203,7 +203,7 @@ impl Config {
             return Err(invalid("config must contain one left and one right device"));
         }
         for device in &mut self.devices {
-            device.bluetooth_address = normalize_bluetooth_address(&device.bluetooth_address)?;
+            device.bluetooth_address = normalize_binding_address(&device.bluetooth_address)?;
             validate_path_segment(&device.osc_address, "device osc_address")?;
             if !(1..=4).contains(&device.id) {
                 return Err(invalid("device id must be in 1..4"));
@@ -249,7 +249,7 @@ fn parse_device(value: &str) -> io::Result<DeviceConfig> {
     let parts: Vec<&str> = value.split(',').map(str::trim).collect();
     if parts.len() != 4 {
         return Err(invalid(
-            "--device must be SIDE,BLUETOOTH_ADDRESS,OSC_ADDRESS,ID",
+            "--device must be SIDE,AUTO_OR_BLUETOOTH_ADDRESS,OSC_ADDRESS,ID",
         ));
     }
     let side = match parts[0].to_ascii_lowercase().as_str() {
@@ -259,12 +259,20 @@ fn parse_device(value: &str) -> io::Result<DeviceConfig> {
     };
     Ok(DeviceConfig {
         side,
-        bluetooth_address: normalize_bluetooth_address(parts[1])?,
+        bluetooth_address: normalize_binding_address(parts[1])?,
         osc_address: parts[2].to_owned(),
         id: parts[3]
             .parse()
             .map_err(|_| invalid("device id must be an integer"))?,
     })
+}
+
+fn normalize_binding_address(value: &str) -> io::Result<String> {
+    if value.eq_ignore_ascii_case("auto") {
+        Ok("auto".into())
+    } else {
+        normalize_bluetooth_address(value)
+    }
 }
 
 pub fn normalize_bluetooth_address(value: &str) -> io::Result<String> {
@@ -337,8 +345,8 @@ fn print_help() {
          --low-freq 160\n\
          --high-freq 320\n\
          --imu-profile joycon-rumble-profiles.toml\n\
-         --device left,001122334455,left,1\n\
-         --device right,66778899aabb,right,2\n\
+         --device left,auto,left,1\n\
+         --device right,auto,right,2\n\
          --save-config\n\
          --dry-run
          --trace-csv bridge-haptics.csv"
@@ -367,6 +375,16 @@ mod tests {
                 osc_address: "hand-left".into(),
                 id: 3,
             }
+        );
+    }
+
+    #[test]
+    fn parses_automatic_device_binding() {
+        assert_eq!(
+            parse_device("right,auto,right,2")
+                .unwrap()
+                .bluetooth_address,
+            "auto"
         );
     }
 

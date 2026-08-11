@@ -49,4 +49,4 @@ When the host becomes inactive, the plugin stops its receiver and releases the a
 
 The bridge uses a fixed-rate output loop. Incoming OSC updates replace the latest desired state; the loop writes only the newest state and does not queue stale HID writes. A final zero update stops output promptly.
 
-Bridge configuration stores listen port, controller address names, numeric IDs, and Bluetooth addresses. Command-line values override the file. Explicit save writes effective command-line values back to the file.
+Bridge configuration stores listen port, controller address names, numeric IDs, and optional Bluetooth-address bindings. The default `auto` binding selects controllers by side. Command-line values override the file. Explicit save writes effective command-line values back to the file.

@@ -16,10 +16,10 @@ This Windows bridge receives the BYO Haptics Joy-Con OSC protocol and drives pai
 3. Save the addresses to a local configuration:
 
    ```powershell
-   cargo run -- --device left,001122334455,left,1 --device right,66778899aabb,right,2 --save-config
+   cargo run -- --device left,auto,left,1 --device right,auto,right,2 --save-config
    ```
 
-The addresses above are placeholders. Do not use them unchanged. Local `joycon-rumble.toml` files are ignored by Git.
+`auto` selects the first connected controller of each side. Specify a Bluetooth address only to distinguish multiple controllers of the same side. Local `joycon-rumble.toml` files are ignored by Git.
 
 ## Run
 

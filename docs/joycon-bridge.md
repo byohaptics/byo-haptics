@@ -44,9 +44,9 @@ Frequency carriers may be replaced by a per-controller IMU profile. Without a pr
 
 ## Configuration
 
-`joycon-rumble.toml` stores the listen address, namespace, timeout, frequency scale, profile path, and two controller bindings. Each binding contains side, Bluetooth address, OSC Target name, and player ID. Precedence is command line, configuration file, then built-in defaults.
+`joycon-rumble.toml` stores the listen address, namespace, timeout, frequency scale, profile path, and two controller bindings. Each binding contains side, Bluetooth address selection, OSC Target name, and player ID. The default `bluetooth_address = "auto"` selects the first connected controller of the configured side. Set a 12-digit Bluetooth address only when multiple controllers of the same side must be distinguished. Precedence is command line, configuration file, then built-in defaults.
 
-Use `--device SIDE,BLUETOOTH_ADDRESS,OSC_ADDRESS,ID` to set a binding and `--save-config` to persist effective values. Public source contains placeholders only; a user must register their own Bluetooth addresses.
+Use `--device SIDE,AUTO_OR_BLUETOOTH_ADDRESS,OSC_ADDRESS,ID` to set a binding and `--save-config` to persist effective values.
 
 ## Utilities
 

@@ -7,12 +7,12 @@ imu_profile_path = "joycon-rumble-profiles.toml"
 
 [[devices]]
 side = "left"
-bluetooth_address = "001122334455"
+bluetooth_address = "auto"
 osc_address = "left"
 id = 1
 
 [[devices]]
 side = "right"
-bluetooth_address = "66778899aabb"
+bluetooth_address = "auto"
 osc_address = "right"
 id = 2
