@@ -30,7 +30,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 - [x] Add SlotSpec builder without runtime ID fallbacks.
 - [x] Add generic ProtoGraph compile tooling.
-- [ ] Add host deployment after the first host SlotSpec and sheet exist.
+- [x] Add a type-checked host deployment path after the first host SlotSpec and sheets exist.
 - [x] Add generated-ID and fixed-ID validation.
 - [x] Add version synchronization for host and both plugins.
 - [x] Add a validator for the host SlotSpec.

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "compile:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile-host.ps1",
-    "test": "node scripts/check-version.mjs && node scripts/check-docs.mjs && node scripts/test-validate-slotspec.mjs && node scripts/check-host-spec.mjs && node scripts/check-runtime-ids.mjs && node scripts/test-runtime-id-check.mjs && node scripts/check-builder.mjs"
+    "deploy:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-host.ps1",
+    "test": "node scripts/check-version.mjs && node scripts/check-docs.mjs && node scripts/test-validate-slotspec.mjs && node scripts/check-host-spec.mjs && node scripts/check-runtime-ids.mjs && node scripts/test-runtime-id-check.mjs && node scripts/check-builder.mjs && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-fluxsdk-script.ps1 -ScriptPath scripts/deploy-byo-haptics.fsx -TypeCheckOnly"
   }
 }

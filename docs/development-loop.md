@@ -19,6 +19,14 @@ Document version: `0.1.0`
 
 Each commit must leave generated inputs reproducible and static checks passing. Do not mix specification corrections, unrelated UI changes, and device behavior in one commit.
 
+## Host Commands
+
+- `npm run compile:host` compiles all eight host sheets without changing a scene.
+- `npm run deploy:host` builds the SlotSpec and deploys all host sheets. It requires a running ResoniteLink endpoint and refuses to deploy unless the wrapper sets the explicit deployment gate.
+- `npm run deploy:host -- -Recreate` removes an existing World Root host with the same tool name before rebuilding it.
+
+Generated IDs are written under `build/` and are valid only for the current scene build. They are never committed.
+
 ## Live Test Boundary
 
 Codex prepares and deploys only when Resonite is running and deployment is explicitly allowed. A user performs VR and hardware observations. The result is recorded in `docs/test-results.md`, including user, world ownership, plugin, Target, and observed output.

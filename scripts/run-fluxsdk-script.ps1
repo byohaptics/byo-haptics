@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$ScriptPath,
-    [string[]]$ScriptArguments = @()
+    [string[]]$ScriptArguments = @(),
+    [switch]$TypeCheckOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -24,5 +25,8 @@ if (-not $fluxSdkTools -or -not (Test-Path -LiteralPath (Join-Path $fluxSdkTools
 }
 
 $resolvedScript = (Resolve-Path -LiteralPath $ScriptPath).Path
-& dotnet fsi "--lib:$fluxSdkTools" $resolvedScript @ScriptArguments
+$fsiArguments = @("--lib:$fluxSdkTools")
+if ($TypeCheckOnly) { $fsiArguments += '--typecheck-only' }
+$fsiArguments += $resolvedScript
+& dotnet fsi @fsiArguments @ScriptArguments
 exit $LASTEXITCODE
