@@ -12,5 +12,5 @@ Document version: `0.1.0`
 - [x] `ponytail-review` has no accepted unresolved findings.
 - [x] Joy-Con Bridge release packaging rejects private build paths.
 - [ ] Live test plan passes under the `byohaptica` Resonite account.
-- [ ] Multi-user limitations are documented.
+- [x] Multi-user limitations are documented.
 - [ ] `versions.json`, UI title, package metadata, and release tag agree.

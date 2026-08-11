@@ -18,6 +18,7 @@ Version `0.1.0` is under reconstruction and is not a release.
 - [Development loop](docs/development-loop.md)
 - [Build plan and tasks](docs/todo.md)
 - [Test plan](docs/test-plan.md)
+- [Known limitations](docs/limitations.md)
 
 ## Accounts
 
