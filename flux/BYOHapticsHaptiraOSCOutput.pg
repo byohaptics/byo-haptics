@@ -1,0 +1,393 @@
+﻿/// Drop-in Haptira OSC output plugin.
+module BYOHapticsHaptiraOSCOutput
+
+in PluginRoot: Slot element
+in CanReportConnection: bool
+in ConfigDeviceAddress: string
+in ConfigDevicePort: int
+in ConfigEndpoint: Uri mutable
+in ConfigConfigured: bool mutable
+in ConfigChannelPrefix: string
+in ConfigChannelSuffix: string
+in HandlingUser: User mutable
+in SenderURL: Uri mutable
+in SenderIsSending: bool mutable
+in SenderAutoResendInterval: float mutable
+in Channel00Path: string mutable
+in Channel01Path: string mutable
+in Channel02Path: string mutable
+in Channel03Path: string mutable
+in Channel04Path: string mutable
+in Channel05Path: string mutable
+in Channel06Path: string mutable
+in Channel07Path: string mutable
+in Channel08Path: string mutable
+in Channel09Path: string mutable
+in Channel10Path: string mutable
+in Channel11Path: string mutable
+in Channel12Path: string mutable
+in Channel13Path: string mutable
+in Channel14Path: string mutable
+in Channel15Path: string mutable
+in Channel00Value: float mutable
+in Channel01Value: float mutable
+in Channel02Value: float mutable
+in Channel03Value: float mutable
+in Channel04Value: float mutable
+in Channel05Value: float mutable
+in Channel06Value: float mutable
+in Channel07Value: float mutable
+in Channel08Value: float mutable
+in Channel09Value: float mutable
+in Channel10Value: float mutable
+in Channel11Value: float mutable
+in Channel12Value: float mutable
+in Channel13Value: float mutable
+in Channel14Value: float mutable
+in Channel15Value: float mutable
+in DiagnosticsActive: bool mutable
+in DiagnosticsConnected: bool mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+
+where {
+    User = LocalUser;
+    ThisPluginId = "io.github.byohaptics.output.haptira.osc";
+
+    BusActive = ~input<bool>("BYOHaptics.Output.v1/Active");
+    BusContractVersion = ~input<int>("BYOHaptics.Output.v1/ContractVersion");
+    BusPluginId = ~input<string>("BYOHaptics.Output.v1/SelectedPluginId");
+    BusRow0Force = ~input<float>("BYOHaptics.Output.v1/Row0Force");
+    BusRow0Vibration = ~input<float>("BYOHaptics.Output.v1/Row0Vibration");
+    BusRow0Pain = ~input<float>("BYOHaptics.Output.v1/Row0Pain");
+    BusRow0Temperature = ~input<float>("BYOHaptics.Output.v1/Row0Temperature");
+    BusRow1Force = ~input<float>("BYOHaptics.Output.v1/Row1Force");
+    BusRow1Vibration = ~input<float>("BYOHaptics.Output.v1/Row1Vibration");
+    BusRow1Pain = ~input<float>("BYOHaptics.Output.v1/Row1Pain");
+    BusRow1Temperature = ~input<float>("BYOHaptics.Output.v1/Row1Temperature");
+    BusRow2Force = ~input<float>("BYOHaptics.Output.v1/Row2Force");
+    BusRow2Vibration = ~input<float>("BYOHaptics.Output.v1/Row2Vibration");
+    BusRow2Pain = ~input<float>("BYOHaptics.Output.v1/Row2Pain");
+    BusRow2Temperature = ~input<float>("BYOHaptics.Output.v1/Row2Temperature");
+    BusRow3Force = ~input<float>("BYOHaptics.Output.v1/Row3Force");
+    BusRow3Vibration = ~input<float>("BYOHaptics.Output.v1/Row3Vibration");
+    BusRow3Pain = ~input<float>("BYOHaptics.Output.v1/Row3Pain");
+    BusRow3Temperature = ~input<float>("BYOHaptics.Output.v1/Row3Temperature");
+    BusTarget0 = ~input<string>("BYOHaptics.Output.v1/Target0");
+    BusTarget1 = ~input<string>("BYOHaptics.Output.v1/Target1");
+    BusTarget2 = ~input<string>("BYOHaptics.Output.v1/Target2");
+    BusTarget3 = ~input<string>("BYOHaptics.Output.v1/Target3");
+
+    EndpointScheme = ConcatenateString(A="osc://", B=ConfigDeviceAddress);
+    EndpointHost = ConcatenateString(A=EndpointScheme, B=":");
+    EndpointPort = ToString_Int(V=ConfigDevicePort);
+    EndpointText = ConcatenateString(A=EndpointHost, B=EndpointPort);
+    EndpointCandidate = uri(EndpointText);
+    EscapedDeviceAddress = EscapeUriDataString(String=ConfigDeviceAddress);
+    AddressPresent = StringLength(A=ConfigDeviceAddress) > 0;
+    AddressValid = if AddressPresent then EscapedDeviceAddress == ConfigDeviceAddress else false;
+    PortValid = if ConfigDevicePort > 0 then ConfigDevicePort < 65536 else false;
+    ConfigurationValid = if AddressValid then (if PortValid then not IsNull(Instance=EndpointCandidate) else false) else false;
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    Selected = BusPluginId.Value == ThisPluginId;
+    BusSelectionActive =
+        if BusContractVersion.HasValue then
+            (if BusContractVersion.Value == 1 then
+                (if BusActive.HasValue then
+                    (if BusPluginId.HasValue then (if BusActive.Value then Selected else false) else false)
+                else false)
+            else false)
+        else false;
+    ActiveState = if BusSelectionActive then ConfigurationValid else false;
+
+    Row0FV = ValueMax(A=BusRow0Force.Value, B=BusRow0Vibration.Value);
+    Row0PT = ValueMax(A=BusRow0Pain.Value, B=BusRow0Temperature.Value);
+    Row0Intensity = ValueMax(A=Row0FV, B=Row0PT)->Clamp01_Float;
+    Row0Target = if BusTarget0.HasValue then BusTarget0.Value else "";
+    Row1FV = ValueMax(A=BusRow1Force.Value, B=BusRow1Vibration.Value);
+    Row1PT = ValueMax(A=BusRow1Pain.Value, B=BusRow1Temperature.Value);
+    Row1Intensity = ValueMax(A=Row1FV, B=Row1PT)->Clamp01_Float;
+    Row1Target = if BusTarget1.HasValue then BusTarget1.Value else "";
+    Row2FV = ValueMax(A=BusRow2Force.Value, B=BusRow2Vibration.Value);
+    Row2PT = ValueMax(A=BusRow2Pain.Value, B=BusRow2Temperature.Value);
+    Row2Intensity = ValueMax(A=Row2FV, B=Row2PT)->Clamp01_Float;
+    Row2Target = if BusTarget2.HasValue then BusTarget2.Value else "";
+    Row3FV = ValueMax(A=BusRow3Force.Value, B=BusRow3Vibration.Value);
+    Row3PT = ValueMax(A=BusRow3Pain.Value, B=BusRow3Temperature.Value);
+    Row3Intensity = ValueMax(A=Row3FV, B=Row3PT)->Clamp01_Float;
+    Row3Target = if BusTarget3.HasValue then BusTarget3.Value else "";
+
+    Channel00BasePath = ConcatenateString(A=ConfigChannelPrefix, B="00");
+    Channel00PathValue = ConcatenateString(A=Channel00BasePath, B=ConfigChannelSuffix);
+    Channel00Row0 = if Row0Target == "00" then Row0Intensity else 0.0;
+    Channel00Row1 = if Row1Target == "00" then Row1Intensity else 0.0;
+    Channel00Row2 = if Row2Target == "00" then Row2Intensity else 0.0;
+    Channel00Row3 = if Row3Target == "00" then Row3Intensity else 0.0;
+    Channel00Rows01 = ValueMax(A=Channel00Row0, B=Channel00Row1);
+    Channel00Rows23 = ValueMax(A=Channel00Row2, B=Channel00Row3);
+    Channel00Output = ValueMax(A=Channel00Rows01, B=Channel00Rows23);
+    Channel00DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel00Output).DelayedValue;
+    Channel00SentValue = if Channel00Output > 0.0 then Channel00Output else (if Channel00DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel01BasePath = ConcatenateString(A=ConfigChannelPrefix, B="01");
+    Channel01PathValue = ConcatenateString(A=Channel01BasePath, B=ConfigChannelSuffix);
+    Channel01Row0 = if Row0Target == "01" then Row0Intensity else 0.0;
+    Channel01Row1 = if Row1Target == "01" then Row1Intensity else 0.0;
+    Channel01Row2 = if Row2Target == "01" then Row2Intensity else 0.0;
+    Channel01Row3 = if Row3Target == "01" then Row3Intensity else 0.0;
+    Channel01Rows01 = ValueMax(A=Channel01Row0, B=Channel01Row1);
+    Channel01Rows23 = ValueMax(A=Channel01Row2, B=Channel01Row3);
+    Channel01Output = ValueMax(A=Channel01Rows01, B=Channel01Rows23);
+    Channel01DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel01Output).DelayedValue;
+    Channel01SentValue = if Channel01Output > 0.0 then Channel01Output else (if Channel01DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel02BasePath = ConcatenateString(A=ConfigChannelPrefix, B="02");
+    Channel02PathValue = ConcatenateString(A=Channel02BasePath, B=ConfigChannelSuffix);
+    Channel02Row0 = if Row0Target == "02" then Row0Intensity else 0.0;
+    Channel02Row1 = if Row1Target == "02" then Row1Intensity else 0.0;
+    Channel02Row2 = if Row2Target == "02" then Row2Intensity else 0.0;
+    Channel02Row3 = if Row3Target == "02" then Row3Intensity else 0.0;
+    Channel02Rows01 = ValueMax(A=Channel02Row0, B=Channel02Row1);
+    Channel02Rows23 = ValueMax(A=Channel02Row2, B=Channel02Row3);
+    Channel02Output = ValueMax(A=Channel02Rows01, B=Channel02Rows23);
+    Channel02DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel02Output).DelayedValue;
+    Channel02SentValue = if Channel02Output > 0.0 then Channel02Output else (if Channel02DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel03BasePath = ConcatenateString(A=ConfigChannelPrefix, B="03");
+    Channel03PathValue = ConcatenateString(A=Channel03BasePath, B=ConfigChannelSuffix);
+    Channel03Row0 = if Row0Target == "03" then Row0Intensity else 0.0;
+    Channel03Row1 = if Row1Target == "03" then Row1Intensity else 0.0;
+    Channel03Row2 = if Row2Target == "03" then Row2Intensity else 0.0;
+    Channel03Row3 = if Row3Target == "03" then Row3Intensity else 0.0;
+    Channel03Rows01 = ValueMax(A=Channel03Row0, B=Channel03Row1);
+    Channel03Rows23 = ValueMax(A=Channel03Row2, B=Channel03Row3);
+    Channel03Output = ValueMax(A=Channel03Rows01, B=Channel03Rows23);
+    Channel03DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel03Output).DelayedValue;
+    Channel03SentValue = if Channel03Output > 0.0 then Channel03Output else (if Channel03DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel04BasePath = ConcatenateString(A=ConfigChannelPrefix, B="04");
+    Channel04PathValue = ConcatenateString(A=Channel04BasePath, B=ConfigChannelSuffix);
+    Channel04Row0 = if Row0Target == "04" then Row0Intensity else 0.0;
+    Channel04Row1 = if Row1Target == "04" then Row1Intensity else 0.0;
+    Channel04Row2 = if Row2Target == "04" then Row2Intensity else 0.0;
+    Channel04Row3 = if Row3Target == "04" then Row3Intensity else 0.0;
+    Channel04Rows01 = ValueMax(A=Channel04Row0, B=Channel04Row1);
+    Channel04Rows23 = ValueMax(A=Channel04Row2, B=Channel04Row3);
+    Channel04Output = ValueMax(A=Channel04Rows01, B=Channel04Rows23);
+    Channel04DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel04Output).DelayedValue;
+    Channel04SentValue = if Channel04Output > 0.0 then Channel04Output else (if Channel04DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel05BasePath = ConcatenateString(A=ConfigChannelPrefix, B="05");
+    Channel05PathValue = ConcatenateString(A=Channel05BasePath, B=ConfigChannelSuffix);
+    Channel05Row0 = if Row0Target == "05" then Row0Intensity else 0.0;
+    Channel05Row1 = if Row1Target == "05" then Row1Intensity else 0.0;
+    Channel05Row2 = if Row2Target == "05" then Row2Intensity else 0.0;
+    Channel05Row3 = if Row3Target == "05" then Row3Intensity else 0.0;
+    Channel05Rows01 = ValueMax(A=Channel05Row0, B=Channel05Row1);
+    Channel05Rows23 = ValueMax(A=Channel05Row2, B=Channel05Row3);
+    Channel05Output = ValueMax(A=Channel05Rows01, B=Channel05Rows23);
+    Channel05DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel05Output).DelayedValue;
+    Channel05SentValue = if Channel05Output > 0.0 then Channel05Output else (if Channel05DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel06BasePath = ConcatenateString(A=ConfigChannelPrefix, B="06");
+    Channel06PathValue = ConcatenateString(A=Channel06BasePath, B=ConfigChannelSuffix);
+    Channel06Row0 = if Row0Target == "06" then Row0Intensity else 0.0;
+    Channel06Row1 = if Row1Target == "06" then Row1Intensity else 0.0;
+    Channel06Row2 = if Row2Target == "06" then Row2Intensity else 0.0;
+    Channel06Row3 = if Row3Target == "06" then Row3Intensity else 0.0;
+    Channel06Rows01 = ValueMax(A=Channel06Row0, B=Channel06Row1);
+    Channel06Rows23 = ValueMax(A=Channel06Row2, B=Channel06Row3);
+    Channel06Output = ValueMax(A=Channel06Rows01, B=Channel06Rows23);
+    Channel06DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel06Output).DelayedValue;
+    Channel06SentValue = if Channel06Output > 0.0 then Channel06Output else (if Channel06DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel07BasePath = ConcatenateString(A=ConfigChannelPrefix, B="07");
+    Channel07PathValue = ConcatenateString(A=Channel07BasePath, B=ConfigChannelSuffix);
+    Channel07Row0 = if Row0Target == "07" then Row0Intensity else 0.0;
+    Channel07Row1 = if Row1Target == "07" then Row1Intensity else 0.0;
+    Channel07Row2 = if Row2Target == "07" then Row2Intensity else 0.0;
+    Channel07Row3 = if Row3Target == "07" then Row3Intensity else 0.0;
+    Channel07Rows01 = ValueMax(A=Channel07Row0, B=Channel07Row1);
+    Channel07Rows23 = ValueMax(A=Channel07Row2, B=Channel07Row3);
+    Channel07Output = ValueMax(A=Channel07Rows01, B=Channel07Rows23);
+    Channel07DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel07Output).DelayedValue;
+    Channel07SentValue = if Channel07Output > 0.0 then Channel07Output else (if Channel07DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel08BasePath = ConcatenateString(A=ConfigChannelPrefix, B="08");
+    Channel08PathValue = ConcatenateString(A=Channel08BasePath, B=ConfigChannelSuffix);
+    Channel08Row0 = if Row0Target == "08" then Row0Intensity else 0.0;
+    Channel08Row1 = if Row1Target == "08" then Row1Intensity else 0.0;
+    Channel08Row2 = if Row2Target == "08" then Row2Intensity else 0.0;
+    Channel08Row3 = if Row3Target == "08" then Row3Intensity else 0.0;
+    Channel08Rows01 = ValueMax(A=Channel08Row0, B=Channel08Row1);
+    Channel08Rows23 = ValueMax(A=Channel08Row2, B=Channel08Row3);
+    Channel08Output = ValueMax(A=Channel08Rows01, B=Channel08Rows23);
+    Channel08DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel08Output).DelayedValue;
+    Channel08SentValue = if Channel08Output > 0.0 then Channel08Output else (if Channel08DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel09BasePath = ConcatenateString(A=ConfigChannelPrefix, B="09");
+    Channel09PathValue = ConcatenateString(A=Channel09BasePath, B=ConfigChannelSuffix);
+    Channel09Row0 = if Row0Target == "09" then Row0Intensity else 0.0;
+    Channel09Row1 = if Row1Target == "09" then Row1Intensity else 0.0;
+    Channel09Row2 = if Row2Target == "09" then Row2Intensity else 0.0;
+    Channel09Row3 = if Row3Target == "09" then Row3Intensity else 0.0;
+    Channel09Rows01 = ValueMax(A=Channel09Row0, B=Channel09Row1);
+    Channel09Rows23 = ValueMax(A=Channel09Row2, B=Channel09Row3);
+    Channel09Output = ValueMax(A=Channel09Rows01, B=Channel09Rows23);
+    Channel09DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel09Output).DelayedValue;
+    Channel09SentValue = if Channel09Output > 0.0 then Channel09Output else (if Channel09DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel10BasePath = ConcatenateString(A=ConfigChannelPrefix, B="10");
+    Channel10PathValue = ConcatenateString(A=Channel10BasePath, B=ConfigChannelSuffix);
+    Channel10Row0 = if Row0Target == "10" then Row0Intensity else 0.0;
+    Channel10Row1 = if Row1Target == "10" then Row1Intensity else 0.0;
+    Channel10Row2 = if Row2Target == "10" then Row2Intensity else 0.0;
+    Channel10Row3 = if Row3Target == "10" then Row3Intensity else 0.0;
+    Channel10Rows01 = ValueMax(A=Channel10Row0, B=Channel10Row1);
+    Channel10Rows23 = ValueMax(A=Channel10Row2, B=Channel10Row3);
+    Channel10Output = ValueMax(A=Channel10Rows01, B=Channel10Rows23);
+    Channel10DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel10Output).DelayedValue;
+    Channel10SentValue = if Channel10Output > 0.0 then Channel10Output else (if Channel10DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel11BasePath = ConcatenateString(A=ConfigChannelPrefix, B="11");
+    Channel11PathValue = ConcatenateString(A=Channel11BasePath, B=ConfigChannelSuffix);
+    Channel11Row0 = if Row0Target == "11" then Row0Intensity else 0.0;
+    Channel11Row1 = if Row1Target == "11" then Row1Intensity else 0.0;
+    Channel11Row2 = if Row2Target == "11" then Row2Intensity else 0.0;
+    Channel11Row3 = if Row3Target == "11" then Row3Intensity else 0.0;
+    Channel11Rows01 = ValueMax(A=Channel11Row0, B=Channel11Row1);
+    Channel11Rows23 = ValueMax(A=Channel11Row2, B=Channel11Row3);
+    Channel11Output = ValueMax(A=Channel11Rows01, B=Channel11Rows23);
+    Channel11DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel11Output).DelayedValue;
+    Channel11SentValue = if Channel11Output > 0.0 then Channel11Output else (if Channel11DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel12BasePath = ConcatenateString(A=ConfigChannelPrefix, B="12");
+    Channel12PathValue = ConcatenateString(A=Channel12BasePath, B=ConfigChannelSuffix);
+    Channel12Row0 = if Row0Target == "12" then Row0Intensity else 0.0;
+    Channel12Row1 = if Row1Target == "12" then Row1Intensity else 0.0;
+    Channel12Row2 = if Row2Target == "12" then Row2Intensity else 0.0;
+    Channel12Row3 = if Row3Target == "12" then Row3Intensity else 0.0;
+    Channel12Rows01 = ValueMax(A=Channel12Row0, B=Channel12Row1);
+    Channel12Rows23 = ValueMax(A=Channel12Row2, B=Channel12Row3);
+    Channel12Output = ValueMax(A=Channel12Rows01, B=Channel12Rows23);
+    Channel12DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel12Output).DelayedValue;
+    Channel12SentValue = if Channel12Output > 0.0 then Channel12Output else (if Channel12DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel13BasePath = ConcatenateString(A=ConfigChannelPrefix, B="13");
+    Channel13PathValue = ConcatenateString(A=Channel13BasePath, B=ConfigChannelSuffix);
+    Channel13Row0 = if Row0Target == "13" then Row0Intensity else 0.0;
+    Channel13Row1 = if Row1Target == "13" then Row1Intensity else 0.0;
+    Channel13Row2 = if Row2Target == "13" then Row2Intensity else 0.0;
+    Channel13Row3 = if Row3Target == "13" then Row3Intensity else 0.0;
+    Channel13Rows01 = ValueMax(A=Channel13Row0, B=Channel13Row1);
+    Channel13Rows23 = ValueMax(A=Channel13Row2, B=Channel13Row3);
+    Channel13Output = ValueMax(A=Channel13Rows01, B=Channel13Rows23);
+    Channel13DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel13Output).DelayedValue;
+    Channel13SentValue = if Channel13Output > 0.0 then Channel13Output else (if Channel13DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel14BasePath = ConcatenateString(A=ConfigChannelPrefix, B="14");
+    Channel14PathValue = ConcatenateString(A=Channel14BasePath, B=ConfigChannelSuffix);
+    Channel14Row0 = if Row0Target == "14" then Row0Intensity else 0.0;
+    Channel14Row1 = if Row1Target == "14" then Row1Intensity else 0.0;
+    Channel14Row2 = if Row2Target == "14" then Row2Intensity else 0.0;
+    Channel14Row3 = if Row3Target == "14" then Row3Intensity else 0.0;
+    Channel14Rows01 = ValueMax(A=Channel14Row0, B=Channel14Row1);
+    Channel14Rows23 = ValueMax(A=Channel14Row2, B=Channel14Row3);
+    Channel14Output = ValueMax(A=Channel14Rows01, B=Channel14Rows23);
+    Channel14DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel14Output).DelayedValue;
+    Channel14SentValue = if Channel14Output > 0.0 then Channel14Output else (if Channel14DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    Channel15BasePath = ConcatenateString(A=ConfigChannelPrefix, B="15");
+    Channel15PathValue = ConcatenateString(A=Channel15BasePath, B=ConfigChannelSuffix);
+    Channel15Row0 = if Row0Target == "15" then Row0Intensity else 0.0;
+    Channel15Row1 = if Row1Target == "15" then Row1Intensity else 0.0;
+    Channel15Row2 = if Row2Target == "15" then Row2Intensity else 0.0;
+    Channel15Row3 = if Row3Target == "15" then Row3Intensity else 0.0;
+    Channel15Rows01 = ValueMax(A=Channel15Row0, B=Channel15Row1);
+    Channel15Rows23 = ValueMax(A=Channel15Row2, B=Channel15Row3);
+    Channel15Output = ValueMax(A=Channel15Rows01, B=Channel15Rows23);
+    Channel15DelayedOutput = DelayValue(DelaySeconds=0.05, Value=Channel15Output).DelayedValue;
+    Channel15SentValue = if Channel15Output > 0.0 then Channel15Output else (if Channel15DelayedOutput > 0.0 then 0.0000000000001 else 0.0);
+    AnyChannelOutput1 = ValueMax(A=Channel00Output, B=Channel01Output);
+    AnyChannelOutput2 = ValueMax(A=AnyChannelOutput1, B=Channel02Output);
+    AnyChannelOutput3 = ValueMax(A=AnyChannelOutput2, B=Channel03Output);
+    AnyChannelOutput4 = ValueMax(A=AnyChannelOutput3, B=Channel04Output);
+    AnyChannelOutput5 = ValueMax(A=AnyChannelOutput4, B=Channel05Output);
+    AnyChannelOutput6 = ValueMax(A=AnyChannelOutput5, B=Channel06Output);
+    AnyChannelOutput7 = ValueMax(A=AnyChannelOutput6, B=Channel07Output);
+    AnyChannelOutput8 = ValueMax(A=AnyChannelOutput7, B=Channel08Output);
+    AnyChannelOutput9 = ValueMax(A=AnyChannelOutput8, B=Channel09Output);
+    AnyChannelOutput10 = ValueMax(A=AnyChannelOutput9, B=Channel10Output);
+    AnyChannelOutput11 = ValueMax(A=AnyChannelOutput10, B=Channel11Output);
+    AnyChannelOutput12 = ValueMax(A=AnyChannelOutput11, B=Channel12Output);
+    AnyChannelOutput13 = ValueMax(A=AnyChannelOutput12, B=Channel13Output);
+    AnyChannelOutput14 = ValueMax(A=AnyChannelOutput13, B=Channel14Output);
+    AnyChannelOutput15 = ValueMax(A=AnyChannelOutput14, B=Channel15Output);
+    AnyChannelOutput = AnyChannelOutput15;
+    DelayedAnyChannelOutput = DelayValue(DelaySeconds=0.25, Value=AnyChannelOutput).DelayedValue;
+    ResendTailActive = if AnyChannelOutput > 0.0 then true else DelayedAnyChannelOutput > 0.0;
+    InactiveResendInterval = 1000000000.0;
+    ActiveResendInterval = InactiveResendInterval;
+
+    OnLoaded(Trigger=impulse {
+        ConfigConfigured <- ConfigurationValid;
+        If(Condition=ConfigurationValid, OnTrue=impulse { ConfigEndpoint <- EndpointCandidate; SenderURL <- EndpointCandidate; });
+        Channel00Path <- Channel00PathValue; Channel01Path <- Channel01PathValue; Channel02Path <- Channel02PathValue; Channel03Path <- Channel03PathValue; Channel04Path <- Channel04PathValue; Channel05Path <- Channel05PathValue; Channel06Path <- Channel06PathValue; Channel07Path <- Channel07PathValue; Channel08Path <- Channel08PathValue; Channel09Path <- Channel09PathValue; Channel10Path <- Channel10PathValue; Channel11Path <- Channel11PathValue; Channel12Path <- Channel12PathValue; Channel13Path <- Channel13PathValue; Channel14Path <- Channel14PathValue; Channel15Path <- Channel15PathValue;
+        Channel00Value <- 0.0; Channel01Value <- 0.0; Channel02Value <- 0.0; Channel03Value <- 0.0; Channel04Value <- 0.0; Channel05Value <- 0.0; Channel06Value <- 0.0; Channel07Value <- 0.0; Channel08Value <- 0.0; Channel09Value <- 0.0; Channel10Value <- 0.0; Channel11Value <- 0.0; Channel12Value <- 0.0; Channel13Value <- 0.0; Channel14Value <- 0.0; Channel15Value <- 0.0;
+        SenderAutoResendInterval <- InactiveResendInterval;
+        SenderIsSending <- ActiveState;
+        If(Condition=ActiveState, OnTrue=HandlingUser <- User);
+    });
+
+    FireOnValueChange(
+        Value=ActiveState,
+        OnlyForUser=User,
+        OnChanged=If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HandlingUser <- User;
+                ConfigEndpoint <- EndpointCandidate;
+                SenderURL <- EndpointCandidate;
+                SenderIsSending <- true;
+            },
+            OnFalse=impulse {
+                Channel00Value <- 0.0; Channel01Value <- 0.0; Channel02Value <- 0.0; Channel03Value <- 0.0; Channel04Value <- 0.0; Channel05Value <- 0.0; Channel06Value <- 0.0; Channel07Value <- 0.0; Channel08Value <- 0.0; Channel09Value <- 0.0; Channel10Value <- 0.0; Channel11Value <- 0.0; Channel12Value <- 0.0; Channel13Value <- 0.0; Channel14Value <- 0.0; Channel15Value <- 0.0;
+                SenderAutoResendInterval <- InactiveResendInterval;
+                SenderIsSending <- false;
+                WriteDynamicValueVariable(
+                    Target=PluginRoot,
+                    Path="BYOHaptics.Output.v1/Connected",
+                    Value=false);
+            }));
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        ConfigConfigured <- ConfigurationValid;
+        If(Condition=ConfigurationValid, OnTrue=impulse { ConfigEndpoint <- EndpointCandidate; SenderURL <- EndpointCandidate; });
+        Channel00Path <- Channel00PathValue; Channel01Path <- Channel01PathValue; Channel02Path <- Channel02PathValue; Channel03Path <- Channel03PathValue; Channel04Path <- Channel04PathValue; Channel05Path <- Channel05PathValue; Channel06Path <- Channel06PathValue; Channel07Path <- Channel07PathValue; Channel08Path <- Channel08PathValue; Channel09Path <- Channel09PathValue; Channel10Path <- Channel10PathValue; Channel11Path <- Channel11PathValue; Channel12Path <- Channel12PathValue; Channel13Path <- Channel13PathValue; Channel14Path <- Channel14PathValue; Channel15Path <- Channel15PathValue;
+        DiagnosticsActive <- ActiveState;
+        DiagnosticsConnected <- false;
+        PackageInstalled <- PackageInstalledState;
+        PackageVisualActive <- not PackageInstalledState;
+        PackageGrabbableEnabled <- not PackageInstalledState;
+        If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HandlingUser <- User;
+                Channel00Value <- Channel00SentValue; Channel01Value <- Channel01SentValue; Channel02Value <- Channel02SentValue; Channel03Value <- Channel03SentValue; Channel04Value <- Channel04SentValue; Channel05Value <- Channel05SentValue; Channel06Value <- Channel06SentValue; Channel07Value <- Channel07SentValue; Channel08Value <- Channel08SentValue; Channel09Value <- Channel09SentValue; Channel10Value <- Channel10SentValue; Channel11Value <- Channel11SentValue; Channel12Value <- Channel12SentValue; Channel13Value <- Channel13SentValue; Channel14Value <- Channel14SentValue; Channel15Value <- Channel15SentValue;
+                SenderAutoResendInterval <- ActiveResendInterval;
+                SenderIsSending <- true;
+            },
+            OnFalse=impulse {
+                Channel00Value <- 0.0; Channel01Value <- 0.0; Channel02Value <- 0.0; Channel03Value <- 0.0; Channel04Value <- 0.0; Channel05Value <- 0.0; Channel06Value <- 0.0; Channel07Value <- 0.0; Channel08Value <- 0.0; Channel09Value <- 0.0; Channel10Value <- 0.0; Channel11Value <- 0.0; Channel12Value <- 0.0; Channel13Value <- 0.0; Channel14Value <- 0.0; Channel15Value <- 0.0;
+                SenderAutoResendInterval <- InactiveResendInterval;
+                SenderIsSending <- false;
+            });
+    };
+
+    UpdatesTimer(
+        Interval=1,
+        UpdatingUser=User->asDrivenGlobal,
+        SkipIfNull=true,
+        OnUpdate=impulse {
+            WriteDynamicValueVariable(
+                Target=PluginRoot,
+                Path="BYOHaptics.Output.v1/ConnectionStatusAvailable",
+                Value=CanReportConnection);
+            If(
+                Condition=ActiveState,
+                OnTrue=WriteDynamicValueVariable(
+                    Target=PluginRoot,
+                    Path="BYOHaptics.Output.v1/Connected",
+                    Value=false));
+        });
+}
+

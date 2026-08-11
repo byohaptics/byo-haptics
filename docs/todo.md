@@ -48,9 +48,9 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 ## Phase 4: Plugin Reconstruction
 
-- [ ] Build the Joy-Con OSC Plugin Package from its specification.
-- [ ] Build the Haptira OSC Plugin Package from its specification.
-- [ ] Verify each plugin compiles without host-specific IDs.
+- [x] Build and compile the Joy-Con OSC Plugin Package from its specification.
+- [x] Build and compile the Haptira OSC Plugin Package from its specification.
+- [x] Verify each plugin compiles without host-specific IDs.
 - [ ] Verify card direct drop and ejection use one Package Manager path.
 
 ## Phase 5: Static Review

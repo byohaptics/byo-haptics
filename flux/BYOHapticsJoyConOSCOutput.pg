@@ -1,0 +1,279 @@
+﻿/// Drop-in Joy-Con OSC output plugin for Joy_Con_Rumble.
+module BYOHapticsJoyConOSCOutput
+
+in PluginRoot: Slot element
+in CanReportConnection: bool
+in ConfigEndpoint: Uri
+in ConfigHeartbeatAddress: string
+in ConfigStatusPort: int
+in ConfigStatusPortAddress: string
+in ConfigStatusHeartbeatAddress: string
+in ConfigChannelPrefix: string
+in HandlingUser: User mutable
+in ReceiverHandlingUser: User mutable
+in ReceiverPort: int mutable
+in ReceiverIsListening: bool
+in SenderURL: Uri mutable
+in SenderIsSending: bool mutable
+in HeartbeatValue: int mutable
+in StatusPortValue: int mutable
+in AckValue: int
+in AckMisses: int mutable
+in StatusPortPath: string mutable
+in HeartbeatPath: string mutable
+in StatusHeartbeatPath: string mutable
+in Row0ForcePath: string mutable
+in Row0VibrationPath: string mutable
+in Row0PainPath: string mutable
+in Row1ForcePath: string mutable
+in Row1VibrationPath: string mutable
+in Row1PainPath: string mutable
+in Row2ForcePath: string mutable
+in Row2VibrationPath: string mutable
+in Row2PainPath: string mutable
+in Row3ForcePath: string mutable
+in Row3VibrationPath: string mutable
+in Row3PainPath: string mutable
+in Row0ForceValue: float mutable
+in Row0VibrationValue: float mutable
+in Row0PainValue: float mutable
+in Row1ForceValue: float mutable
+in Row1VibrationValue: float mutable
+in Row1PainValue: float mutable
+in Row2ForceValue: float mutable
+in Row2VibrationValue: float mutable
+in Row2PainValue: float mutable
+in Row3ForceValue: float mutable
+in Row3VibrationValue: float mutable
+in Row3PainValue: float mutable
+in DiagnosticsActive: bool mutable
+in DiagnosticsConnected: bool mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+
+where {
+    User = LocalUser;
+    ThisPluginId = "io.github.byohaptics.output.joycon.osc";
+
+    BusActive = ~input<bool>("BYOHaptics.Output.v1/Active");
+    BusContractVersion = ~input<int>("BYOHaptics.Output.v1/ContractVersion");
+    BusPluginId = ~input<string>("BYOHaptics.Output.v1/SelectedPluginId");
+    BusRow0Force = ~input<float>("BYOHaptics.Output.v1/Row0Force");
+    BusRow0Vibration = ~input<float>("BYOHaptics.Output.v1/Row0Vibration");
+    BusRow0Pain = ~input<float>("BYOHaptics.Output.v1/Row0Pain");
+    BusRow1Force = ~input<float>("BYOHaptics.Output.v1/Row1Force");
+    BusRow1Vibration = ~input<float>("BYOHaptics.Output.v1/Row1Vibration");
+    BusRow1Pain = ~input<float>("BYOHaptics.Output.v1/Row1Pain");
+    BusRow2Force = ~input<float>("BYOHaptics.Output.v1/Row2Force");
+    BusRow2Vibration = ~input<float>("BYOHaptics.Output.v1/Row2Vibration");
+    BusRow2Pain = ~input<float>("BYOHaptics.Output.v1/Row2Pain");
+    BusRow3Force = ~input<float>("BYOHaptics.Output.v1/Row3Force");
+    BusRow3Vibration = ~input<float>("BYOHaptics.Output.v1/Row3Vibration");
+    BusRow3Pain = ~input<float>("BYOHaptics.Output.v1/Row3Pain");
+    BusTarget0 = ~input<string>("BYOHaptics.Output.v1/Target0");
+    BusTarget1 = ~input<string>("BYOHaptics.Output.v1/Target1");
+    BusTarget2 = ~input<string>("BYOHaptics.Output.v1/Target2");
+    BusTarget3 = ~input<string>("BYOHaptics.Output.v1/Target3");
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    Selected = BusPluginId.Value == ThisPluginId;
+    ActiveState =
+        if BusContractVersion.HasValue then
+            (if BusContractVersion.Value == 1 then
+                (if BusActive.HasValue then
+                    (if BusPluginId.HasValue then (if BusActive.Value then Selected else false) else false)
+                else false)
+            else false)
+        else false;
+    ConnectedState =
+        if ActiveState then
+            (if ReceiverIsListening then AckMisses < 4 else false)
+        else false;
+
+    Row0Target = if BusTarget0.HasValue then BusTarget0.Value else "";
+    Row1Target = if BusTarget1.HasValue then BusTarget1.Value else "";
+    Row2Target = if BusTarget2.HasValue then BusTarget2.Value else "";
+    Row3Target = if BusTarget3.HasValue then BusTarget3.Value else "";
+    Row0TargetValid = not (Row0Target == "");
+    Row1TargetValid = not (Row1Target == "");
+    Row2TargetValid = not (Row2Target == "");
+    Row3TargetValid = not (Row3Target == "");
+
+    Row0BasePath = ConcatenateString(A=ConfigChannelPrefix, B=Row0Target);
+    Row1BasePath = ConcatenateString(A=ConfigChannelPrefix, B=Row1Target);
+    Row2BasePath = ConcatenateString(A=ConfigChannelPrefix, B=Row2Target);
+    Row3BasePath = ConcatenateString(A=ConfigChannelPrefix, B=Row3Target);
+    Row0ForcePathValue = ConcatenateString(A=Row0BasePath, B="/force");
+    Row0VibrationPathValue = ConcatenateString(A=Row0BasePath, B="/vibration");
+    Row0PainPathValue = ConcatenateString(A=Row0BasePath, B="/pain");
+    Row1ForcePathValue = ConcatenateString(A=Row1BasePath, B="/force");
+    Row1VibrationPathValue = ConcatenateString(A=Row1BasePath, B="/vibration");
+    Row1PainPathValue = ConcatenateString(A=Row1BasePath, B="/pain");
+    Row2ForcePathValue = ConcatenateString(A=Row2BasePath, B="/force");
+    Row2VibrationPathValue = ConcatenateString(A=Row2BasePath, B="/vibration");
+    Row2PainPathValue = ConcatenateString(A=Row2BasePath, B="/pain");
+    Row3ForcePathValue = ConcatenateString(A=Row3BasePath, B="/force");
+    Row3VibrationPathValue = ConcatenateString(A=Row3BasePath, B="/vibration");
+    Row3PainPathValue = ConcatenateString(A=Row3BasePath, B="/pain");
+
+    OutputRow0Force = if ConnectedState then (if Row0TargetValid then BusRow0Force.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow0Vibration = if ConnectedState then (if Row0TargetValid then BusRow0Vibration.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow0Pain = if ConnectedState then (if Row0TargetValid then BusRow0Pain.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow1Force = if ConnectedState then (if Row1TargetValid then BusRow1Force.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow1Vibration = if ConnectedState then (if Row1TargetValid then BusRow1Vibration.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow1Pain = if ConnectedState then (if Row1TargetValid then BusRow1Pain.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow2Force = if ConnectedState then (if Row2TargetValid then BusRow2Force.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow2Vibration = if ConnectedState then (if Row2TargetValid then BusRow2Vibration.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow2Pain = if ConnectedState then (if Row2TargetValid then BusRow2Pain.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow3Force = if ConnectedState then (if Row3TargetValid then BusRow3Force.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow3Vibration = if ConnectedState then (if Row3TargetValid then BusRow3Vibration.Value->Clamp01_Float else 0.0) else 0.0;
+    OutputRow3Pain = if ConnectedState then (if Row3TargetValid then BusRow3Pain.Value->Clamp01_Float else 0.0) else 0.0;
+
+    OnLoaded(Trigger=impulse {
+        SenderURL <- ConfigEndpoint;
+        StatusPortValue <- if ActiveState then ConfigStatusPort else 0;
+        StatusPortPath <- ConfigStatusPortAddress;
+        HeartbeatPath <- ConfigHeartbeatAddress;
+        StatusHeartbeatPath <- ConfigStatusHeartbeatAddress;
+        Row0ForcePath <- Row0ForcePathValue;
+        Row0VibrationPath <- Row0VibrationPathValue;
+        Row0PainPath <- Row0PainPathValue;
+        Row1ForcePath <- Row1ForcePathValue;
+        Row1VibrationPath <- Row1VibrationPathValue;
+        Row1PainPath <- Row1PainPathValue;
+        Row2ForcePath <- Row2ForcePathValue;
+        Row2VibrationPath <- Row2VibrationPathValue;
+        Row2PainPath <- Row2PainPathValue;
+        Row3ForcePath <- Row3ForcePathValue;
+        Row3VibrationPath <- Row3VibrationPathValue;
+        Row3PainPath <- Row3PainPathValue;
+        SenderIsSending <- ActiveState;
+        Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+        Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+        Row2ForceValue <- 0.0; Row2VibrationValue <- 0.0; Row2PainValue <- 0.0;
+        Row3ForceValue <- 0.0; Row3VibrationValue <- 0.0; Row3PainValue <- 0.0;
+        If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HandlingUser <- User;
+                ReceiverHandlingUser <- User;
+                ReceiverPort <- ConfigStatusPort;
+            },
+            OnFalse=ReceiverPort <- 0);
+    });
+
+    FireOnValueChange(
+        Value=ActiveState,
+        OnlyForUser=User,
+        OnChanged=If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HandlingUser <- User;
+                ReceiverHandlingUser <- User;
+                ReceiverPort <- ConfigStatusPort;
+                StatusPortValue <- ConfigStatusPort;
+                SenderIsSending <- true;
+            },
+            OnFalse=impulse {
+                ReceiverPort <- 0;
+                StatusPortValue <- 0;
+                SenderIsSending <- false;
+                // Connected requires AckMisses < 4. Use an out-of-range value
+                // to invalidate any ACK state retained from the previous run.
+                AckMisses <- 100;
+                Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+                Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+                Row2ForceValue <- 0.0; Row2VibrationValue <- 0.0; Row2PainValue <- 0.0;
+                Row3ForceValue <- 0.0; Row3VibrationValue <- 0.0; Row3PainValue <- 0.0;
+                WriteDynamicValueVariable(Target=PluginRoot, Path="BYOHaptics.Output.v1/Connected", Value=false);
+            }));
+
+    // Clear the previous OSC target before changing each field path.
+    FireOnObjectValueChange(Value=Row0Target, OnlyForUser=User, OnChanged=impulse {
+        Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+        Row0ForcePath <- Row0ForcePathValue; Row0VibrationPath <- Row0VibrationPathValue; Row0PainPath <- Row0PainPathValue;
+    });
+    FireOnObjectValueChange(Value=Row1Target, OnlyForUser=User, OnChanged=impulse {
+        Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+        Row1ForcePath <- Row1ForcePathValue; Row1VibrationPath <- Row1VibrationPathValue; Row1PainPath <- Row1PainPathValue;
+    });
+    FireOnObjectValueChange(Value=Row2Target, OnlyForUser=User, OnChanged=impulse {
+        Row2ForceValue <- 0.0; Row2VibrationValue <- 0.0; Row2PainValue <- 0.0;
+        Row2ForcePath <- Row2ForcePathValue; Row2VibrationPath <- Row2VibrationPathValue; Row2PainPath <- Row2PainPathValue;
+    });
+    FireOnObjectValueChange(Value=Row3Target, OnlyForUser=User, OnChanged=impulse {
+        Row3ForceValue <- 0.0; Row3VibrationValue <- 0.0; Row3PainValue <- 0.0;
+        Row3ForcePath <- Row3ForcePathValue; Row3VibrationPath <- Row3VibrationPathValue; Row3PainPath <- Row3PainPathValue;
+    });
+
+    FireOnValueChange(
+        Value=AckValue,
+        OnlyForUser=User,
+        OnChanged=If(Condition=AckValue >= 0, OnTrue=AckMisses <- 0));
+
+    SecondsTimer(
+        Interval=0.5,
+        UpdatingUser=User->asDrivenGlobal,
+        SkipIfNull=true,
+        OnUpdate=If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HeartbeatValue <- HeartbeatValue + 1;
+                AckMisses <- AckMisses + 1;
+                If(
+                    Condition=not ConnectedState,
+                    OnTrue=StatusPortValue <- if StatusPortValue == ConfigStatusPort then 0 else ConfigStatusPort);
+            }));
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        SenderURL <- ConfigEndpoint;
+        StatusPortPath <- ConfigStatusPortAddress;
+        HeartbeatPath <- ConfigHeartbeatAddress;
+        StatusHeartbeatPath <- ConfigStatusHeartbeatAddress;
+        DiagnosticsActive <- ActiveState;
+        DiagnosticsConnected <- ConnectedState;
+        PackageInstalled <- PackageInstalledState;
+        PackageVisualActive <- not PackageInstalledState;
+        PackageGrabbableEnabled <- not PackageInstalledState;
+        ReceiverPort <- if ActiveState then ConfigStatusPort else 0;
+        SenderIsSending <- ActiveState;
+        If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HandlingUser <- User;
+                ReceiverHandlingUser <- User;
+                Row0ForceValue <- OutputRow0Force; Row0VibrationValue <- OutputRow0Vibration; Row0PainValue <- OutputRow0Pain;
+                Row1ForceValue <- OutputRow1Force; Row1VibrationValue <- OutputRow1Vibration; Row1PainValue <- OutputRow1Pain;
+                Row2ForceValue <- OutputRow2Force; Row2VibrationValue <- OutputRow2Vibration; Row2PainValue <- OutputRow2Pain;
+                Row3ForceValue <- OutputRow3Force; Row3VibrationValue <- OutputRow3Vibration; Row3PainValue <- OutputRow3Pain;
+            },
+            OnFalse=impulse {
+                StatusPortValue <- 0;
+                Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+                Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+                Row2ForceValue <- 0.0; Row2VibrationValue <- 0.0; Row2PainValue <- 0.0;
+                Row3ForceValue <- 0.0; Row3VibrationValue <- 0.0; Row3PainValue <- 0.0;
+            });
+    };
+
+    UpdatesTimer(
+        Interval=1,
+        UpdatingUser=User->asDrivenGlobal,
+        SkipIfNull=true,
+        OnUpdate=impulse {
+            WriteDynamicValueVariable(
+                Target=PluginRoot,
+                Path="BYOHaptics.Output.v1/ConnectionStatusAvailable",
+                Value=CanReportConnection);
+            If(
+                Condition=ActiveState,
+                OnTrue=WriteDynamicValueVariable(
+                    Target=PluginRoot,
+                    Path="BYOHaptics.Output.v1/Connected",
+                    Value=ConnectedState));
+        });
+}
+

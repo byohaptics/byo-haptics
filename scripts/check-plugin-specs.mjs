@@ -53,4 +53,15 @@ check("specs/haptira-osc-plugin.resoslots.json", {
   },
 });
 
+for (const [path, id] of [
+  ["flux/BYOHapticsJoyConOSCOutput.pg", "io.github.byohaptics.output.joycon.osc"],
+  ["flux/BYOHapticsHaptiraOSCOutput.pg", "io.github.byohaptics.output.haptira.osc"],
+]) {
+  const graph = fs.readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
+  if (!graph.includes(`ThisPluginId = "${id}"`)) throw new Error(`${path}: incorrect PluginId`);
+  if (!graph.includes("BYOHaptics.Output.v1/Active")) throw new Error(`${path}: contract namespace missing`);
+  if (!graph.includes("BusContractVersion.Value == 1")) throw new Error(`${path}: contract integer check missing`);
+  if (/BYOHaptics\.Output\.v2|BusContractVersion\.Value == 2/.test(graph)) throw new Error(`${path}: legacy contract remains`);
+}
+
 console.log("Plugin Package manifests and defaults are consistent");
