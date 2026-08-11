@@ -9,7 +9,13 @@ const slots = spec.slots ?? [];
 const components = slots.flatMap((slot) => slot.components ?? []);
 const paths = slots.map((slot) => slot.path);
 const aliases = components.map((component) => component.alias);
-const pathSet = new Set(paths);
+const pathSet = new Set([""]);
+for (const path of paths) {
+  const parts = path.split("/").filter(Boolean);
+  for (let length = 1; length <= parts.length; length += 1) {
+    pathSet.add(parts.slice(0, length).join("/"));
+  }
+}
 const aliasSet = new Set(aliases);
 const supportedTypes = new Set([
   "bool", "int", "float", "string", "uri", "float2", "float3", "float4", "floatQ",

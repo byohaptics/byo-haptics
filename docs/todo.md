@@ -33,11 +33,12 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [ ] Add host deployment after the first host SlotSpec and sheet exist.
 - [x] Add generated-ID and fixed-ID validation.
 - [x] Add version synchronization for host and both plugins.
-- [ ] Add validators for host and Plugin Package specs.
+- [x] Add a validator for the host SlotSpec.
+- [ ] Add validators for Plugin Package specs.
 
 ## Phase 3: Host Reconstruction
 
-- [ ] Create host SlotSpec from the public UI and structure specifications.
+- [x] Create the sanitized, version-reset host SlotSpec from the public UI and structure specifications.
 - [ ] Implement lifecycle and positioning sheets.
 - [ ] Implement source binding and sampler sheets.
 - [ ] Implement Output Bus, plugin discovery, and Package Manager sheets.

@@ -50,10 +50,12 @@ Default rows:
 
 | Row | Target | Node mode | BodyNode |
 | --- | --- | --- | --- |
-| 0 | `left` | true | `LeftHand` |
-| 1 | `right` | true | `RightHand` |
-| 2 | `head` | true | `Head` |
-| 3 | `hips` | true | `Hips` |
+| 0 | `left` | true | `NONE` |
+| 1 | `right` | true | `NONE` |
+| 2 | `head` | true | `NONE` |
+| 3 | `hips` | true | `NONE` |
+
+The default Target values are routing labels, not preselected BodyNodes. The user selects a BodyNode before the sampler becomes active. After selection, the host suggests a matching Target while preserving an explicitly edited Target.
 
 ## Symbols And Fonts
 
