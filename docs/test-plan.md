@@ -38,6 +38,14 @@ Document version: `0.1.0`
 - Joy-Con output stops on heartbeat timeout.
 - Haptira Target values are strictly `00` through `15`.
 
+## Joy-Con Bridge Tests
+
+- Rust unit tests pass for OSC parsing, routing, heartbeat timeout, scheduling, sensation mapping, HID encoding, and configuration precedence.
+- Public defaults and examples contain no real Bluetooth address.
+- `--dry-run` accepts the documented messages and stops state after heartbeat timeout.
+- The GUI and CLI compile from the same Bridge source and configuration contract.
+- Hardware verification covers Force, Vibration, Pain, acknowledgement, disconnect, and reconnect.
+
 ## Multi-user Matrix
 
 Test both world-owner and visitor installation. For each user, confirm only the local installed host samples, opens a receiver, reports connection state, and emits device output.

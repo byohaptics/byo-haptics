@@ -2,6 +2,11 @@ build/
 *.generated-ids.json
 *.brson
 *.log
+*.pid
+*.csv
+target/
+joycon-rumble.toml
+joycon-rumble-profiles.toml
 .env
 .env.*
 !.env.example

@@ -6,6 +6,9 @@
     "joyconOsc": "0.1.0",
     "haptiraOsc": "0.1.0"
   },
+  "bridges": {
+    "joyconRumble": "0.1.0"
+  },
   "bridgeApis": {
     "joyconOsc": "0.1.0"
   }

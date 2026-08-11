@@ -51,6 +51,9 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Build and compile the Joy-Con OSC Plugin Package from its specification.
 - [x] Build and compile the Haptira OSC Plugin Package from its specification.
 - [x] Verify each plugin compiles without host-specific IDs.
+- [x] Import the Joy-Con Bridge source without private history, logs, traces, or hardware identifiers.
+- [x] Reset the Joy-Con Bridge and Bridge API to `0.1.0`.
+- [ ] Build and test the Joy-Con Bridge CLI and GUI.
 - [ ] Verify card direct drop and ejection use one Package Manager path.
 
 ## Phase 5: Static Review
