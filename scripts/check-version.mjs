@@ -1,14 +1,13 @@
 import fs from "node:fs";
 
-const version = fs.readFileSync(new URL("../VERSION", import.meta.url), "utf8").trim();
 const versions = JSON.parse(fs.readFileSync(new URL("../versions.json", import.meta.url), "utf8"));
 const packageJson = JSON.parse(fs.readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const protograph = fs.readFileSync(new URL("../protograph.toml", import.meta.url), "utf8");
 const protographVersion = protograph.match(/^version = "([^"]+)"$/m)?.[1];
 const readDoc = (name) => fs.readFileSync(new URL(`../docs/${name}`, import.meta.url), "utf8");
 
-for (const [name, actual] of [["versions.json", versions.product], ["package.json", packageJson.version], ["protograph.toml", protographVersion]]) {
-  if (actual !== version) throw new Error(`${name}: ${actual ?? "<missing>"} != ${version}`);
+for (const [name, actual] of [["package.json", packageJson.version], ["protograph.toml", protographVersion]]) {
+  if (actual !== versions.product) throw new Error(`${name}: ${actual ?? "<missing>"} != ${versions.product}`);
 }
 
 for (const name of fs.readdirSync(new URL("../docs", import.meta.url)).filter((name) => name.endsWith(".md"))) {
@@ -31,4 +30,4 @@ for (const [name, actual, expected] of [
   if (actual !== expected) throw new Error(`${name}: ${actual ?? "<missing>"} != ${expected}`);
 }
 
-console.log(`Version references are consistent: ${version}`);
+console.log(`Version references are consistent: product=${versions.product} contract=${versions.outputContract}`);

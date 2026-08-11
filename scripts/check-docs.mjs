@@ -18,6 +18,7 @@ const required = [
   "docs/test-plan.md",
   "docs/current-handoff.md",
   "docs/release-checklist.md",
+  "docs/versioning.md",
 ];
 
 const missing = required.filter((path) => !fs.existsSync(new URL(`../${path}`, import.meta.url)));

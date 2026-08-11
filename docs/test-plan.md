@@ -4,7 +4,7 @@ Document version: `0.1.0`
 
 ## Static Tests
 
-- Version references agree with `VERSION`.
+- Version references agree with `versions.json`.
 - Required specifications exist.
 - Slot paths and component aliases are unique.
 - Every field, component, and local slot reference resolves.

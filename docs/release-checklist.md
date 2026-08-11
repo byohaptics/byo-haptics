@@ -12,4 +12,4 @@ Document version: `0.1.0`
 - [ ] `ponytail-review` has no accepted unresolved findings.
 - [ ] Live test plan passes under the `byohaptica` Resonite account.
 - [ ] Multi-user limitations are documented.
-- [ ] `VERSION`, UI title, package metadata, and release tag agree.
+- [ ] `versions.json`, UI title, package metadata, and release tag agree.
