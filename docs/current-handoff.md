@@ -10,7 +10,7 @@ No Resonite deployment has been attempted. No GitHub repository has been created
 
 ## Next Task
 
-Implement and compile the positioning sheet, then continue the remaining host ProtoGraph sheets against the validated host SlotSpec. Plugin Package validators follow when their specs exist.
+Implement and compile source binding and sampler sheets, then continue the remaining host ProtoGraph sheets against the validated host SlotSpec. Plugin Package validators follow when their specs exist.
 
 ## Blocking Decisions
 

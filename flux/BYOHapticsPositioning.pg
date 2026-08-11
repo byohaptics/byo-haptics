@@ -1,0 +1,32 @@
+﻿/// Position reset operations driven by the user who pressed each button.
+module BYOHapticsPositioning
+
+in PositionResetButton: IButton global
+in ContextPositionResetButton: IButton global
+in ToolRoot: Slot element
+
+use PanelResetFromUser
+
+where {
+    switch ButtonEvents(Button=PositionResetButton)
+    | Pressed PositionResetEvent |> impulse {
+        PositionResetUser = GetUserFromComponent(
+            Instance=ObjectCast<Component,IComponent>(Input=PositionResetEvent.Source));
+        PositionReset = PanelResetFromUser(User=PositionResetUser);
+        ToolRoot->SetGlobalPositionRotation(
+            Position=PositionReset.GlobalPosition,
+            Rotation=PositionReset.GlobalRotation);
+    };
+
+    switch ButtonEvents(Button=ContextPositionResetButton)
+    | Pressed |> impulse {
+        // Context menu presses are local interaction; Source does not reliably
+        // resolve to the pressing user across worlds.
+        ContextPositionResetUser = LocalUser;
+        ContextPositionReset = PanelResetFromUser(User=ContextPositionResetUser);
+        ToolRoot->SetGlobalPositionRotation(
+            Position=ContextPositionReset.GlobalPosition,
+            Rotation=ContextPositionReset.GlobalRotation);
+    };
+}
+
