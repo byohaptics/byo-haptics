@@ -23,6 +23,7 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
   expect(`Row ${row} Target label`, value(`ui.row${row}.targetField.text.text`, "Content"), target);
   expect(`Row ${row} Node mode`, value(`config.row${row}UseBodyNode`), true);
   expect(`Row ${row} BodyNode`, value(`row${row}.selectedBodyNode`), "NONE");
+  expect(`Row ${row} Visual`, value(`row${row}.sampler`, "ShowDebugVisual"), false);
 }
 
 expect("RequireCredit", value("tool.license", "RequireCredit"), true);

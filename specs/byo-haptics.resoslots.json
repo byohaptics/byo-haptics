@@ -144,7 +144,7 @@
             },
             "ShowDebugVisual": {
               "type": "bool",
-              "value": true
+              "value": false
             }
           }
         },
@@ -334,7 +334,7 @@
             },
             "ShowDebugVisual": {
               "type": "bool",
-              "value": true
+              "value": false
             }
           }
         },
