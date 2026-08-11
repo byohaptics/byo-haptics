@@ -28,7 +28,7 @@ Do not deploy when Resonite is unavailable or when the user has prohibited deplo
 
 ## Engineering Rules
 
-- Do not copy source files or Git history from the private prototype.
+- Do not copy product SlotSpecs, ProtoGraphs, generated artifacts, or Git history from the private prototype. Generic tooling may be migrated after publication-policy review.
 - Do not embed session-specific IDs, ports discovered at runtime, or world-specific references.
 - Keep device behavior inside output plugins; the host remains transport-neutral.
 - Use SlotSpec and ProtoGraph sources as reproducible inputs. Generated scene IDs are disposable build artifacts.
