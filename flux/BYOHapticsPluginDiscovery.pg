@@ -1,0 +1,56 @@
+﻿/// Detects the single direct-child output plugin and publishes its lifecycle state.
+module BYOHapticsPluginDiscovery
+
+in ToolRoot: Slot element
+in PluginSocket: Slot element
+
+in OutputBusActive: bool mutable
+in OutputBusSelectedPluginId: string mutable
+in OutputBusConnected: bool mutable
+in OutputBusConnectionStatusAvailable: bool mutable
+
+out PluginPresent: bool
+out PluginId: string
+
+where {
+    DiscoveryInterval = 500;
+    User = LocalUser;
+    UserRoot = UserRootSlot(User=User);
+    IsUnderLocalUser = IsChildOf(
+        Instance=ToolRoot,
+        Other=UserRoot,
+        IncludeSelf=true);
+
+    // Direct-child lookup avoids descendant tag inheritance and expensive scans.
+    DetectedPluginSlot = FindChildByTag(
+        Instance=PluginSocket,
+        Tag="byo-haptics.output-plugin",
+        SearchDepth=0);
+    DetectedPluginPresent = NotNull(DetectedPluginSlot);
+    DetectedPluginId = if DetectedPluginPresent then GetSlotName(Instance=DetectedPluginSlot) else "";
+    PluginActiveState = if IsUnderLocalUser then DetectedPluginPresent else false;
+    PluginPresent = DetectedPluginPresent;
+    PluginId = DetectedPluginId;
+
+    UpdatesTimer(
+        Interval=DiscoveryInterval,
+        UpdatingUser=User->asDrivenGlobal,
+        SkipIfNull=true,
+        OnUpdate=impulse {
+            OutputBusSelectedPluginId <- DetectedPluginId;
+            If(
+                Condition=IsUnderLocalUser,
+                OnTrue=If(
+                    Condition=DetectedPluginPresent,
+                    OnFalse=impulse {
+                        OutputBusConnected <- false;
+                        OutputBusConnectionStatusAvailable <- false;
+                    }));
+        });
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        OutputBusActive <- PluginActiveState;
+    };
+}
+

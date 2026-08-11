@@ -10,7 +10,7 @@ No Resonite deployment has been attempted. No GitHub repository has been created
 
 ## Next Task
 
-Implement and compile Output Bus, plugin discovery, and Package Manager sheets against the validated host SlotSpec. Plugin Package validators follow when their specs exist.
+Implement the read-only diagnostics sheet, then compile all host sheets together and verify their SlotSpec inputs. Plugin Package validators follow when their specs exist.
 
 ## Blocking Decisions
 

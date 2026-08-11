@@ -1,0 +1,106 @@
+﻿/// Installs or ejects one referenced Output Plugin Package.
+module BYOHapticsPluginPackageManager
+
+in PluginSocket: Slot element
+in PackageReference: Slot mutable
+in EmptyPackageReference: Slot
+in PackageReceiverSurface: GrabbableReceiverSurface global
+in EjectPluginButton: IButton global
+in EjectPluginButtonEnabled: bool mutable
+in IdentityPosition: float3
+in IdentityRotation: floatQ
+in IdentityScale: float3
+
+where {
+    User = LocalUser;
+    RequiredTag = "byo-haptics.output-plugin";
+    EjectLocalPosition = Pack_Float3(X=0.0, Y=0.0, Z=-0.02);
+    CurrentPlugin = FindChildByTag(
+        Instance=PluginSocket,
+        Tag=RequiredTag,
+        SearchDepth=0);
+    CurrentPluginPresent = NotNull(CurrentPlugin);
+    CandidatePresent = NotNull(PackageReference);
+    CandidateIsCurrent =
+        if CandidatePresent then
+            (if CurrentPluginPresent then PackageReference == CurrentPlugin else false)
+        else false;
+    CandidateTag = if CandidatePresent then GetTag(Instance=PackageReference) else "";
+    CandidateValid =
+        if CandidatePresent then
+            (if CandidateTag == RequiredTag then
+                not (GetSlotName(Instance=PackageReference) == "")
+            else false)
+        else false;
+    CanEject = CurrentPluginPresent;
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        EjectPluginButtonEnabled <- CanEject;
+        If(
+            Condition=CurrentPluginPresent,
+            OnTrue=impulse {
+                If(
+                    Condition=not CandidatePresent,
+                    OnTrue=impulse {
+                        PackageReference <- CurrentPlugin;
+                    });
+            });
+    };
+
+    FireOnRefChange(
+        Value=PackageReference,
+        OnlyForUser=User,
+        OnChanged=
+        If(
+            Condition=if CandidateValid then not CandidateIsCurrent else false,
+            OnTrue=impulse {
+                If(
+                    Condition=CurrentPluginPresent,
+                    OnTrue=impulse {
+                        CurrentPlugin->SetLocalTransform(
+                            Position=EjectLocalPosition,
+                            Rotation=IdentityRotation,
+                            Scale=IdentityScale);
+                        CurrentPlugin->SetParent(
+                            NewParent=RootSlot,
+                            PreserveGlobalPosition=true);
+                    });
+                PackageReference->SetParent(
+                    NewParent=PluginSocket,
+                    PreserveGlobalPosition=true);
+                PackageReference->SetLocalTransform(
+                    Position=IdentityPosition,
+                    Rotation=IdentityRotation,
+                    Scale=IdentityScale);
+            },
+            OnFalse=impulse {
+                If(
+                    Condition=if CandidatePresent then not CandidateIsCurrent else false,
+                    OnTrue=impulse {
+                        PackageReference <- EmptyPackageReference;
+                    });
+            }));
+
+    switch OnGrabbableReceiverSurfaceReceived(Source=PackageReceiverSurface)
+    | OnReceived ReceiveEvent |>
+        PackageReference <- GetSlot(
+            Component=ObjectCast<IGrabbable,IComponent>(
+                Input=ReceiveEvent.ReceivedGrabbable));
+
+    switch ButtonEvents(Button=EjectPluginButton)
+    | Pressed |>
+        If(
+            Condition=CanEject,
+            OnTrue=impulse {
+                CurrentPlugin->SetLocalTransform(
+                    Position=EjectLocalPosition,
+                    Rotation=IdentityRotation,
+                    Scale=IdentityScale);
+                CurrentPlugin->SetParent(
+                    NewParent=RootSlot,
+                    PreserveGlobalPosition=true);
+                PackageReference <- EmptyPackageReference;
+            });
+}
+

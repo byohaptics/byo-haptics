@@ -1,0 +1,107 @@
+﻿/// Publishes transport-independent sensation values for each sampler row.
+module BYOHapticsOutputBus
+
+in Row0Force: float
+in Row0Vibration: float
+in Row0Pain: float
+in Row0Temperature: float
+in Row0Enabled: bool
+in Row0SourceValid: bool
+in Row0Target: string
+in Row0Gain: float
+
+in Row1Force: float
+in Row1Vibration: float
+in Row1Pain: float
+in Row1Temperature: float
+in Row1Enabled: bool
+in Row1SourceValid: bool
+in Row1Target: string
+in Row1Gain: float
+
+in Row2Force: float
+in Row2Vibration: float
+in Row2Pain: float
+in Row2Temperature: float
+in Row2Enabled: bool
+in Row2SourceValid: bool
+in Row2Target: string
+in Row2Gain: float
+
+in Row3Force: float
+in Row3Vibration: float
+in Row3Pain: float
+in Row3Temperature: float
+in Row3Enabled: bool
+in Row3SourceValid: bool
+in Row3Target: string
+in Row3Gain: float
+
+in GlobalGain: float
+in OutputBusActive: bool
+in OutputBusRow0Force: float mutable
+in OutputBusRow0Vibration: float mutable
+in OutputBusRow0Pain: float mutable
+in OutputBusRow0Temperature: float mutable
+in OutputBusRow1Force: float mutable
+in OutputBusRow1Vibration: float mutable
+in OutputBusRow1Pain: float mutable
+in OutputBusRow1Temperature: float mutable
+in OutputBusRow2Force: float mutable
+in OutputBusRow2Vibration: float mutable
+in OutputBusRow2Pain: float mutable
+in OutputBusRow2Temperature: float mutable
+in OutputBusRow3Force: float mutable
+in OutputBusRow3Vibration: float mutable
+in OutputBusRow3Pain: float mutable
+in OutputBusRow3Temperature: float mutable
+
+where {
+    Row0Valid = if Row0Enabled then (if Row0SourceValid then not (Row0Target == "") else false) else false;
+    Row1Valid = if Row1Enabled then (if Row1SourceValid then not (Row1Target == "") else false) else false;
+    Row2Valid = if Row2Enabled then (if Row2SourceValid then not (Row2Target == "") else false) else false;
+    Row3Valid = if Row3Enabled then (if Row3SourceValid then not (Row3Target == "") else false) else false;
+
+    Row0Active = if OutputBusActive then Row0Valid else false;
+    Row1Active = if OutputBusActive then Row1Valid else false;
+    Row2Active = if OutputBusActive then Row2Valid else false;
+    Row3Active = if OutputBusActive then Row3Valid else false;
+
+    Row0ForceOut = (Row0Force * Row0Gain * GlobalGain)->Clamp01_Float;
+    Row0VibrationOut = (Row0Vibration * Row0Gain * GlobalGain)->Clamp01_Float;
+    Row0PainOut = (Row0Pain * Row0Gain * GlobalGain)->Clamp01_Float;
+    Row0TemperatureOut = (Row0Temperature * Row0Gain * GlobalGain)->Clamp01_Float;
+    Row1ForceOut = (Row1Force * Row1Gain * GlobalGain)->Clamp01_Float;
+    Row1VibrationOut = (Row1Vibration * Row1Gain * GlobalGain)->Clamp01_Float;
+    Row1PainOut = (Row1Pain * Row1Gain * GlobalGain)->Clamp01_Float;
+    Row1TemperatureOut = (Row1Temperature * Row1Gain * GlobalGain)->Clamp01_Float;
+    Row2ForceOut = (Row2Force * Row2Gain * GlobalGain)->Clamp01_Float;
+    Row2VibrationOut = (Row2Vibration * Row2Gain * GlobalGain)->Clamp01_Float;
+    Row2PainOut = (Row2Pain * Row2Gain * GlobalGain)->Clamp01_Float;
+    Row2TemperatureOut = (Row2Temperature * Row2Gain * GlobalGain)->Clamp01_Float;
+    Row3ForceOut = (Row3Force * Row3Gain * GlobalGain)->Clamp01_Float;
+    Row3VibrationOut = (Row3Vibration * Row3Gain * GlobalGain)->Clamp01_Float;
+    Row3PainOut = (Row3Pain * Row3Gain * GlobalGain)->Clamp01_Float;
+    Row3TemperatureOut = (Row3Temperature * Row3Gain * GlobalGain)->Clamp01_Float;
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        OutputBusRow0Force <- if Row0Active then Row0ForceOut else 0.0;
+        OutputBusRow0Vibration <- if Row0Active then Row0VibrationOut else 0.0;
+        OutputBusRow0Pain <- if Row0Active then Row0PainOut else 0.0;
+        OutputBusRow0Temperature <- if Row0Active then Row0TemperatureOut else 0.0;
+        OutputBusRow1Force <- if Row1Active then Row1ForceOut else 0.0;
+        OutputBusRow1Vibration <- if Row1Active then Row1VibrationOut else 0.0;
+        OutputBusRow1Pain <- if Row1Active then Row1PainOut else 0.0;
+        OutputBusRow1Temperature <- if Row1Active then Row1TemperatureOut else 0.0;
+        OutputBusRow2Force <- if Row2Active then Row2ForceOut else 0.0;
+        OutputBusRow2Vibration <- if Row2Active then Row2VibrationOut else 0.0;
+        OutputBusRow2Pain <- if Row2Active then Row2PainOut else 0.0;
+        OutputBusRow2Temperature <- if Row2Active then Row2TemperatureOut else 0.0;
+        OutputBusRow3Force <- if Row3Active then Row3ForceOut else 0.0;
+        OutputBusRow3Vibration <- if Row3Active then Row3VibrationOut else 0.0;
+        OutputBusRow3Pain <- if Row3Active then Row3PainOut else 0.0;
+        OutputBusRow3Temperature <- if Row3Active then Row3TemperatureOut else 0.0;
+    };
+}
+

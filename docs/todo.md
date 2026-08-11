@@ -42,7 +42,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Implement and compile the lifecycle sheet.
 - [x] Implement and compile the positioning sheet.
 - [x] Implement and compile source binding and sampler sheets.
-- [ ] Implement Output Bus, plugin discovery, and Package Manager sheets.
+- [x] Implement and compile Output Bus, plugin discovery, and Package Manager sheets.
 - [ ] Implement read-only diagnostics sheet.
 - [ ] Compile all sheets and validate references.
 
