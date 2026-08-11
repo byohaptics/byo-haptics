@@ -6,6 +6,7 @@ Document version: `0.1.0`
 
 - Plugin ID: `io.github.byohaptics.output.joycon.osc`
 - Plugin version: `0.1.0`
+- Bridge API version: `0.1.0`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: OSC over UDP
 - Default send port: `9001`
