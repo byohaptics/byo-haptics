@@ -1,0 +1,44 @@
+{
+  "schema": "resonite-slotspec/v1",
+  "toolName": "SlotSpecSmoke",
+  "toolParent": { "kind": "worldRoot" },
+  "slots": [
+    {
+      "path": "",
+      "components": [
+        {
+          "alias": "smoke.enabled",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": true } }
+        }
+      ]
+    },
+    {
+      "path": "Child",
+      "components": [
+        {
+          "alias": "smoke.copy",
+          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>",
+          "members": { "WriteBack": { "type": "bool", "value": false } }
+        }
+      ]
+    }
+  ],
+  "fieldReferences": [
+    {
+      "component": "smoke.copy",
+      "member": "Source",
+      "fieldRef": "smoke.enabled.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    }
+  ],
+  "localSlotReferences": [],
+  "componentReferences": [],
+  "slotFieldReferences": [],
+  "sceneSlotReferences": [],
+  "sceneComponentReferences": [],
+  "fluxInputs": {
+    "ToolRoot": { "slotPath": "" },
+    "Enabled": { "fieldRef": "smoke.enabled.Value" }
+  }
+}

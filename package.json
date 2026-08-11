@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node scripts/check-version.mjs && node scripts/check-docs.mjs"
+    "test": "node scripts/check-version.mjs && node scripts/check-docs.mjs && node scripts/test-validate-slotspec.mjs"
   }
 }
