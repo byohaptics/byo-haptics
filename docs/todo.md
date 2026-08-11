@@ -41,7 +41,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Create the sanitized, version-reset host SlotSpec from the public UI and structure specifications.
 - [x] Implement and compile the lifecycle sheet.
 - [x] Implement and compile the positioning sheet.
-- [ ] Implement source binding and sampler sheets.
+- [x] Implement and compile source binding and sampler sheets.
 - [ ] Implement Output Bus, plugin discovery, and Package Manager sheets.
 - [ ] Implement read-only diagnostics sheet.
 - [ ] Compile all sheets and validate references.

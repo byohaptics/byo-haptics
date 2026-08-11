@@ -1,0 +1,322 @@
+﻿/// Keeps each VirtualHapticPointSampler aligned to its configured source slot.
+module BYOHapticsSampler
+
+in Row0UseBodyNode: bool
+in Row0SelectedBodyNode: Renderite.Shared.BodyNode
+in Row0ManualSource: Slot
+in Row0SamplerSlot: Slot element
+in Row0SamplerGrabbable: IGrabbable element
+in Row0SamplerEnabled: bool mutable
+in Row1UseBodyNode: bool
+in Row1SelectedBodyNode: Renderite.Shared.BodyNode
+in Row1ManualSource: Slot
+in Row1SamplerSlot: Slot element
+in Row1SamplerGrabbable: IGrabbable element
+in Row1SamplerEnabled: bool mutable
+in Row2UseBodyNode: bool
+in Row2SelectedBodyNode: Renderite.Shared.BodyNode
+in Row2ManualSource: Slot
+in Row2SamplerSlot: Slot element
+in Row2SamplerGrabbable: IGrabbable element
+in Row2SamplerEnabled: bool mutable
+in Row3UseBodyNode: bool
+in Row3SelectedBodyNode: Renderite.Shared.BodyNode
+in Row3ManualSource: Slot
+in Row3SamplerSlot: Slot element
+in Row3SamplerGrabbable: IGrabbable element
+in Row3SamplerEnabled: bool mutable
+in SamplersActive: bool mutable
+in Row0SamplerHomeSlot: Slot element
+in Row1SamplerHomeSlot: Slot element
+in Row2SamplerHomeSlot: Slot element
+in Row3SamplerHomeSlot: Slot element
+in ToolRoot: Slot element
+in Row0SamplerOffset: float3 mutable
+in Row1SamplerOffset: float3 mutable
+in Row2SamplerOffset: float3 mutable
+in Row3SamplerOffset: float3 mutable
+in Row0SourceValid: bool mutable
+in Row1SourceValid: bool mutable
+in Row2SourceValid: bool mutable
+in Row3SourceValid: bool mutable
+in Row0ClearButton: IButton global
+in Row1ClearButton: IButton global
+in Row2ClearButton: IButton global
+in Row3ClearButton: IButton global
+in ResetAllSamplerPositionsButton: IButton global
+
+where {
+    User = LocalUser;
+    UserRoot = UserRootSlot(User=User);
+    // Install places ToolRoot directly under the avatar root. Offset values are
+    // stored in that avatar-local coordinate system and are ignored while the
+    // tool is outside the local user's hierarchy.
+    AvatarRoot = GetParentSlot(Instance=ToolRoot);
+    Row0AvatarSource = BodyNodeSlotInChildren(
+        Source=AvatarRoot,
+        Node=Row0SelectedBodyNode);
+    Row1AvatarSource = BodyNodeSlotInChildren(
+        Source=AvatarRoot,
+        Node=Row1SelectedBodyNode);
+    Row2AvatarSource = BodyNodeSlotInChildren(
+        Source=AvatarRoot,
+        Node=Row2SelectedBodyNode);
+    Row3AvatarSource = BodyNodeSlotInChildren(
+        Source=AvatarRoot,
+        Node=Row3SelectedBodyNode);
+    Row0UserSource = BodyNodeSlot(Source=User, Node=Row0SelectedBodyNode);
+    Row1UserSource = BodyNodeSlot(Source=User, Node=Row1SelectedBodyNode);
+    Row2UserSource = BodyNodeSlot(Source=User, Node=Row2SelectedBodyNode);
+    Row3UserSource = BodyNodeSlot(Source=User, Node=Row3SelectedBodyNode);
+    Row0NodeSource =
+        if NotNull(Instance=Row0AvatarSource) then Row0AvatarSource else Row0UserSource;
+    Row1NodeSource =
+        if NotNull(Instance=Row1AvatarSource) then Row1AvatarSource else Row1UserSource;
+    Row2NodeSource =
+        if NotNull(Instance=Row2AvatarSource) then Row2AvatarSource else Row2UserSource;
+    Row3NodeSource =
+        if NotNull(Instance=Row3AvatarSource) then Row3AvatarSource else Row3UserSource;
+    Row0EffectiveSource =
+        if Row0UseBodyNode then Row0NodeSource else Row0ManualSource;
+    Row1EffectiveSource =
+        if Row1UseBodyNode then Row1NodeSource else Row1ManualSource;
+    Row2EffectiveSource =
+        if Row2UseBodyNode then Row2NodeSource else Row2ManualSource;
+    Row3EffectiveSource =
+        if Row3UseBodyNode then Row3NodeSource else Row3ManualSource;
+    ToolIsUnderLocalUser = IsChildOf(
+        Instance=ToolRoot,
+        Other=UserRoot,
+        IncludeSelf=true);
+
+    switch ButtonEvents(Button=Row0ClearButton)
+    | Pressed |> impulse {
+        Row0ClearHomeTransform = Row0SamplerHomeSlot->GlobalTransform;
+        Row0SamplerSlot->SetGlobalPositionRotation(
+            Position=Row0ClearHomeTransform.GlobalPosition,
+            Rotation=Row0ClearHomeTransform.GlobalRotation);
+        Row0SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+        Row0SourceValid <- false;
+        Row0SamplerEnabled <- false;
+    };
+
+    switch ButtonEvents(Button=Row1ClearButton)
+    | Pressed |> impulse {
+        Row1ClearHomeTransform = Row1SamplerHomeSlot->GlobalTransform;
+        Row1SamplerSlot->SetGlobalPositionRotation(
+            Position=Row1ClearHomeTransform.GlobalPosition,
+            Rotation=Row1ClearHomeTransform.GlobalRotation);
+        Row1SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+        Row1SourceValid <- false;
+        Row1SamplerEnabled <- false;
+    };
+
+    switch ButtonEvents(Button=Row2ClearButton)
+    | Pressed |> impulse {
+        Row2ClearHomeTransform = Row2SamplerHomeSlot->GlobalTransform;
+        Row2SamplerSlot->SetGlobalPositionRotation(
+            Position=Row2ClearHomeTransform.GlobalPosition,
+            Rotation=Row2ClearHomeTransform.GlobalRotation);
+        Row2SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+        Row2SourceValid <- false;
+        Row2SamplerEnabled <- false;
+    };
+
+    switch ButtonEvents(Button=Row3ClearButton)
+    | Pressed |> impulse {
+        Row3ClearHomeTransform = Row3SamplerHomeSlot->GlobalTransform;
+        Row3SamplerSlot->SetGlobalPositionRotation(
+            Position=Row3ClearHomeTransform.GlobalPosition,
+            Rotation=Row3ClearHomeTransform.GlobalRotation);
+        Row3SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+        Row3SourceValid <- false;
+        Row3SamplerEnabled <- false;
+    };
+
+    switch ButtonEvents(Button=ResetAllSamplerPositionsButton)
+    | Pressed |> impulse {
+        Row0ResetSourceValid = NotNull(Instance=Row0EffectiveSource);
+        Row1ResetSourceValid = NotNull(Instance=Row1EffectiveSource);
+        Row2ResetSourceValid = NotNull(Instance=Row2EffectiveSource);
+        Row3ResetSourceValid = NotNull(Instance=Row3EffectiveSource);
+        Row0SourceValid <- Row0ResetSourceValid;
+        Row1SourceValid <- Row1ResetSourceValid;
+        Row2SourceValid <- Row2ResetSourceValid;
+        Row3SourceValid <- Row3ResetSourceValid;
+
+        If(
+            Condition=Row0ResetSourceValid,
+            OnTrue=impulse {
+            Row0ResetTransform = Row0EffectiveSource->GlobalTransform;
+            Row0SamplerSlot->SetGlobalPositionRotation(
+                Position=Row0ResetTransform.GlobalPosition,
+                Rotation=Row0ResetTransform.GlobalRotation);
+            Row0SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+            });
+        If(
+            Condition=Row1ResetSourceValid,
+            OnTrue=impulse {
+            Row1ResetTransform = Row1EffectiveSource->GlobalTransform;
+            Row1SamplerSlot->SetGlobalPositionRotation(
+                Position=Row1ResetTransform.GlobalPosition,
+                Rotation=Row1ResetTransform.GlobalRotation);
+            Row1SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+            });
+        If(
+            Condition=Row2ResetSourceValid,
+            OnTrue=impulse {
+            Row2ResetTransform = Row2EffectiveSource->GlobalTransform;
+            Row2SamplerSlot->SetGlobalPositionRotation(
+                Position=Row2ResetTransform.GlobalPosition,
+                Rotation=Row2ResetTransform.GlobalRotation);
+            Row2SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+            });
+        If(
+            Condition=Row3ResetSourceValid,
+            OnTrue=impulse {
+            Row3ResetTransform = Row3EffectiveSource->GlobalTransform;
+            Row3SamplerSlot->SetGlobalPositionRotation(
+                Position=Row3ResetTransform.GlobalPosition,
+                Rotation=Row3ResetTransform.GlobalRotation);
+            Row3SamplerOffset <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+            });
+    };
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        SamplersActive <- ToolIsUnderLocalUser;
+
+        If(
+            Condition=ToolIsUnderLocalUser,
+            OnTrue=impulse {
+        If(
+            Condition=NotNull(Instance=Row0EffectiveSource),
+            OnTrue=impulse {
+            Row0SourceValid <- true;
+            Row0SamplerEnabled <- true;
+            If(
+                Condition=IsGrabbableGrabbed(Grabbable=Row0SamplerGrabbable),
+                OnTrue=impulse {
+            Row0EditSourceTransform = Row0EffectiveSource->GlobalTransform;
+            Row0EditSamplerTransform = Row0SamplerSlot->GlobalTransform;
+            Row0EditSourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row0EditSourceTransform.GlobalPosition);
+            Row0EditSamplerLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row0EditSamplerTransform.GlobalPosition);
+            Row0SamplerOffset <- Row0EditSamplerLocal - Row0EditSourceLocal;
+                },
+                OnFalse=impulse {
+            Row0Transform = Row0EffectiveSource->GlobalTransform;
+            Row0SourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row0Transform.GlobalPosition);
+            Row0TargetGlobal = AvatarRoot->LocalPointToGlobal(
+                LocalPoint=Row0SourceLocal + Row0SamplerOffset);
+            Row0SamplerSlot->SetGlobalPositionRotation(
+                Position=Row0TargetGlobal,
+                Rotation=Row0Transform.GlobalRotation);
+                });
+            },
+            OnFalse=impulse {
+            Row0SourceValid <- false;
+            Row0SamplerEnabled <- false;
+            });
+
+        If(
+            Condition=NotNull(Instance=Row1EffectiveSource),
+            OnTrue=impulse {
+            Row1SourceValid <- true;
+            Row1SamplerEnabled <- true;
+            If(
+                Condition=IsGrabbableGrabbed(Grabbable=Row1SamplerGrabbable),
+                OnTrue=impulse {
+            Row1EditSourceTransform = Row1EffectiveSource->GlobalTransform;
+            Row1EditSamplerTransform = Row1SamplerSlot->GlobalTransform;
+            Row1EditSourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row1EditSourceTransform.GlobalPosition);
+            Row1EditSamplerLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row1EditSamplerTransform.GlobalPosition);
+            Row1SamplerOffset <- Row1EditSamplerLocal - Row1EditSourceLocal;
+                },
+                OnFalse=impulse {
+            Row1Transform = Row1EffectiveSource->GlobalTransform;
+            Row1SourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row1Transform.GlobalPosition);
+            Row1TargetGlobal = AvatarRoot->LocalPointToGlobal(
+                LocalPoint=Row1SourceLocal + Row1SamplerOffset);
+            Row1SamplerSlot->SetGlobalPositionRotation(
+                Position=Row1TargetGlobal,
+                Rotation=Row1Transform.GlobalRotation);
+                });
+            },
+            OnFalse=impulse {
+            Row1SourceValid <- false;
+            Row1SamplerEnabled <- false;
+            });
+
+        If(
+            Condition=NotNull(Instance=Row2EffectiveSource),
+            OnTrue=impulse {
+            Row2SourceValid <- true;
+            Row2SamplerEnabled <- true;
+            If(
+                Condition=IsGrabbableGrabbed(Grabbable=Row2SamplerGrabbable),
+                OnTrue=impulse {
+            Row2EditSourceTransform = Row2EffectiveSource->GlobalTransform;
+            Row2EditSamplerTransform = Row2SamplerSlot->GlobalTransform;
+            Row2EditSourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row2EditSourceTransform.GlobalPosition);
+            Row2EditSamplerLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row2EditSamplerTransform.GlobalPosition);
+            Row2SamplerOffset <- Row2EditSamplerLocal - Row2EditSourceLocal;
+                },
+                OnFalse=impulse {
+            Row2Transform = Row2EffectiveSource->GlobalTransform;
+            Row2SourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row2Transform.GlobalPosition);
+            Row2TargetGlobal = AvatarRoot->LocalPointToGlobal(
+                LocalPoint=Row2SourceLocal + Row2SamplerOffset);
+            Row2SamplerSlot->SetGlobalPositionRotation(
+                Position=Row2TargetGlobal,
+                Rotation=Row2Transform.GlobalRotation);
+                });
+            },
+            OnFalse=impulse {
+            Row2SourceValid <- false;
+            Row2SamplerEnabled <- false;
+            });
+
+        If(
+            Condition=NotNull(Instance=Row3EffectiveSource),
+            OnTrue=impulse {
+            Row3SourceValid <- true;
+            Row3SamplerEnabled <- true;
+            If(
+                Condition=IsGrabbableGrabbed(Grabbable=Row3SamplerGrabbable),
+                OnTrue=impulse {
+            Row3EditSourceTransform = Row3EffectiveSource->GlobalTransform;
+            Row3EditSamplerTransform = Row3SamplerSlot->GlobalTransform;
+            Row3EditSourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row3EditSourceTransform.GlobalPosition);
+            Row3EditSamplerLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row3EditSamplerTransform.GlobalPosition);
+            Row3SamplerOffset <- Row3EditSamplerLocal - Row3EditSourceLocal;
+                },
+                OnFalse=impulse {
+            Row3Transform = Row3EffectiveSource->GlobalTransform;
+            Row3SourceLocal = AvatarRoot->GlobalPointToLocal(
+                GlobalPoint=Row3Transform.GlobalPosition);
+            Row3TargetGlobal = AvatarRoot->LocalPointToGlobal(
+                LocalPoint=Row3SourceLocal + Row3SamplerOffset);
+            Row3SamplerSlot->SetGlobalPositionRotation(
+                Position=Row3TargetGlobal,
+                Rotation=Row3Transform.GlobalRotation);
+                });
+            },
+            OnFalse=impulse {
+            Row3SourceValid <- false;
+            Row3SamplerEnabled <- false;
+            });
+            });
+    };
+}
+
