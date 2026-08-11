@@ -34,7 +34,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Add generated-ID and fixed-ID validation.
 - [x] Add version synchronization for host and both plugins.
 - [x] Add a validator for the host SlotSpec.
-- [ ] Add validators for Plugin Package specs.
+- [x] Add validators for both Plugin Package specs.
 
 ## Phase 3: Host Reconstruction
 

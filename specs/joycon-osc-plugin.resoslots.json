@@ -1,0 +1,2491 @@
+{
+  "schema": "resonite-slotspec/v1",
+  "toolName": "io.github.byohaptics.output.joycon.osc",
+  "tag": "byo-haptics.output-plugin",
+  "fluxSlotPath": "Flux",
+  "toolParent": {
+    "kind": "worldRoot"
+  },
+  "slots": [
+    {
+      "path": "Manifest",
+      "components": [
+        {
+          "alias": "manifest.pluginId",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "io.github.byohaptics.output.joycon.osc"
+            }
+          }
+        },
+        {
+          "alias": "manifest.displayName",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "Joy-Con OSC"
+            }
+          }
+        },
+        {
+          "alias": "manifest.contractVersion",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 1
+            }
+          }
+        },
+        {
+          "alias": "manifest.transport",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "osc"
+            }
+          }
+        },
+        {
+          "alias": "manifest.pluginVersion",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "v0.1.0"
+            }
+          }
+        },
+        {
+          "alias": "manifest.author",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "byohaptica"
+            }
+          }
+        },
+        {
+          "alias": "manifest.canReportConnection",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Config",
+      "components": [
+        {
+          "alias": "config.endpoint",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<Uri>",
+          "members": {
+            "Value": {
+              "type": "uri",
+              "value": "osc://127.0.0.1:9001"
+            }
+          }
+        },
+        {
+          "alias": "config.heartbeatAddress",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/heartbeat"
+            }
+          }
+        },
+        {
+          "alias": "config.statusPort",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 9002
+            }
+          }
+        },
+        {
+          "alias": "config.statusPortAddress",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/status/port"
+            }
+          }
+        },
+        {
+          "alias": "config.statusHeartbeatAddress",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/status/heartbeat"
+            }
+          }
+        },
+        {
+          "alias": "config.channelPrefix",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Sender",
+      "components": [
+        {
+          "alias": "runtime.sender",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Sender",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "AccessReason": {
+              "type": "string",
+              "value": "Send haptics to Joy_Con_Rumble"
+            },
+            "URL": {
+              "type": "uri",
+              "value": "osc://127.0.0.1:9001"
+            },
+            "LocalPort": {
+              "type": "int",
+              "value": 0
+            },
+            "IsSending": {
+              "type": "bool",
+              "value": false
+            },
+            "SendMode": {
+              "type": "enum",
+              "enumType": "[FrooxEngine]FrooxEngine.OSC_SendMode",
+              "value": "SendIndividually"
+            },
+            "AutoResendInterval": {
+              "type": "float",
+              "value": 0.5
+            }
+          }
+        },
+        {
+          "alias": "runtime.senderIsSendingOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<bool>",
+          "members": {
+            "Default": {
+              "type": "bool",
+              "value": false
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Receiver",
+      "components": [
+        {
+          "alias": "runtime.receiver",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Receiver",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "AccessReason": {
+              "type": "string",
+              "value": "Receive status from Joy_Con_Rumble"
+            },
+            "Port": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.receiverPortOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<int>",
+          "members": {
+            "Default": {
+              "type": "int",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Values",
+      "components": [
+        {
+          "alias": "runtime.heartbeatValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.heartbeatValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<int>",
+          "members": {
+            "Default": {
+              "type": "int",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.statusPortValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 9002
+            }
+          }
+        },
+        {
+          "alias": "runtime.statusPortValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<int>",
+          "members": {
+            "Default": {
+              "type": "int",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.ackValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": -1
+            }
+          }
+        },
+        {
+          "alias": "runtime.ackValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<int>",
+          "members": {
+            "Default": {
+              "type": "int",
+              "value": -1
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.ackMisses",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 100
+            }
+          }
+        },
+        {
+          "alias": "runtime.ackMissesOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<int>",
+          "members": {
+            "Default": {
+              "type": "int",
+              "value": 100
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row0ForceValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row0ForceValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row0VibrationValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row0VibrationValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row0PainValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row0PainValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row1ForceValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row1ForceValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row1VibrationValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row1VibrationValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row1PainValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row1PainValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row2ForceValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row2ForceValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row2VibrationValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row2VibrationValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row2PainValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row2PainValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row3ForceValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row3ForceValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row3VibrationValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row3VibrationValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "runtime.row3PainValue",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "runtime.row3PainValueOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Status Port",
+      "components": [
+        {
+          "alias": "runtime.statusPortField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<int>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/status/port"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Heartbeat",
+      "components": [
+        {
+          "alias": "runtime.heartbeatField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<int>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/heartbeat"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Status Heartbeat",
+      "components": [
+        {
+          "alias": "runtime.statusHeartbeatField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<int>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/status/heartbeat"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Diagnostics/Active",
+      "components": [
+        {
+          "alias": "diagnostics.active",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "diagnostics.activeOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<bool>",
+          "members": {
+            "Default": {
+              "type": "bool",
+              "value": false
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Diagnostics/Connected",
+      "components": [
+        {
+          "alias": "diagnostics.connected",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "diagnostics.connectedOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<bool>",
+          "members": {
+            "Default": {
+              "type": "bool",
+              "value": false
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Flux",
+      "components": []
+    },
+    {
+      "path": "",
+      "components": [
+        {
+          "alias": "package.grabbable",
+          "type": "[FrooxEngine]FrooxEngine.Grabbable",
+          "members": {
+            "ReparentOnRelease": {
+              "type": "bool",
+              "value": true
+            },
+            "PreserveUserSpace": {
+              "type": "bool",
+              "value": true
+            },
+            "DestroyOnRelease": {
+              "type": "bool",
+              "value": false
+            },
+            "EditModeOnly": {
+              "type": "bool",
+              "value": false
+            },
+            "AllowSteal": {
+              "type": "bool",
+              "value": false
+            },
+            "DropOnDisable": {
+              "type": "bool",
+              "value": true
+            },
+            "Scalable": {
+              "type": "bool",
+              "value": true
+            },
+            "Receivable": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.objectRoot",
+          "type": "[FrooxEngine]FrooxEngine.ObjectRoot"
+        }
+      ]
+    },
+    {
+      "path": "Package",
+      "components": []
+    },
+    {
+      "path": "Package/State",
+      "components": [
+        {
+          "alias": "package.installed",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual",
+      "scale": {
+        "x": 0.001,
+        "y": 0.001,
+        "z": 0.001
+      },
+      "components": [
+        {
+          "alias": "package.canvas",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Canvas",
+          "members": {
+            "Size": {
+              "type": "float2",
+              "value": {
+                "x": 420,
+                "y": 220
+              }
+            },
+            "UnitScale": {
+              "type": "float",
+              "value": 1
+            },
+            "PixelScale": {
+              "type": "float",
+              "value": 1
+            },
+            "DefaultCulling": {
+              "type": "enum",
+              "value": "Off",
+              "enumType": "Culling"
+            },
+            "IgnoreTouchesFromBehind": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.collider",
+          "type": "[FrooxEngine]FrooxEngine.BoxCollider",
+          "members": {
+            "UpdateOrder": {
+              "type": "int",
+              "value": 1000000
+            },
+            "Type": {
+              "type": "enum",
+              "value": "Static",
+              "enumType": "ColliderType"
+            },
+            "IgnoreRaycasts": {
+              "type": "bool",
+              "value": false
+            },
+            "Size": {
+              "type": "float3",
+              "value": {
+                "x": 420,
+                "y": 220,
+                "z": 8
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.roundedTexture",
+          "type": "[FrooxEngine]FrooxEngine.StaticTexture2D",
+          "members": {
+            "URL": {
+              "type": "uri",
+              "value": "resdb:///cb7ba11c8a391d6c8b4b5c5122684888a6a719179996e88c954a49b6b031a845.png"
+            }
+          }
+        },
+        {
+          "alias": "package.panelSprite",
+          "type": "[FrooxEngine]FrooxEngine.SpriteProvider",
+          "members": {
+            "Borders": {
+              "type": "float4",
+              "value": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5,
+                "w": 0.5
+              }
+            },
+            "Scale": {
+              "type": "float",
+              "value": 1
+            },
+            "FixedSize": {
+              "type": "float",
+              "value": 32
+            }
+          }
+        },
+        {
+          "alias": "package.panelMaterial",
+          "type": "[FrooxEngine]FrooxEngine.UI_UnlitMaterial",
+          "members": {
+            "AlphaCutoff": {
+              "type": "float",
+              "value": 0.5
+            },
+            "AlphaClip": {
+              "type": "bool",
+              "value": true
+            },
+            "TextureMode": {
+              "type": "enum",
+              "value": "DirectColor",
+              "enumType": "UnlitTextureMode"
+            },
+            "BlendMode": {
+              "type": "enum",
+              "value": "Alpha",
+              "enumType": "BlendMode"
+            },
+            "Sidedness": {
+              "type": "enum",
+              "value": "Double",
+              "enumType": "Sidedness"
+            },
+            "ZWrite": {
+              "type": "enum",
+              "value": "On",
+              "enumType": "ZWrite"
+            },
+            "ZTest": {
+              "type": "enum",
+              "value": "LessOrEqual",
+              "enumType": "ZTest"
+            },
+            "OffsetFactor": {
+              "type": "float",
+              "value": 1
+            },
+            "OffsetUnits": {
+              "type": "float",
+              "value": 100
+            }
+          }
+        },
+        {
+          "alias": "package.mainFont",
+          "type": "[FrooxEngine]FrooxEngine.StaticFont",
+          "members": {
+            "URL": {
+              "type": "uri",
+              "value": "resdb:///fcff04f4bec2b3636f05ed894dc1f9a752c4cb587ee49857ec7a82abaf6ca016.ttf"
+            },
+            "Padding": {
+              "type": "int",
+              "value": 1
+            },
+            "PixelRange": {
+              "type": "int",
+              "value": 4
+            },
+            "GlyphEmSize": {
+              "type": "int",
+              "value": 32
+            },
+            "MipMaps": {
+              "type": "bool",
+              "value": true
+            },
+            "MipMapFiltering": {
+              "type": "enum",
+              "value": "Box",
+              "enumType": "Filtering"
+            },
+            "LODBias": {
+              "type": "float",
+              "value": -1
+            }
+          }
+        },
+        {
+          "alias": "package.fontChain",
+          "type": "[FrooxEngine]FrooxEngine.FontChain"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Background",
+      "components": [
+        {
+          "alias": "package.background.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.background.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.045,
+                "g": 0.055,
+                "b": 0.075,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.background.ignoreLayout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.IgnoreLayout"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Accent",
+      "orderOffset": 5,
+      "components": [
+        {
+          "alias": "package.accent.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0.88
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.accent.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.12,
+                "g": 0.55,
+                "b": 0.86,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.accent.ignoreLayout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.IgnoreLayout"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content",
+      "orderOffset": 10,
+      "components": [
+        {
+          "alias": "package.content.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.content.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.VerticalLayout",
+          "members": {
+            "PaddingTop": {
+              "type": "float",
+              "value": 34
+            },
+            "PaddingRight": {
+              "type": "float",
+              "value": 28
+            },
+            "PaddingBottom": {
+              "type": "float",
+              "value": 22
+            },
+            "PaddingLeft": {
+              "type": "float",
+              "value": 28
+            },
+            "Spacing": {
+              "type": "float",
+              "value": 4
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "LayoutHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "LayoutVerticalAlignment"
+            },
+            "ForceExpandWidth": {
+              "type": "bool",
+              "value": true
+            },
+            "ForceExpandHeight": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Display Name",
+      "components": [
+        {
+          "alias": "package.displayName.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Joy-Con OSC"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 34
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.displayName.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 51
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 10
+    },
+    {
+      "path": "Package/Visual/Content/Version",
+      "components": [
+        {
+          "alias": "package.version.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "v0.1.0"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.65,
+                "g": 0.7,
+                "b": 0.78,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.version.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 30
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 20
+    },
+    {
+      "path": "Package/Visual/Content/Transport",
+      "components": [
+        {
+          "alias": "package.transport.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Transport: OSC / UDP"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.65,
+                "g": 0.7,
+                "b": 0.78,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.transport.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 30
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 40
+    },
+    {
+      "path": "Package/Visual/Content/Contract",
+      "components": [
+        {
+          "alias": "package.contract.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Contract: BYOHaptics.Output.v1"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 18
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.65,
+                "g": 0.7,
+                "b": 0.78,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.contract.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 27
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 30
+    },
+    {
+      "path": "Runtime/Fields/Row_000/Force",
+      "components": [
+        {
+          "alias": "runtime.row0ForceField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/left/force"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_000/Vibration",
+      "components": [
+        {
+          "alias": "runtime.row0VibrationField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/left/vibration"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_000/Pain",
+      "components": [
+        {
+          "alias": "runtime.row0PainField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/left/pain"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_001/Force",
+      "components": [
+        {
+          "alias": "runtime.row1ForceField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/right/force"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_001/Vibration",
+      "components": [
+        {
+          "alias": "runtime.row1VibrationField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/right/vibration"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_001/Pain",
+      "components": [
+        {
+          "alias": "runtime.row1PainField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/right/pain"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_002/Force",
+      "components": [
+        {
+          "alias": "runtime.row2ForceField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/row2/force"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_002/Vibration",
+      "components": [
+        {
+          "alias": "runtime.row2VibrationField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/row2/vibration"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_002/Pain",
+      "components": [
+        {
+          "alias": "runtime.row2PainField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/row2/pain"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_003/Force",
+      "components": [
+        {
+          "alias": "runtime.row3ForceField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/row3/force"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_003/Vibration",
+      "components": [
+        {
+          "alias": "runtime.row3VibrationField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/row3/vibration"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Runtime/Fields/Row_003/Pain",
+      "components": [
+        {
+          "alias": "runtime.row3PainField",
+          "type": "[FrooxEngine]FrooxEngine.OSC_Field<float>",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": true
+            },
+            "Path": {
+              "type": "string",
+              "value": "/avatar/parameters/joyconrumble/channel/row3/pain"
+            },
+            "ArgumentIndex": {
+              "type": "int",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/DropReference",
+      "components": [
+        {
+          "alias": "package.dropReference",
+          "type": "[FrooxEngine]FrooxEngine.ReferenceField<[FrooxEngine]FrooxEngine.Slot>"
+        }
+      ]
+    }
+  ],
+  "fieldReferences": [
+    {
+      "component": "runtime.senderIsSendingOverride",
+      "member": "Target",
+      "fieldRef": "runtime.sender.IsSending",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    },
+    {
+      "component": "runtime.receiverPortOverride",
+      "member": "Target",
+      "fieldRef": "runtime.receiver.Port",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.heartbeatValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.heartbeatValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.statusPortValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.statusPortValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.ackValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.ackValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.ackMissesOverride",
+      "member": "Target",
+      "fieldRef": "runtime.ackMisses.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "diagnostics.activeOverride",
+      "member": "Target",
+      "fieldRef": "diagnostics.active.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    },
+    {
+      "component": "diagnostics.connectedOverride",
+      "member": "Target",
+      "fieldRef": "diagnostics.connected.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    },
+    {
+      "component": "runtime.heartbeatField",
+      "member": "Field",
+      "fieldRef": "runtime.heartbeatValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.statusPortField",
+      "member": "Field",
+      "fieldRef": "runtime.statusPortValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.statusHeartbeatField",
+      "member": "Field",
+      "fieldRef": "runtime.ackValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<int>"
+    },
+    {
+      "component": "runtime.row0ForceValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row0ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row0ForceField",
+      "member": "Field",
+      "fieldRef": "runtime.row0ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row0VibrationValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row0VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row0VibrationField",
+      "member": "Field",
+      "fieldRef": "runtime.row0VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row0PainValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row0PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row0PainField",
+      "member": "Field",
+      "fieldRef": "runtime.row0PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row1ForceValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row1ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row1ForceField",
+      "member": "Field",
+      "fieldRef": "runtime.row1ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row1VibrationValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row1VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row1VibrationField",
+      "member": "Field",
+      "fieldRef": "runtime.row1VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row1PainValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row1PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row1PainField",
+      "member": "Field",
+      "fieldRef": "runtime.row1PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row2ForceValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row2ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row2ForceField",
+      "member": "Field",
+      "fieldRef": "runtime.row2ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row2VibrationValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row2VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row2VibrationField",
+      "member": "Field",
+      "fieldRef": "runtime.row2VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row2PainValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row2PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row2PainField",
+      "member": "Field",
+      "fieldRef": "runtime.row2PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row3ForceValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row3ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row3ForceField",
+      "member": "Field",
+      "fieldRef": "runtime.row3ForceValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row3VibrationValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row3VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row3VibrationField",
+      "member": "Field",
+      "fieldRef": "runtime.row3VibrationValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row3PainValueOverride",
+      "member": "Target",
+      "fieldRef": "runtime.row3PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "runtime.row3PainField",
+      "member": "Field",
+      "fieldRef": "runtime.row3PainValue.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    }
+  ],
+  "componentReferences": [
+    {
+      "component": "runtime.statusPortField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.heartbeatField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.statusHeartbeatField",
+      "member": "Handler",
+      "componentRef": "runtime.receiver",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "package.panelSprite",
+      "member": "Texture",
+      "componentRef": "package.roundedTexture",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.ITexture2D>"
+    },
+    {
+      "component": "package.background.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.background.image",
+      "member": "Material",
+      "componentRef": "package.panelMaterial",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Material>"
+    },
+    {
+      "component": "package.fontChain",
+      "member": "MainFont",
+      "componentRef": "package.mainFont",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Font>"
+    },
+    {
+      "component": "package.displayName.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.version.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.transport.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.contract.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "runtime.row0ForceField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row0VibrationField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row0PainField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row1ForceField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row1VibrationField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row1PainField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row2ForceField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row2VibrationField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row2PainField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row3ForceField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row3VibrationField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "runtime.row3PainField",
+      "member": "Handler",
+      "componentRef": "runtime.sender",
+      "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    }
+  ],
+  "fluxInputs": {
+    "PluginRoot": {
+      "slotPath": ""
+    },
+    "ConfigEndpoint": {
+      "fieldRef": "config.endpoint.Value"
+    },
+    "ConfigHeartbeatAddress": {
+      "fieldRef": "config.heartbeatAddress.Value"
+    },
+    "ConfigStatusPort": {
+      "fieldRef": "config.statusPort.Value"
+    },
+    "ConfigStatusPortAddress": {
+      "fieldRef": "config.statusPortAddress.Value"
+    },
+    "ConfigStatusHeartbeatAddress": {
+      "fieldRef": "config.statusHeartbeatAddress.Value"
+    },
+    "HandlingUser": {
+      "fieldRef": "runtime.sender.HandlingUser.User"
+    },
+    "ReceiverHandlingUser": {
+      "fieldRef": "runtime.receiver.HandlingUser.User"
+    },
+    "ReceiverPort": {
+      "fieldRef": "runtime.receiver.Port"
+    },
+    "ReceiverIsListening": {
+      "fieldRef": "runtime.receiver.IsListening"
+    },
+    "SenderURL": {
+      "fieldRef": "runtime.sender.URL"
+    },
+    "SenderIsSending": {
+      "fieldRef": "runtime.sender.IsSending"
+    },
+    "HeartbeatValue": {
+      "fieldRef": "runtime.heartbeatValue.Value"
+    },
+    "StatusPortValue": {
+      "fieldRef": "runtime.statusPortValue.Value"
+    },
+    "AckValue": {
+      "fieldRef": "runtime.ackValue.Value"
+    },
+    "AckMisses": {
+      "fieldRef": "runtime.ackMisses.Value"
+    },
+    "StatusPortPath": {
+      "fieldRef": "runtime.statusPortField.Path"
+    },
+    "HeartbeatPath": {
+      "fieldRef": "runtime.heartbeatField.Path"
+    },
+    "StatusHeartbeatPath": {
+      "fieldRef": "runtime.statusHeartbeatField.Path"
+    },
+    "DiagnosticsActive": {
+      "fieldRef": "diagnostics.active.Value"
+    },
+    "DiagnosticsConnected": {
+      "fieldRef": "diagnostics.connected.Value"
+    },
+    "PackageVisualActive": {
+      "slotField": {
+        "slotPath": "Package/Visual",
+        "slotMember": "IsActive"
+      }
+    },
+    "PackageGrabbableEnabled": {
+      "fieldRef": "package.grabbable.Enabled"
+    },
+    "PackageColliderEnabled": {
+      "fieldRef": "package.collider.Enabled"
+    },
+    "PackageInstalled": {
+      "fieldRef": "package.installed.Value"
+    },
+    "Row0ForcePath": {
+      "fieldRef": "runtime.row0ForceField.Path"
+    },
+    "Row0ForceValue": {
+      "fieldRef": "runtime.row0ForceValue.Value"
+    },
+    "Row0VibrationPath": {
+      "fieldRef": "runtime.row0VibrationField.Path"
+    },
+    "Row0VibrationValue": {
+      "fieldRef": "runtime.row0VibrationValue.Value"
+    },
+    "Row0PainPath": {
+      "fieldRef": "runtime.row0PainField.Path"
+    },
+    "Row0PainValue": {
+      "fieldRef": "runtime.row0PainValue.Value"
+    },
+    "Row1ForcePath": {
+      "fieldRef": "runtime.row1ForceField.Path"
+    },
+    "Row1ForceValue": {
+      "fieldRef": "runtime.row1ForceValue.Value"
+    },
+    "Row1VibrationPath": {
+      "fieldRef": "runtime.row1VibrationField.Path"
+    },
+    "Row1VibrationValue": {
+      "fieldRef": "runtime.row1VibrationValue.Value"
+    },
+    "Row1PainPath": {
+      "fieldRef": "runtime.row1PainField.Path"
+    },
+    "Row1PainValue": {
+      "fieldRef": "runtime.row1PainValue.Value"
+    },
+    "Row2ForcePath": {
+      "fieldRef": "runtime.row2ForceField.Path"
+    },
+    "Row2ForceValue": {
+      "fieldRef": "runtime.row2ForceValue.Value"
+    },
+    "Row2VibrationPath": {
+      "fieldRef": "runtime.row2VibrationField.Path"
+    },
+    "Row2VibrationValue": {
+      "fieldRef": "runtime.row2VibrationValue.Value"
+    },
+    "Row2PainPath": {
+      "fieldRef": "runtime.row2PainField.Path"
+    },
+    "Row2PainValue": {
+      "fieldRef": "runtime.row2PainValue.Value"
+    },
+    "Row3ForcePath": {
+      "fieldRef": "runtime.row3ForceField.Path"
+    },
+    "Row3ForceValue": {
+      "fieldRef": "runtime.row3ForceValue.Value"
+    },
+    "Row3VibrationPath": {
+      "fieldRef": "runtime.row3VibrationField.Path"
+    },
+    "Row3VibrationValue": {
+      "fieldRef": "runtime.row3VibrationValue.Value"
+    },
+    "Row3PainPath": {
+      "fieldRef": "runtime.row3PainField.Path"
+    },
+    "Row3PainValue": {
+      "fieldRef": "runtime.row3PainValue.Value"
+    },
+    "ConfigChannelPrefix": {
+      "fieldRef": "config.channelPrefix.Value"
+    },
+    "CanReportConnection": {
+      "fieldRef": "manifest.canReportConnection.Value"
+    }
+  },
+  "sceneComponentReferences": [],
+  "slotFieldReferences": [],
+  "localSlotReferences": [
+    {
+      "component": "package.dropReference",
+      "member": "Reference",
+      "slotPath": "",
+      "targetType": "[FrooxEngine]FrooxEngine.Slot"
+    }
+  ]
+}

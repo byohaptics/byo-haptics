@@ -19,6 +19,15 @@ const replace = (path, pattern, replacement) => {
   const content = fs.readFileSync(url, "utf8");
   fs.writeFileSync(url, content.replace(pattern, replacement));
 };
+const updatePluginSpec = (path) => {
+  const url = new URL(`../${path}`, import.meta.url);
+  const spec = JSON.parse(fs.readFileSync(url, "utf8"));
+  for (const slot of spec.slots) for (const component of slot.components ?? []) {
+    if (component.alias === "manifest.pluginVersion") component.members.Value.value = `v${version}`;
+    if (component.alias === "package.version.text") component.members.Content.value = `v${version}`;
+  }
+  fs.writeFileSync(url, `${JSON.stringify(spec, null, 2)}\n`);
+};
 const keys = paths[target];
 let owner = versions;
 for (const key of keys.slice(0, -1)) owner = owner[key];
@@ -48,8 +57,10 @@ if (target === "product") {
   }
 } else if (target === "joycon-osc") {
   replace("docs/joycon-plugin.md", /^- Plugin version: `[^`]+`$/m, `- Plugin version: \`${version}\``);
+  updatePluginSpec("specs/joycon-osc-plugin.resoslots.json");
 } else if (target === "haptira-osc") {
   replace("docs/haptira-plugin.md", /^- Plugin version: `[^`]+`$/m, `- Plugin version: \`${version}\``);
+  updatePluginSpec("specs/haptira-osc-plugin.resoslots.json");
 } else if (target === "joycon-bridge-api") {
   replace("docs/joycon-plugin.md", /^- Bridge API version: `[^`]+`$/m, `- Bridge API version: \`${version}\``);
 }

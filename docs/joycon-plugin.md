@@ -26,7 +26,7 @@ Unknown Target values are not sent. Row number is not a device address.
 For each valid row and supported sensation, send:
 
 ```text
-/byohaptics/joycon/<target>/<sensation> <float 0..1>
+/avatar/parameters/joyconrumble/channel/<target>/<sensation> <float 0..1>
 ```
 
 Supported sensation path names are `force`, `vibration`, and `pain`. Temperature is reserved and is not sent in version `0.1.0`.
@@ -34,6 +34,14 @@ Supported sensation path names are `force`, `vibration`, and `pain`. Temperature
 ## Registration And Acknowledgement
 
 When the host becomes locally active, the plugin registers its acknowledgement port with the bridge once per second until a heartbeat is received. It sends sensation values only while heartbeat is current. If heartbeat expires, it stops output, reports disconnected, and resumes registration attempts.
+
+Registration, heartbeat, and acknowledgement use:
+
+```text
+/avatar/parameters/joyconrumble/status/port <int32 port>
+/avatar/parameters/joyconrumble/heartbeat <int32 sequence>
+/avatar/parameters/joyconrumble/status/heartbeat <int32 echoed-sequence>
+```
 
 When the host becomes inactive, the plugin stops its receiver and releases the acknowledgement port.
 
