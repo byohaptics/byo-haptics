@@ -1,0 +1,34 @@
+/// Calculates the panel reset transform from the pressing user's avatar.
+module PanelResetFromUser
+
+in User: User
+
+out AvatarRoot: Slot
+out GlobalPosition: float3
+out GlobalRotation: floatQ
+
+use AvatarRootFromUser
+
+where {
+    AvatarRoot = AvatarRootFromUser(User=User).Root;
+    UserRootSlotValue = UserRootSlot(User=User);
+    UserRoot = GetActiveUserRoot(Instance=UserRootSlotValue);
+
+    UserHeadPosition = HeadPosition(UserRoot=UserRoot);
+    HeadForward = HeadFacingDirection(UserRoot=UserRoot);
+    HeadForwardParts = Unpack_Float3(V=HeadForward);
+    HorizontalForwardRaw = Pack_Float3(
+        X=HeadForwardParts.X,
+        Y=0.0,
+        Z=HeadForwardParts.Z);
+    HorizontalForward = HorizontalForwardRaw->Normalized_Float3;
+    WorldUp = Pack_Float3(X=0.0, Y=1.0, Z=0.0);
+
+    GlobalPosition =
+        UserHeadPosition
+        + HorizontalForward * 1.0
+        + WorldUp * 0.1925;
+    GlobalRotation = LookRotation_floatQ(
+        Forward=HorizontalForward,
+        Up=WorldUp);
+}

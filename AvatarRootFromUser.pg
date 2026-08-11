@@ -1,0 +1,41 @@
+/// Resolves the equipped avatar root as the direct User Root child that owns
+/// the user's mapped Head body node.
+module AvatarRootFromUser
+
+in User: User
+out Root: Slot
+
+where {
+    UserRoot = UserRootSlot(User=User);
+    Head = BodyNodeSlot(
+        Source=User,
+        Node=BodyNode.Head);
+
+    Parent1 = GetParentSlot(Instance=Head);
+    Parent2 = GetParentSlot(Instance=Parent1);
+    Parent3 = GetParentSlot(Instance=Parent2);
+    Parent4 = GetParentSlot(Instance=Parent3);
+    Parent5 = GetParentSlot(Instance=Parent4);
+    Parent6 = GetParentSlot(Instance=Parent5);
+    Parent7 = GetParentSlot(Instance=Parent6);
+    Parent8 = GetParentSlot(Instance=Parent7);
+    Parent9 = GetParentSlot(Instance=Parent8);
+    Parent10 = GetParentSlot(Instance=Parent9);
+    Parent11 = GetParentSlot(Instance=Parent10);
+    Parent12 = GetParentSlot(Instance=Parent11);
+
+    Root =
+        if GetParentSlot(Instance=Head) == UserRoot then Head
+        else if GetParentSlot(Instance=Parent1) == UserRoot then Parent1
+        else if GetParentSlot(Instance=Parent2) == UserRoot then Parent2
+        else if GetParentSlot(Instance=Parent3) == UserRoot then Parent3
+        else if GetParentSlot(Instance=Parent4) == UserRoot then Parent4
+        else if GetParentSlot(Instance=Parent5) == UserRoot then Parent5
+        else if GetParentSlot(Instance=Parent6) == UserRoot then Parent6
+        else if GetParentSlot(Instance=Parent7) == UserRoot then Parent7
+        else if GetParentSlot(Instance=Parent8) == UserRoot then Parent8
+        else if GetParentSlot(Instance=Parent9) == UserRoot then Parent9
+        else if GetParentSlot(Instance=Parent10) == UserRoot then Parent10
+        else if GetParentSlot(Instance=Parent11) == UserRoot then Parent11
+        else Parent12;
+}

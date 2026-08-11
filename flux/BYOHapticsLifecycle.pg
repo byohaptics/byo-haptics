@@ -1,0 +1,121 @@
+﻿/// Install, uninstall, close, and panel visibility lifecycle.
+module BYOHapticsLifecycle
+
+in InstallButton: IButton global
+in CloseButton: IButton global
+in ContextUninstallButton: IButton global
+
+in ToolRoot: Slot element
+in ToolGrabbable: Grabbable element
+
+in ToolGrabbableLastParent: Slot mutable
+in ToolGrabbableLastParentIsUserSpace: bool mutable
+in Installed: bool mutable
+in PanelVisible: bool mutable
+
+use PanelResetFromUser
+
+where {
+    WorldRoot = RootSlot;
+    ToolParent = GetParentSlot(Instance=ToolRoot);
+    IsDirectlyUnderWorldRoot = ToolParent == WorldRoot;
+    ToolGrabbableComponent = ObjectCast<Grabbable,IComponent>(Input=ToolGrabbable);
+
+    OnLoaded(Trigger=If(
+        Condition=IsDirectlyUnderWorldRoot,
+        OnTrue=impulse {
+            Installed <- false;
+            PanelVisible <- true;
+            ToolGrabbableLastParent <- WorldRoot;
+            ToolGrabbableLastParentIsUserSpace <- false;
+        }));
+
+    switch ButtonEvents(Button=InstallButton)
+    | Pressed InstallEvent |>
+        switch If(Condition=Installed)
+        | OnTrue |> impulse {
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=false);
+            Installed <- false;
+            PanelVisible <- true;
+            ToolGrabbableLastParent <- WorldRoot;
+            ToolGrabbableLastParentIsUserSpace <- false;
+            ToolRoot->SetParent(
+                NewParent=WorldRoot,
+                PreserveGlobalPosition=true);
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=true);
+        }
+        | OnFalse |> impulse {
+            InstallUser = GetUserFromComponent(
+                Instance=ObjectCast<Component,IComponent>(Input=InstallEvent.Source));
+            InstallReset = PanelResetFromUser(User=InstallUser);
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=false);
+            Installed <- true;
+            ToolGrabbableLastParent <- InstallReset.AvatarRoot;
+            ToolGrabbableLastParentIsUserSpace <- false;
+            ToolRoot->SetGlobalPositionRotation(
+                Position=InstallReset.GlobalPosition,
+                Rotation=InstallReset.GlobalRotation);
+            ToolRoot->SetParent(
+                NewParent=InstallReset.AvatarRoot,
+                PreserveGlobalPosition=true);
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=true);
+        };
+
+    switch ButtonEvents(Button=CloseButton)
+    | Pressed |>
+        switch If(Condition=Installed)
+        | OnTrue |> PanelVisible <- false
+        | OnFalse |> DestroySlot(
+            Instance=ToolRoot,
+            PreserveAssets=false,
+            SendDestroyingEvent=true);
+
+    switch ButtonEvents(Button=ContextUninstallButton)
+    | Pressed ContextInstallEvent |>
+        switch If(Condition=Installed)
+        | OnTrue |> impulse {
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=false);
+            Installed <- false;
+            PanelVisible <- true;
+            ToolGrabbableLastParent <- WorldRoot;
+            ToolGrabbableLastParentIsUserSpace <- false;
+            ToolRoot->SetParent(
+                NewParent=WorldRoot,
+                PreserveGlobalPosition=true);
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=true);
+        }
+        | OnFalse |> impulse {
+            // Context menu presses do not reliably map Source back to the pressing user.
+            // The context menu is local interaction, so use LocalUser for the install target.
+            ContextInstallUser = LocalUser;
+            ContextInstallReset = PanelResetFromUser(User=ContextInstallUser);
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=false);
+            Installed <- true;
+            ToolGrabbableLastParent <- ContextInstallReset.AvatarRoot;
+            ToolGrabbableLastParentIsUserSpace <- false;
+            ToolRoot->SetGlobalPositionRotation(
+                Position=ContextInstallReset.GlobalPosition,
+                Rotation=ContextInstallReset.GlobalRotation);
+            ToolRoot->SetParent(
+                NewParent=ContextInstallReset.AvatarRoot,
+                PreserveGlobalPosition=true);
+            SetComponentEnabled(
+                Component=ToolGrabbableComponent,
+                State=true);
+        };
+}
+
