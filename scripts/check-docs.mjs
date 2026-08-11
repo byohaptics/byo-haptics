@@ -13,6 +13,7 @@ const required = [
   "docs/haptira-plugin.md",
   "docs/slotspec.md",
   "docs/host-ui.md",
+  "docs/implementation-map.md",
   "docs/lifecycle.md",
   "docs/limitations.md",
   "docs/sampler.md",

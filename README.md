@@ -12,6 +12,7 @@ Version `0.1.0` is under reconstruction and is not a release.
 
 - [Project scope](docs/project-scope.md)
 - [Architecture](docs/architecture.md)
+- [Implementation map](docs/implementation-map.md)
 - [Output plugin contract](docs/output-plugin-contract.md)
 - [Joy-Con Bridge](docs/joycon-bridge.md)
 - [Building and verification](docs/building.md)

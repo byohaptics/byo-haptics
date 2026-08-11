@@ -65,6 +65,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Run `ponytail-review` and apply accepted reductions.
 - [x] Commit the reproducible static build.
 - [x] Verify the Bridge release archive contains no private build path or hardware identifier.
+- [x] Audit Host, both Plugin Packages, and Bridge sources against the current functional baseline.
 
 ## Phase 6: Live Verification
 
