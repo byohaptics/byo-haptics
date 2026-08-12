@@ -3,7 +3,9 @@ module BYOHapticsJoyConOSCOutput
 
 in PluginRoot: Slot element
 in CanReportConnection: bool
-in ConfigEndpoint: Uri
+in ConfigBridgeAddress: string
+in ConfigBridgePort: int
+in ConfigEndpoint: Uri mutable
 in ConfigHeartbeatAddress: string
 in ConfigStatusPort: int
 in ConfigStatusPortAddress: string
@@ -76,10 +78,21 @@ where {
     BusTarget2 = ~input<string>("BYOHaptics.Output.v1/Target2");
     BusTarget3 = ~input<string>("BYOHaptics.Output.v1/Target3");
 
+    EndpointScheme = ConcatenateString(A="osc://", B=ConfigBridgeAddress);
+    EndpointHost = ConcatenateString(A=EndpointScheme, B=":");
+    EndpointPort = ToString_Int(V=ConfigBridgePort);
+    EndpointText = ConcatenateString(A=EndpointHost, B=EndpointPort);
+    EndpointCandidate = uri(EndpointText);
+    EscapedBridgeAddress = EscapeUriDataString(String=ConfigBridgeAddress);
+    AddressPresent = StringLength(A=ConfigBridgeAddress) > 0;
+    AddressValid = if AddressPresent then EscapedBridgeAddress == ConfigBridgeAddress else false;
+    PortValid = if ConfigBridgePort > 0 then ConfigBridgePort < 65536 else false;
+    ConfigurationValid = if AddressValid then (if PortValid then not IsNull(Instance=EndpointCandidate) else false) else false;
+
     PluginParent = GetParentSlot(Instance=PluginRoot);
     PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
     Selected = BusPluginId.Value == ThisPluginId;
-    ActiveState =
+    BusSelectionActive =
         if BusContractVersion.HasValue then
             (if BusContractVersion.Value == 1 then
                 (if BusActive.HasValue then
@@ -87,6 +100,7 @@ where {
                 else false)
             else false)
         else false;
+    ActiveState = if BusSelectionActive then ConfigurationValid else false;
     ConnectedState =
         if ActiveState then
             (if ReceiverIsListening then AckMisses < 4 else false)
@@ -132,7 +146,8 @@ where {
     OutputRow3Pain = if ConnectedState then (if Row3TargetValid then BusRow3Pain.Value->Clamp01_Float else 0.0) else 0.0;
 
     OnLoaded(Trigger=impulse {
-        SenderURL <- ConfigEndpoint;
+        ConfigEndpoint <- EndpointCandidate;
+        SenderURL <- EndpointCandidate;
         StatusPortValue <- if ActiveState then ConfigStatusPort else 0;
         StatusPortPath <- ConfigStatusPortAddress;
         HeartbeatPath <- ConfigHeartbeatAddress;
@@ -229,7 +244,8 @@ where {
 
     switch LocalUpdate
     | OnUpdate |> impulse {
-        SenderURL <- ConfigEndpoint;
+        ConfigEndpoint <- EndpointCandidate;
+        SenderURL <- EndpointCandidate;
         StatusPortPath <- ConfigStatusPortAddress;
         HeartbeatPath <- ConfigHeartbeatAddress;
         StatusHeartbeatPath <- ConfigStatusHeartbeatAddress;

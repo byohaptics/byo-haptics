@@ -10,6 +10,8 @@ The first live deployment completed in `byohaptics World` under Resonite user `b
 
 Joy-Con Bridge and Plugin defaults now use `9010/UDP` to avoid common face-tracking ports. Bridge controller bindings default to `bluetooth_address = "auto"`, which selects the first connected controller of each configured side; an explicit address remains available for disambiguation. Live Force tests passed end to end: Row 0/Target `left` drove Joy-Con (L), and Row 1/Target `right` drove Joy-Con (R).
 
+The Joy-Con Plugin Package card exposes configurable Bridge Address and Port fields, defaulting to `localhost:9010`. Live readback confirmed both editors target their Config fields and that changing the Port updates the OSC Sender URL immediately. The acknowledgement receiver remains on its separate port.
+
 Haptira OSC live tests also passed for Row 0/Target `00`, Row 1/Target `01`, and Row 2/Target `02`. The planned upper-channel case remains untested.
 
 No functional Resonite test has been completed. No GitHub repository has been created or pushed.

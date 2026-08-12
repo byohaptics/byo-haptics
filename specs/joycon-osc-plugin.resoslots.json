@@ -86,12 +86,32 @@
       "path": "Config",
       "components": [
         {
+          "alias": "config.bridgeAddress",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "localhost"
+            }
+          }
+        },
+        {
+          "alias": "config.bridgePort",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 9010
+            }
+          }
+        },
+        {
           "alias": "config.endpoint",
           "type": "[FrooxEngine]FrooxEngine.ValueField<Uri>",
           "members": {
             "Value": {
               "type": "uri",
-              "value": "osc://127.0.0.1:9010"
+              "value": "osc://localhost:9010"
             }
           }
         },
@@ -1000,7 +1020,7 @@
               "type": "float2",
               "value": {
                 "x": 420,
-                "y": 220
+                "y": 340
               }
             },
             "UnitScale": {
@@ -1043,7 +1063,7 @@
               "type": "float3",
               "value": {
                 "x": 420,
-                "y": 220,
+                "y": 340,
                 "z": 8
               }
             }
@@ -1122,6 +1142,53 @@
             "OffsetFactor": {
               "type": "float",
               "value": 1
+            },
+            "OffsetUnits": {
+              "type": "float",
+              "value": 100
+            }
+          }
+        },
+        {
+          "alias": "package.backingMaterial",
+          "type": "[FrooxEngine]FrooxEngine.UI_UnlitMaterial",
+          "members": {
+            "AlphaCutoff": {
+              "type": "float",
+              "value": 0.5
+            },
+            "AlphaClip": {
+              "type": "bool",
+              "value": true
+            },
+            "TextureMode": {
+              "type": "enum",
+              "value": "DirectColor",
+              "enumType": "UnlitTextureMode"
+            },
+            "BlendMode": {
+              "type": "enum",
+              "value": "Alpha",
+              "enumType": "BlendMode"
+            },
+            "Sidedness": {
+              "type": "enum",
+              "value": "Back",
+              "enumType": "Sidedness"
+            },
+            "ZWrite": {
+              "type": "enum",
+              "value": "On",
+              "enumType": "ZWrite"
+            },
+            "ZTest": {
+              "type": "enum",
+              "value": "LessOrEqual",
+              "enumType": "ZTest"
+            },
+            "OffsetFactor": {
+              "type": "float",
+              "value": -1
             },
             "OffsetUnits": {
               "type": "float",
@@ -1239,6 +1306,70 @@
       ]
     },
     {
+      "path": "Package/Visual/Background/Backing",
+      "components": [
+        {
+          "alias": "package.backing.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.backing.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.045,
+                "g": 0.055,
+                "b": 0.075,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
       "path": "Package/Visual/Accent",
       "orderOffset": 5,
       "components": [
@@ -1250,7 +1381,7 @@
               "type": "float2",
               "value": {
                 "x": 0,
-                "y": 0.88
+                "y": 0.9223529411764706
               }
             },
             "AnchorMax": {
@@ -1681,6 +1812,704 @@
         }
       ],
       "orderOffset": 30
+    },
+    {
+      "path": "Package/Visual/Content/Bridge Address",
+      "orderOffset": 50,
+      "components": [
+        {
+          "alias": "package.bridgeAddress.row.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {}
+        },
+        {
+          "alias": "package.bridgeAddress.row.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.HorizontalLayout",
+          "members": {
+            "Spacing": {
+              "type": "float",
+              "value": 12
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "LayoutHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "LayoutVerticalAlignment"
+            },
+            "ForceExpandWidth": {
+              "type": "bool",
+              "value": false
+            },
+            "ForceExpandHeight": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.bridgeAddress.row.layoutElement",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 52
+            },
+            "PreferredHeight": {
+              "type": "float",
+              "value": 52
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Bridge Address/Label",
+      "components": [
+        {
+          "alias": "package.bridgeAddress.label.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Bridge Address"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "Geometric",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 1
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 32
+            }
+          }
+        },
+        {
+          "alias": "package.bridgeAddress.label.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "PreferredWidth": {
+              "type": "float",
+              "value": 160
+            },
+            "FlexibleWidth": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Bridge Address/Input",
+      "components": [
+        {
+          "alias": "package.bridgeAddress.input.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {}
+        },
+        {
+          "alias": "package.bridgeAddress.input.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.108,
+                "g": 0.122,
+                "b": 0.145,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.bridgeAddress.input.button",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Button"
+        },
+        {
+          "alias": "package.bridgeAddress.input.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.OverlappingLayout",
+          "members": {
+            "PaddingTop": {
+              "type": "float",
+              "value": 6
+            },
+            "PaddingRight": {
+              "type": "float",
+              "value": 14
+            },
+            "PaddingBottom": {
+              "type": "float",
+              "value": 6
+            },
+            "PaddingLeft": {
+              "type": "float",
+              "value": 14
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "LayoutHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "LayoutVerticalAlignment"
+            },
+            "ForceExpandWidth": {
+              "type": "bool",
+              "value": true
+            },
+            "ForceExpandHeight": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.bridgeAddress.input.layoutElement",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "PreferredWidth": {
+              "type": "float",
+              "value": 190
+            },
+            "PreferredHeight": {
+              "type": "float",
+              "value": 52
+            },
+            "FlexibleWidth": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "package.bridgeAddress.input.textField",
+          "type": "[FrooxEngine]FrooxEngine.UIX.TextField"
+        },
+        {
+          "alias": "package.bridgeAddress.input.textEditor",
+          "type": "[FrooxEngine]FrooxEngine.TextEditor",
+          "members": {
+            "Undo": {
+              "type": "bool",
+              "value": true
+            },
+            "UndoDescription": {
+              "type": "string",
+              "value": "Change Bridge Address"
+            },
+            "FinishHandling": {
+              "type": "enum",
+              "value": "LeaveAsIs",
+              "enumType": "FinishAction"
+            },
+            "AutoCaretColorField": {
+              "type": "bool",
+              "value": true
+            },
+            "CaretColorField": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "SelectionColorField": {
+              "type": "colorX",
+              "value": {
+                "r": 0.0598,
+                "g": 0.3188,
+                "b": 0.478,
+                "a": 0.5,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.bridgeAddress.input.editor",
+          "type": "[FrooxEngine]FrooxEngine.PrimitiveMemberEditor",
+          "members": {
+            "Continuous": {
+              "type": "bool",
+              "value": true
+            },
+            "_path": {
+              "type": "string",
+              "value": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Bridge Address/Input/Text",
+      "components": [
+        {
+          "alias": "package.bridgeAddress.input.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "localhost"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "Geometric",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 1
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 32
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Port",
+      "orderOffset": 60,
+      "components": [
+        {
+          "alias": "package.bridgePort.row.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {}
+        },
+        {
+          "alias": "package.bridgePort.row.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.HorizontalLayout",
+          "members": {
+            "Spacing": {
+              "type": "float",
+              "value": 12
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "LayoutHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "LayoutVerticalAlignment"
+            },
+            "ForceExpandWidth": {
+              "type": "bool",
+              "value": false
+            },
+            "ForceExpandHeight": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.bridgePort.row.layoutElement",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 52
+            },
+            "PreferredHeight": {
+              "type": "float",
+              "value": 52
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Port/Label",
+      "components": [
+        {
+          "alias": "package.bridgePort.label.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Port"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "Geometric",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 1
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 32
+            }
+          }
+        },
+        {
+          "alias": "package.bridgePort.label.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "PreferredWidth": {
+              "type": "float",
+              "value": 160
+            },
+            "FlexibleWidth": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Port/Input",
+      "components": [
+        {
+          "alias": "package.bridgePort.input.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {}
+        },
+        {
+          "alias": "package.bridgePort.input.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.108,
+                "g": 0.122,
+                "b": 0.145,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.bridgePort.input.button",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Button"
+        },
+        {
+          "alias": "package.bridgePort.input.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.OverlappingLayout",
+          "members": {
+            "PaddingTop": {
+              "type": "float",
+              "value": 6
+            },
+            "PaddingRight": {
+              "type": "float",
+              "value": 14
+            },
+            "PaddingBottom": {
+              "type": "float",
+              "value": 6
+            },
+            "PaddingLeft": {
+              "type": "float",
+              "value": 14
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "LayoutHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "LayoutVerticalAlignment"
+            },
+            "ForceExpandWidth": {
+              "type": "bool",
+              "value": true
+            },
+            "ForceExpandHeight": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.bridgePort.input.layoutElement",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "PreferredWidth": {
+              "type": "float",
+              "value": 190
+            },
+            "PreferredHeight": {
+              "type": "float",
+              "value": 52
+            },
+            "FlexibleWidth": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "package.bridgePort.input.textField",
+          "type": "[FrooxEngine]FrooxEngine.UIX.TextField"
+        },
+        {
+          "alias": "package.bridgePort.input.textEditor",
+          "type": "[FrooxEngine]FrooxEngine.TextEditor",
+          "members": {
+            "Undo": {
+              "type": "bool",
+              "value": true
+            },
+            "UndoDescription": {
+              "type": "string",
+              "value": "Change Bridge Port"
+            },
+            "FinishHandling": {
+              "type": "enum",
+              "value": "LeaveAsIs",
+              "enumType": "FinishAction"
+            },
+            "AutoCaretColorField": {
+              "type": "bool",
+              "value": true
+            },
+            "CaretColorField": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "SelectionColorField": {
+              "type": "colorX",
+              "value": {
+                "r": 0.0598,
+                "g": 0.3188,
+                "b": 0.478,
+                "a": 0.5,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.bridgePort.input.editor",
+          "type": "[FrooxEngine]FrooxEngine.PrimitiveMemberEditor",
+          "members": {
+            "Continuous": {
+              "type": "bool",
+              "value": true
+            },
+            "_path": {
+              "type": "string",
+              "value": ""
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Port/Input/Text",
+      "components": [
+        {
+          "alias": "package.bridgePort.input.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "9010"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "Geometric",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 1
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 32
+            }
+          }
+        }
+      ]
     },
     {
       "path": "Runtime/Fields/Row_000/Force",
@@ -2178,6 +3007,30 @@
       "member": "Field",
       "fieldRef": "runtime.row3PainValue.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
+    },
+    {
+      "component": "package.bridgeAddress.input.editor",
+      "member": "_target",
+      "fieldRef": "config.bridgeAddress.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField"
+    },
+    {
+      "component": "package.bridgeAddress.input.editor",
+      "member": "_textDrive",
+      "fieldRef": "package.bridgeAddress.input.text.Content",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
+    },
+    {
+      "component": "package.bridgePort.input.editor",
+      "member": "_target",
+      "fieldRef": "config.bridgePort.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField"
+    },
+    {
+      "component": "package.bridgePort.input.editor",
+      "member": "_textDrive",
+      "fieldRef": "package.bridgePort.input.text.Content",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
     }
   ],
   "componentReferences": [
@@ -2318,6 +3171,102 @@
       "member": "Handler",
       "componentRef": "runtime.sender",
       "targetType": "[FrooxEngine]FrooxEngine.OSC_Handler"
+    },
+    {
+      "component": "package.bridgeAddress.input.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.bridgeAddress.input.textField",
+      "member": "Editor",
+      "componentRef": "package.bridgeAddress.input.textEditor",
+      "targetType": "[FrooxEngine]FrooxEngine.TextEditor"
+    },
+    {
+      "component": "package.bridgeAddress.input.textEditor",
+      "member": "Text",
+      "componentRef": "package.bridgeAddress.input.text",
+      "targetType": "[FrooxEngine]FrooxEngine.IText"
+    },
+    {
+      "component": "package.bridgeAddress.input.editor",
+      "member": "_textEditor",
+      "componentRef": "package.bridgeAddress.input.textEditor",
+      "targetType": "[FrooxEngine]FrooxEngine.TextEditor"
+    },
+    {
+      "component": "package.bridgeAddress.input.editor",
+      "member": "_button",
+      "componentRef": "package.bridgeAddress.input.button",
+      "targetType": "[FrooxEngine]FrooxEngine.UIX.Button"
+    },
+    {
+      "component": "package.bridgePort.input.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.bridgePort.input.textField",
+      "member": "Editor",
+      "componentRef": "package.bridgePort.input.textEditor",
+      "targetType": "[FrooxEngine]FrooxEngine.TextEditor"
+    },
+    {
+      "component": "package.bridgePort.input.textEditor",
+      "member": "Text",
+      "componentRef": "package.bridgePort.input.text",
+      "targetType": "[FrooxEngine]FrooxEngine.IText"
+    },
+    {
+      "component": "package.bridgePort.input.editor",
+      "member": "_textEditor",
+      "componentRef": "package.bridgePort.input.textEditor",
+      "targetType": "[FrooxEngine]FrooxEngine.TextEditor"
+    },
+    {
+      "component": "package.bridgePort.input.editor",
+      "member": "_button",
+      "componentRef": "package.bridgePort.input.button",
+      "targetType": "[FrooxEngine]FrooxEngine.UIX.Button"
+    },
+    {
+      "component": "package.bridgeAddress.label.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.bridgeAddress.input.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.bridgePort.label.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.bridgePort.input.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.backing.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.backing.image",
+      "member": "Material",
+      "componentRef": "package.backingMaterial",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Material>"
     }
   ],
   "fluxInputs": {
@@ -2476,6 +3425,12 @@
     },
     "CanReportConnection": {
       "fieldRef": "manifest.canReportConnection.Value"
+    },
+    "ConfigBridgeAddress": {
+      "fieldRef": "config.bridgeAddress.Value"
+    },
+    "ConfigBridgePort": {
+      "fieldRef": "config.bridgePort.Value"
     }
   },
   "sceneComponentReferences": [],
