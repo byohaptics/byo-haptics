@@ -14,6 +14,7 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-12 | working tree after `f7da531` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con Bridge | Start Bridge with automatic side binding | Pass | Updated Bridge connected both paired controllers as `left`/ID 1 and `right`/ID 2 on `127.0.0.1:9010`. End-to-end rumble retest remains pending. |
 | 2026-08-12 | `d916a3d` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con Plugin and Bridge | Route Force from Row 0/Target `left` and Row 1/Target `right` | Pass | Row 0 drove Joy-Con (L), and Row 1 drove Joy-Con (R). This confirms end-to-end sampler, Output Bus, OSC, automatic side binding, and HID output for Force. |
 | 2026-08-12 | `1a8d17a` | `byohaptics` | Own world (`byohaptics World`) | Haptira OSC Plugin | Route sampler output from Row 0/Target `00`, Row 1/Target `01`, and Row 2/Target `02` | Pass | Haptira channels `00`, `01`, and `02` each drove the corresponding device output. An upper-channel test remains pending. |
+| 2026-08-12 | `1889ebb` | `byohaptics` | Own world (`byohaptics World`) | Haptira OSC Plugin card | Inspect the back of the card after adding an opaque back-only backing | Pass | Address and port controls no longer show through the back of the card. |
 
 ## Required Result Detail
 
