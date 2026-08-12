@@ -9,9 +9,8 @@ use PanelResetFromUser
 
 where {
     switch ButtonEvents(Button=PositionResetButton)
-    | Pressed PositionResetEvent |> impulse {
-        PositionResetUser = GetUserFromComponent(
-            Instance=ObjectCast<Component,IComponent>(Input=PositionResetEvent.Source));
+    | Pressed |> impulse {
+        PositionResetUser = LocalUser;
         PositionReset = PanelResetFromUser(User=PositionResetUser);
         ToolRoot->SetGlobalPositionRotation(
             Position=PositionReset.GlobalPosition,

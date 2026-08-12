@@ -16,6 +16,7 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-12 | `1a8d17a` | `byohaptics` | Own world (`byohaptics World`) | Haptira OSC Plugin | Route sampler output from Row 0/Target `00`, Row 1/Target `01`, and Row 2/Target `02` | Pass | Haptira channels `00`, `01`, and `02` each drove the corresponding device output. An upper-channel test remains pending. |
 | 2026-08-12 | `1889ebb` | `byohaptics` | Own world (`byohaptics World`) | Haptira OSC Plugin card | Inspect the back of the card after adding an opaque back-only backing | Pass | Address and port controls no longer show through the back of the card. |
 | 2026-08-12 | working tree after `54a2632` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con OSC Plugin card | Change Bridge Port from `9010` to `9011`, then restore it | Pass | Both Config Endpoint and OSC Sender URL followed `osc://localhost:9011` and returned to `osc://localhost:9010`. Address and Port editors referenced their intended Config fields. |
+| 2026-08-12 | `caf9403` | `byohaptics` | Own world (`byohaptics World`) | Host lifecycle and positioning | Install, uninstall, grab the UI panel, use context-menu Panel Position Reset, and use UI Panel Position Reset | Partial | Install, uninstall, panel grab, and context-menu reset passed. UI reset failed to return the panel to the front because its event-source user lookup did not resolve reliably. |
 
 ## Required Result Detail
 
