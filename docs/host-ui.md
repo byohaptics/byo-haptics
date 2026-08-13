@@ -1,6 +1,6 @@
 # Host UI Specification
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 ## Panel
 

@@ -22,6 +22,7 @@ for (const name of fs.readdirSync(new URL("../docs", import.meta.url)).filter((n
 const contract = readDoc("output-plugin-contract.md").match(/^- Contract integer: `([0-9]+)`$/m)?.[1];
 const joycon = readDoc("joycon-plugin.md");
 const haptira = readDoc("haptira-plugin.md");
+const demo = readDoc("demo-plugin.md");
 const bridge = readDoc("joycon-bridge.md");
 for (const [name, actual, expected] of [
   ["Output contract", contract, String(versions.outputContract)],
@@ -31,6 +32,7 @@ for (const [name, actual, expected] of [
   ["Joy-Con bridge Cargo", bridgeCargo.match(/^version = "([^"]+)"$/m)?.[1], versions.bridges.joyconRumble],
   ["Joy-Con bridge API document", bridge.match(/^- Bridge API version: `([^`]+)`$/m)?.[1], versions.bridgeApis.joyconOsc],
   ["Haptira plugin", haptira.match(/^- Plugin version: `([^`]+)`$/m)?.[1], versions.plugins.haptiraOsc],
+  ["Demo plugin", demo.match(/^- Plugin version: `([^`]+)`$/m)?.[1], versions.plugins.demo],
 ]) {
   if (actual !== expected) throw new Error(`${name}: ${actual ?? "<missing>"} != ${expected}`);
 }

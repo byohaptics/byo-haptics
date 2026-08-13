@@ -18,13 +18,15 @@ function check(path, expected) {
   expect("ContractVersion", value(components, "manifest.contractVersion"), versions.outputContract);
   expect("PluginVersion", value(components, "manifest.pluginVersion"), `v${expected.version}`);
   expect("Author", value(components, "manifest.author"), "byohaptics");
-  expect("Transport", value(components, "manifest.transport"), "osc");
+  expect("Transport", value(components, "manifest.transport"), expected.transport);
   expect("CanReportConnection", value(components, "manifest.canReportConnection"), expected.canReportConnection);
   expect("RequireCredit", value(components, "package.license", "RequireCredit"), true);
   expect("CreditString", value(components, "package.license", "CreditString"), "byohaptics");
   expect("CanExport", value(components, "package.license", "CanExport"), false);
-  expect("Card version", value(components, "package.version.text", "Content"), `v${expected.version}`);
-  expect("Card contract", value(components, "package.contract.text", "Content"), "Contract: BYOHaptics.Output.v1");
+  if (expected.cardFields !== false) {
+    expect("Card version", value(components, "package.version.text", "Content"), `v${expected.version}`);
+    expect("Card contract", value(components, "package.contract.text", "Content"), "Contract: BYOHaptics.Output.v1");
+  }
   for (const [alias, wanted] of Object.entries(expected.config)) expect(alias, value(components, alias), wanted);
 }
 
@@ -33,6 +35,7 @@ check("specs/joycon-osc-plugin.resoslots.json", {
   name: "Joy-Con OSC",
   version: versions.plugins.joyconOsc,
   canReportConnection: true,
+  transport: "osc",
   config: {
     "config.bridgeAddress": "127.0.0.1",
     "config.bridgePort": 9010,
@@ -50,6 +53,7 @@ check("specs/haptira-osc-plugin.resoslots.json", {
   name: "Haptira OSC",
   version: versions.plugins.haptiraOsc,
   canReportConnection: false,
+  transport: "osc",
   config: {
     "config.deviceAddress": "",
     "config.devicePort": 8000,
@@ -58,15 +62,46 @@ check("specs/haptira-osc-plugin.resoslots.json", {
   },
 });
 
+check("specs/demo-output-plugin.resoslots.json", {
+  id: "io.github.byohaptics.output.demo",
+  name: "Demo",
+  version: versions.plugins.demo,
+  canReportConnection: true,
+  transport: "scene",
+  cardFields: false,
+  config: {},
+});
+
+const demoSpec = JSON.parse(fs.readFileSync(new URL("../specs/demo-output-plugin.resoslots.json", import.meta.url), "utf8"));
+const demoComponents = new Map(demoSpec.slots.flatMap((slot) => (slot.components ?? []).map((component) => [component.alias, component])));
+for (const alias of ["device.left.intensity", "device.right.intensity"]) {
+  if (!demoComponents.has(alias)) throw new Error(`Demo device component missing: ${alias}`);
+}
+for (const [input, path] of [["LeftPosition", "Devices/Left"], ["RightPosition", "Devices/Right"]]) {
+  const actual = demoSpec.fluxInputs?.[input]?.slotField;
+  if (actual?.slotPath !== path || actual?.slotMember !== "Position") {
+    throw new Error(`Demo ${input} must directly reference ${path}.Position`);
+  }
+}
+
 for (const [path, id] of [
   ["flux/BYOHapticsJoyConOSCOutput.pg", "io.github.byohaptics.output.joycon.osc"],
   ["flux/BYOHapticsHaptiraOSCOutput.pg", "io.github.byohaptics.output.haptira.osc"],
+  ["flux/BYOHapticsDemoOutput.pg", "io.github.byohaptics.output.demo"],
 ]) {
   const graph = fs.readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
   if (!graph.includes(`ThisPluginId = "${id}"`)) throw new Error(`${path}: incorrect PluginId`);
   if (!graph.includes("BYOHaptics.Output.v1/Active")) throw new Error(`${path}: contract namespace missing`);
   if (!graph.includes("BusContractVersion.Value == 1")) throw new Error(`${path}: contract integer check missing`);
   if (/BYOHaptics\.Output\.v2|BusContractVersion\.Value == 2/.test(graph)) throw new Error(`${path}: legacy contract remains`);
+  if (path.includes("Demo")) {
+    for (const target of ["left", "right"]) {
+      if (!graph.includes(`== "${target}"`)) throw new Error(`${path}: Target ${target} routing missing`);
+    }
+    if (!graph.includes("LeftPosition <- LeftPositionValue") || !graph.includes("RightPosition <- RightPositionValue")) {
+      throw new Error(`${path}: direct device Position writers missing`);
+    }
+  }
 }
 
 console.log("Plugin Package manifests and defaults are consistent");

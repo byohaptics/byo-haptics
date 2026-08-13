@@ -18,12 +18,14 @@ Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Ha
 
 Both Plugin Package SlotSpecs now include the same `License` policy as the Host: credit required, credit string `byohaptics`, and export disabled. The source change requires rebuilding and redeploying both Plugin Packages before the live objects contain these components.
 
+The Demo Output Plugin source is implemented at version `0.1.0`. Its package owns blue `LEFT` and red `RIGHT` simulated devices, routes Targets `left` and `right`, combines each row's four sensations by maximum value, and directly alternates each device's Slot position by up to one centimetre. The 19-slot, 39-component SlotSpec validates and all three Plugin graphs compile. AutoDiscovery found the live `Local` ResoniteLink session, the package was rebuilt under World Root, and its graph deployed with 406 responses and zero module-discovery errors. Direct drop and HapticVolume interaction remain pending.
+
 ## Next Task
 
-Rebuild and redeploy both Plugin Packages, then verify their root `License` components in Resonite.
+Deploy the Demo Output Plugin and verify direct drop, `left`/`right` routing, visible vibration, and zero-state return with two configured sampler rows.
 
 ## Blocking Decisions
 
-- Live Resonite access for Plugin Package rebuild and verification.
+- User VR interaction for Demo Plugin direct-drop and HapticVolume verification.
 
 Neither decision blocks local specification and reconstruction work.

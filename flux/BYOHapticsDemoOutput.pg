@@ -1,0 +1,125 @@
+/// Scene-local demo output plugin with package-owned left and right devices.
+module BYOHapticsDemoOutput
+
+in PluginRoot: Slot element
+in CanReportConnection: bool
+in Phase: bool mutable
+in DiagnosticsActive: bool mutable
+in DiagnosticsConnected: bool mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+in LeftPosition: float3 mutable
+in RightPosition: float3 mutable
+in LeftIntensity: float mutable
+in RightIntensity: float mutable
+
+where {
+    User = LocalUser;
+    ThisPluginId = "io.github.byohaptics.output.demo";
+
+    BusActive = ~input<bool>("BYOHaptics.Output.v1/Active");
+    BusContractVersion = ~input<int>("BYOHaptics.Output.v1/ContractVersion");
+    BusPluginId = ~input<string>("BYOHaptics.Output.v1/SelectedPluginId");
+    BusRow0Force = ~input<float>("BYOHaptics.Output.v1/Row0Force");
+    BusRow0Vibration = ~input<float>("BYOHaptics.Output.v1/Row0Vibration");
+    BusRow0Pain = ~input<float>("BYOHaptics.Output.v1/Row0Pain");
+    BusRow0Temperature = ~input<float>("BYOHaptics.Output.v1/Row0Temperature");
+    BusRow1Force = ~input<float>("BYOHaptics.Output.v1/Row1Force");
+    BusRow1Vibration = ~input<float>("BYOHaptics.Output.v1/Row1Vibration");
+    BusRow1Pain = ~input<float>("BYOHaptics.Output.v1/Row1Pain");
+    BusRow1Temperature = ~input<float>("BYOHaptics.Output.v1/Row1Temperature");
+    BusRow2Force = ~input<float>("BYOHaptics.Output.v1/Row2Force");
+    BusRow2Vibration = ~input<float>("BYOHaptics.Output.v1/Row2Vibration");
+    BusRow2Pain = ~input<float>("BYOHaptics.Output.v1/Row2Pain");
+    BusRow2Temperature = ~input<float>("BYOHaptics.Output.v1/Row2Temperature");
+    BusRow3Force = ~input<float>("BYOHaptics.Output.v1/Row3Force");
+    BusRow3Vibration = ~input<float>("BYOHaptics.Output.v1/Row3Vibration");
+    BusRow3Pain = ~input<float>("BYOHaptics.Output.v1/Row3Pain");
+    BusRow3Temperature = ~input<float>("BYOHaptics.Output.v1/Row3Temperature");
+    BusTarget0 = ~input<string>("BYOHaptics.Output.v1/Target0");
+    BusTarget1 = ~input<string>("BYOHaptics.Output.v1/Target1");
+    BusTarget2 = ~input<string>("BYOHaptics.Output.v1/Target2");
+    BusTarget3 = ~input<string>("BYOHaptics.Output.v1/Target3");
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    Selected = BusPluginId.Value == ThisPluginId;
+    ActiveState =
+        if BusContractVersion.HasValue then
+            (if BusContractVersion.Value == 1 then
+                (if BusActive.HasValue then
+                    (if BusPluginId.HasValue then (if BusActive.Value then Selected else false) else false)
+                else false)
+            else false)
+        else false;
+
+    Row0FV = ValueMax(A=BusRow0Force.Value, B=BusRow0Vibration.Value);
+    Row0PT = ValueMax(A=BusRow0Pain.Value, B=BusRow0Temperature.Value);
+    Row0Intensity = ValueMax(A=Row0FV, B=Row0PT)->Clamp01_Float;
+    Row0Target = if BusTarget0.HasValue then BusTarget0.Value else "";
+    Row1FV = ValueMax(A=BusRow1Force.Value, B=BusRow1Vibration.Value);
+    Row1PT = ValueMax(A=BusRow1Pain.Value, B=BusRow1Temperature.Value);
+    Row1Intensity = ValueMax(A=Row1FV, B=Row1PT)->Clamp01_Float;
+    Row1Target = if BusTarget1.HasValue then BusTarget1.Value else "";
+    Row2FV = ValueMax(A=BusRow2Force.Value, B=BusRow2Vibration.Value);
+    Row2PT = ValueMax(A=BusRow2Pain.Value, B=BusRow2Temperature.Value);
+    Row2Intensity = ValueMax(A=Row2FV, B=Row2PT)->Clamp01_Float;
+    Row2Target = if BusTarget2.HasValue then BusTarget2.Value else "";
+    Row3FV = ValueMax(A=BusRow3Force.Value, B=BusRow3Vibration.Value);
+    Row3PT = ValueMax(A=BusRow3Pain.Value, B=BusRow3Temperature.Value);
+    Row3Intensity = ValueMax(A=Row3FV, B=Row3PT)->Clamp01_Float;
+    Row3Target = if BusTarget3.HasValue then BusTarget3.Value else "";
+
+    LeftRow0 = if Row0Target == "left" then Row0Intensity else 0.0;
+    LeftRow1 = if Row1Target == "left" then Row1Intensity else 0.0;
+    LeftRow2 = if Row2Target == "left" then Row2Intensity else 0.0;
+    LeftRow3 = if Row3Target == "left" then Row3Intensity else 0.0;
+    Left01 = ValueMax(A=LeftRow0, B=LeftRow1);
+    Left23 = ValueMax(A=LeftRow2, B=LeftRow3);
+    LeftOutput = if ActiveState then ValueMax(A=Left01, B=Left23) else 0.0;
+
+    RightRow0 = if Row0Target == "right" then Row0Intensity else 0.0;
+    RightRow1 = if Row1Target == "right" then Row1Intensity else 0.0;
+    RightRow2 = if Row2Target == "right" then Row2Intensity else 0.0;
+    RightRow3 = if Row3Target == "right" then Row3Intensity else 0.0;
+    Right01 = ValueMax(A=RightRow0, B=RightRow1);
+    Right23 = ValueMax(A=RightRow2, B=RightRow3);
+    RightOutput = if ActiveState then ValueMax(A=Right01, B=Right23) else 0.0;
+
+    LeftDisplacement = LeftOutput * 0.01;
+    RightDisplacement = RightOutput * 0.01;
+    LeftX = if Phase then -0.22 + LeftDisplacement else -0.22 - LeftDisplacement;
+    RightX = if Phase then 0.22 + RightDisplacement else 0.22 - RightDisplacement;
+    LeftPositionValue = Pack_Float3(X=LeftX, Y=-0.2, Z=0.0);
+    RightPositionValue = Pack_Float3(X=RightX, Y=-0.2, Z=0.0);
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        PackageInstalled <- PackageInstalledState;
+        PackageVisualActive <- not PackageInstalledState;
+        PackageGrabbableEnabled <- not PackageInstalledState;
+        DiagnosticsActive <- ActiveState;
+        DiagnosticsConnected <- ActiveState;
+        LeftIntensity <- LeftOutput;
+        RightIntensity <- RightOutput;
+        LeftPosition <- LeftPositionValue;
+        RightPosition <- RightPositionValue;
+        Phase <- not Phase;
+    };
+
+    UpdatesTimer(
+        Interval=1,
+        UpdatingUser=User->asDrivenGlobal,
+        SkipIfNull=true,
+        OnUpdate=impulse {
+            WriteDynamicValueVariable(
+                Target=PluginRoot,
+                Path="BYOHaptics.Output.v1/ConnectionStatusAvailable",
+                Value=CanReportConnection);
+            WriteDynamicValueVariable(
+                Target=PluginRoot,
+                Path="BYOHaptics.Output.v1/Connected",
+                Value=ActiveState);
+        });
+}

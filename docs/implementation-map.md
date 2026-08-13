@@ -1,6 +1,6 @@
 # Implementation Map
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 This map ties each public requirement to its declarative source, executable source, and verification boundary. Specifications remain authoritative when a test exposes a mismatch.
 
@@ -22,8 +22,9 @@ This map ties each public requirement to its declarative source, executable sour
 
 | Package | Specification | SlotSpec and graph | Static evidence | Live evidence |
 |---|---|---|---|---|
-| Joy-Con OSC | `joycon-plugin.md` | `joycon-osc-plugin.resoslots.json`, `BYOHapticsJoyConOSCOutput.pg` | 35 slots, 95 components, contract and defaults validated | Row 0/`left` and Row 1/`right` Force passed |
-| Haptira OSC | `haptira-plugin.md` | `haptira-osc-plugin.resoslots.json`, `BYOHapticsHaptiraOSCOutput.pg` | 42 slots, 123 components, contract, defaults, and rear backing validated | Channels `00`, `01`, and `02` passed |
+| Joy-Con OSC | `joycon-plugin.md` | `joycon-osc-plugin.resoslots.json`, `BYOHapticsJoyConOSCOutput.pg` | 44 slots, 129 components, contract and defaults validated | Row 0/`left` and Row 1/`right` Force passed |
+| Haptira OSC | `haptira-plugin.md` | `haptira-osc-plugin.resoslots.json`, `BYOHapticsHaptiraOSCOutput.pg` | 42 slots, 124 components, contract, defaults, and rear backing validated | Channels `00`, `01`, `02`, and `15` passed |
+| Demo | `demo-plugin.md` | `demo-output-plugin.resoslots.json`, `BYOHapticsDemoOutput.pg` | 19 slots, 39 components, contract, routing, direct references, and defaults validated | Package and graph deployed; interaction pending |
 
 Both graphs consume the same transport-neutral Output Bus. Row Targets remain opaque to the Host and are interpreted only by the selected Plugin.
 
@@ -36,7 +37,7 @@ Both graphs consume the same transport-neutral Output Bus. Row Targets remain op
 | Force, Vibration, and Pain mapping | `joycon-bridge.md` | `sensation.rs` | Unit tests | Pending public build |
 | Fixed-rate newest-state HID output | `joycon-bridge.md` | `main.rs`, `joycon.rs` | Scheduler and coalescing tests | Pending public build |
 | Device configuration and reconnect | `joycon-bridge.md` | `config.rs`, `joycon.rs` | Configuration tests and Clippy | Pending public build |
-| CLI, GUI, trace, and IMU calibration | `building.md`, Bridge README | `main.rs`, `bin/gui.rs`, `trace.rs`, `joycon.rs` | All-target build and 31 tests | Pending public build |
+| CLI, GUI, trace, and IMU calibration | `building.md`, Bridge README | `main.rs`, `bin/gui.rs`, `trace.rs`, `joycon.rs` | All-target build and 32 tests | Passed live device tests |
 
 ## Deliberate Public Differences
 

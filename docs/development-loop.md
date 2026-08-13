@@ -1,6 +1,6 @@
 # Autonomous Development Loop
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 ## Loop
 
@@ -24,8 +24,8 @@ Each commit must leave generated inputs reproducible and static checks passing. 
 - `npm run compile:host` compiles all eight host sheets without changing a scene.
 - `npm run deploy:host` builds the SlotSpec and deploys all host sheets. It requires a running ResoniteLink endpoint and refuses to deploy unless the wrapper sets the explicit deployment gate.
 - `npm run deploy:host -- -Recreate` removes an existing World Root host with the same tool name before rebuilding it.
-- `npm run compile:plugins` compiles both public Plugin graphs without changing a scene.
-- `npm run deploy:joycon` and `npm run deploy:haptira` build and deploy one Plugin Package. Append `-- -Recreate` to replace the corresponding World Root package.
+- `npm run compile:plugins` compiles all three public Plugin graphs without changing a scene.
+- `npm run deploy:joycon`, `npm run deploy:haptira`, and `npm run deploy:demo` build and deploy one Plugin Package. To replace the corresponding World Root package on Windows, call `scripts/deploy-plugin.ps1 -Plugin <joycon|haptira|demo> -Recreate` directly.
 
 Generated IDs are written under `build/` and are valid only for the current scene build. They are never committed.
 

@@ -1,6 +1,6 @@
 # Build Plan And Tasks
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 Tasks are executed from top to bottom. A checked task must have a verification result or commit.
 
@@ -93,3 +93,9 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 - [x] Add the Host license policy to both Plugin Package SlotSpecs and static checks.
 - [ ] Rebuild and redeploy both Plugin Packages, then verify their root `License` components live.
+
+## Demo Plugin
+
+- [x] Specify direct scene-field connection, `left` and `right` routing, and simulated vibration.
+- [x] Build and compile the Demo Plugin Package and both simulated devices.
+- [ ] Validate direct drop, independent routing, vibration, and zero-state return live.

@@ -1,0 +1,229 @@
+{
+  "schema": "resonite-slotspec/v1",
+  "toolName": "io.github.byohaptics.output.demo",
+  "tag": "byo-haptics.output-plugin",
+  "fluxSlotPath": "Flux",
+  "toolParent": { "kind": "worldRoot" },
+  "slots": [
+    {
+      "path": "",
+      "components": [
+        {
+          "alias": "package.grabbable",
+          "type": "[FrooxEngine]FrooxEngine.Grabbable",
+          "members": {
+            "ReparentOnRelease": { "type": "bool", "value": true },
+            "PreserveUserSpace": { "type": "bool", "value": true },
+            "DestroyOnRelease": { "type": "bool", "value": false },
+            "EditModeOnly": { "type": "bool", "value": false },
+            "AllowSteal": { "type": "bool", "value": false },
+            "DropOnDisable": { "type": "bool", "value": true },
+            "Scalable": { "type": "bool", "value": true },
+            "Receivable": { "type": "bool", "value": true }
+          }
+        },
+        { "alias": "package.objectRoot", "type": "[FrooxEngine]FrooxEngine.ObjectRoot" },
+        {
+          "alias": "package.license",
+          "type": "[FrooxEngine]FrooxEngine.License",
+          "members": {
+            "RequireCredit": { "type": "bool", "value": true },
+            "CreditString": { "type": "string", "value": "byohaptics" },
+            "CanExport": { "type": "bool", "value": false }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Manifest",
+      "components": [
+        { "alias": "manifest.pluginId", "type": "[FrooxEngine]FrooxEngine.ValueField<string>", "members": { "Value": { "type": "string", "value": "io.github.byohaptics.output.demo" } } },
+        { "alias": "manifest.displayName", "type": "[FrooxEngine]FrooxEngine.ValueField<string>", "members": { "Value": { "type": "string", "value": "Demo" } } },
+        { "alias": "manifest.contractVersion", "type": "[FrooxEngine]FrooxEngine.ValueField<int>", "members": { "Value": { "type": "int", "value": 1 } } },
+        { "alias": "manifest.canReportConnection", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } },
+        { "alias": "manifest.transport", "type": "[FrooxEngine]FrooxEngine.ValueField<string>", "members": { "Value": { "type": "string", "value": "scene" } } },
+        { "alias": "manifest.pluginVersion", "type": "[FrooxEngine]FrooxEngine.ValueField<string>", "members": { "Value": { "type": "string", "value": "v0.1.0" } } },
+        { "alias": "manifest.author", "type": "[FrooxEngine]FrooxEngine.ValueField<string>", "members": { "Value": { "type": "string", "value": "byohaptics" } } }
+      ]
+    },
+    { "path": "Config", "components": [] },
+    {
+      "path": "Runtime",
+      "components": [
+        { "alias": "runtime.phase", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+      ]
+    },
+    {
+      "path": "Diagnostics",
+      "components": [
+        { "alias": "diagnostics.active", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } },
+        { "alias": "diagnostics.connected", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+      ]
+    },
+    { "path": "Flux", "components": [] },
+    { "path": "Package", "components": [] },
+    {
+      "path": "Package/State",
+      "components": [
+        { "alias": "package.installed", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+      ]
+    },
+    {
+      "path": "Package/Visual",
+      "scale": { "x": 0.001, "y": 0.001, "z": 0.001 },
+      "components": [
+        {
+          "alias": "package.canvas",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Canvas",
+          "members": {
+            "Size": { "type": "float2", "value": { "x": 440, "y": 150 } },
+            "UnitScale": { "type": "float", "value": 1 },
+            "PixelScale": { "type": "float", "value": 1 },
+            "DefaultCulling": { "type": "enum", "value": "Off", "enumType": "Culling" },
+            "IgnoreTouchesFromBehind": { "type": "bool", "value": true }
+          }
+        },
+        {
+          "alias": "package.collider",
+          "type": "[FrooxEngine]FrooxEngine.BoxCollider",
+          "members": {
+            "UpdateOrder": { "type": "int", "value": 1000000 },
+            "Type": { "type": "enum", "value": "Static", "enumType": "ColliderType" },
+            "IgnoreRaycasts": { "type": "bool", "value": false },
+            "Size": { "type": "float3", "value": { "x": 440, "y": 150, "z": 8 } }
+          }
+        },
+        {
+          "alias": "package.dropReference",
+          "type": "[FrooxEngine]FrooxEngine.ReferenceField<[FrooxEngine]FrooxEngine.Slot>"
+        },
+        {
+          "alias": "package.mainFont",
+          "type": "[FrooxEngine]FrooxEngine.StaticFont",
+          "members": {
+            "URL": { "type": "uri", "value": "resdb:///fcff04f4bec2b3636f05ed894dc1f9a752c4cb587ee49857ec7a82abaf6ca016.ttf" },
+            "Padding": { "type": "int", "value": 1 },
+            "PixelRange": { "type": "int", "value": 4 },
+            "GlyphEmSize": { "type": "int", "value": 32 },
+            "MipMaps": { "type": "bool", "value": true },
+            "MipMapFiltering": { "type": "enum", "value": "Box", "enumType": "Filtering" },
+            "LODBias": { "type": "float", "value": -1 }
+          }
+        },
+        { "alias": "package.fontChain", "type": "[FrooxEngine]FrooxEngine.FontChain" }
+      ]
+    },
+    {
+      "path": "Package/Visual/Background",
+      "components": [
+        { "alias": "package.background.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "package.background.image", "type": "[FrooxEngine]FrooxEngine.UIX.Image", "members": { "Tint": { "type": "colorX", "value": { "r": 0.08, "g": 0.12, "b": 0.18, "a": 1, "profile": "sRGB" } } } }
+      ]
+    },
+    {
+      "path": "Package/Visual/Title",
+      "components": [
+        { "alias": "package.title.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        {
+          "alias": "package.title.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": { "type": "string", "value": "BYO Haptics Demo Plugin\nleft / right simulated devices\nv0.1.0 · Contract v1 · Scene" },
+            "ParseRichText": { "type": "bool", "value": false },
+            "Size": { "type": "float", "value": 28 },
+            "Color": { "type": "colorX", "value": { "r": 0.92, "g": 0.95, "b": 1, "a": 1, "profile": "sRGB" } },
+            "HorizontalAlign": { "type": "enum", "value": "Center", "enumType": "TextHorizontalAlignment" },
+            "VerticalAlign": { "type": "enum", "value": "Middle", "enumType": "TextVerticalAlignment" }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Left",
+      "position": { "x": -0.22, "y": -0.2, "z": 0 },
+      "components": [
+        { "alias": "device.left.intensity", "type": "[FrooxEngine]FrooxEngine.ValueField<float>", "members": { "Value": { "type": "float", "value": 0 } } },
+        { "alias": "device.left.grabbable", "type": "[FrooxEngine]FrooxEngine.Grabbable", "members": { "ReparentOnRelease": { "type": "bool", "value": false }, "Scalable": { "type": "bool", "value": false } } },
+        { "alias": "device.left.collider", "type": "[FrooxEngine]FrooxEngine.BoxCollider", "members": { "Type": { "type": "enum", "value": "Static", "enumType": "ColliderType" }, "Size": { "type": "float3", "value": { "x": 0.18, "y": 0.1, "z": 0.03 } } } }
+      ]
+    },
+    {
+      "path": "Devices/Left/Visual",
+      "scale": { "x": 0.001, "y": 0.001, "z": 0.001 },
+      "components": [
+        { "alias": "device.left.canvas", "type": "[FrooxEngine]FrooxEngine.UIX.Canvas", "members": { "Size": { "type": "float2", "value": { "x": 180, "y": 100 } }, "DefaultCulling": { "type": "enum", "value": "Off", "enumType": "Culling" } } }
+      ]
+    },
+    {
+      "path": "Devices/Left/Visual/Background",
+      "components": [
+        { "alias": "device.left.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "device.left.image", "type": "[FrooxEngine]FrooxEngine.UIX.Image", "members": { "Tint": { "type": "colorX", "value": { "r": 0.15, "g": 0.45, "b": 0.95, "a": 1, "profile": "sRGB" } } } }
+      ]
+    },
+    {
+      "path": "Devices/Left/Visual/Label",
+      "components": [
+        { "alias": "device.left.label.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "device.left.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "LEFT" }, "Size": { "type": "float", "value": 36 }, "Color": { "type": "colorX", "value": { "r": 1, "g": 1, "b": 1, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "value": "Center", "enumType": "TextHorizontalAlignment" }, "VerticalAlign": { "type": "enum", "value": "Middle", "enumType": "TextVerticalAlignment" } } }
+      ]
+    },
+    {
+      "path": "Devices/Right",
+      "position": { "x": 0.22, "y": -0.2, "z": 0 },
+      "components": [
+        { "alias": "device.right.intensity", "type": "[FrooxEngine]FrooxEngine.ValueField<float>", "members": { "Value": { "type": "float", "value": 0 } } },
+        { "alias": "device.right.grabbable", "type": "[FrooxEngine]FrooxEngine.Grabbable", "members": { "ReparentOnRelease": { "type": "bool", "value": false }, "Scalable": { "type": "bool", "value": false } } },
+        { "alias": "device.right.collider", "type": "[FrooxEngine]FrooxEngine.BoxCollider", "members": { "Type": { "type": "enum", "value": "Static", "enumType": "ColliderType" }, "Size": { "type": "float3", "value": { "x": 0.18, "y": 0.1, "z": 0.03 } } } }
+      ]
+    },
+    {
+      "path": "Devices/Right/Visual",
+      "scale": { "x": 0.001, "y": 0.001, "z": 0.001 },
+      "components": [
+        { "alias": "device.right.canvas", "type": "[FrooxEngine]FrooxEngine.UIX.Canvas", "members": { "Size": { "type": "float2", "value": { "x": 180, "y": 100 } }, "DefaultCulling": { "type": "enum", "value": "Off", "enumType": "Culling" } } }
+      ]
+    },
+    {
+      "path": "Devices/Right/Visual/Background",
+      "components": [
+        { "alias": "device.right.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "device.right.image", "type": "[FrooxEngine]FrooxEngine.UIX.Image", "members": { "Tint": { "type": "colorX", "value": { "r": 0.95, "g": 0.25, "b": 0.25, "a": 1, "profile": "sRGB" } } } }
+      ]
+    },
+    {
+      "path": "Devices/Right/Visual/Label",
+      "components": [
+        { "alias": "device.right.label.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "device.right.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "RIGHT" }, "Size": { "type": "float", "value": 36 }, "Color": { "type": "colorX", "value": { "r": 1, "g": 1, "b": 1, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "value": "Center", "enumType": "TextHorizontalAlignment" }, "VerticalAlign": { "type": "enum", "value": "Middle", "enumType": "TextVerticalAlignment" } } }
+      ]
+    }
+  ],
+  "fieldReferences": [],
+  "componentReferences": [
+    { "component": "package.fontChain", "member": "MainFont", "componentRef": "package.mainFont", "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Font>" },
+    { "component": "package.title.text", "member": "Font", "componentRef": "package.fontChain", "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>" },
+    { "component": "device.left.text", "member": "Font", "componentRef": "package.fontChain", "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>" },
+    { "component": "device.right.text", "member": "Font", "componentRef": "package.fontChain", "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>" }
+  ],
+  "localSlotReferences": [
+    { "component": "package.dropReference", "member": "Reference", "slotPath": "", "targetType": "[FrooxEngine]FrooxEngine.Slot" }
+  ],
+  "slotFieldReferences": [],
+  "sceneSlotReferences": [],
+  "sceneComponentReferences": [],
+  "fluxInputs": {
+    "PluginRoot": { "slotPath": "" },
+    "CanReportConnection": { "fieldRef": "manifest.canReportConnection.Value" },
+    "Phase": { "fieldRef": "runtime.phase.Value" },
+    "DiagnosticsActive": { "fieldRef": "diagnostics.active.Value" },
+    "DiagnosticsConnected": { "fieldRef": "diagnostics.connected.Value" },
+    "PackageVisualActive": { "slotField": { "slotPath": "Package/Visual", "slotMember": "IsActive" } },
+    "PackageGrabbableEnabled": { "fieldRef": "package.grabbable.Enabled" },
+    "PackageInstalled": { "fieldRef": "package.installed.Value" },
+    "LeftPosition": { "slotField": { "slotPath": "Devices/Left", "slotMember": "Position" } },
+    "RightPosition": { "slotField": { "slotPath": "Devices/Right", "slotMember": "Position" } },
+    "LeftIntensity": { "fieldRef": "device.left.intensity.Value" },
+    "RightIntensity": { "fieldRef": "device.right.intensity.Value" }
+  }
+}

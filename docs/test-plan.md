@@ -1,6 +1,6 @@
 # Test Plan
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 ## Static Tests
 
@@ -37,6 +37,7 @@ Document version: `0.1.1`
 - Unknown connection state is visually distinct from confirmed disconnection.
 - Joy-Con output stops on heartbeat timeout.
 - Haptira Target values are strictly `00` through `15`.
+- Demo Target `left` and `right` independently vibrate only their matching package-owned device and return it to its base position at zero intensity.
 
 ## Joy-Con Bridge Tests
 

@@ -1,6 +1,6 @@
 # Output Plugin Contract
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 ## Contract Identity
 
@@ -37,6 +37,7 @@ Document version: `0.1.1`
 
 - `io.github.byohaptics.output.joycon.osc`
 - `io.github.byohaptics.output.haptira.osc`
+- `io.github.byohaptics.output.demo`
 
 ## Host Variables
 

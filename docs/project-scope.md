@@ -1,6 +1,6 @@
 # Project Scope
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 ## Goal
 
@@ -17,6 +17,7 @@ Build a portable Resonite avatar tool that samples four haptic sensation values 
 - Install, uninstall, panel reset, panel visibility, and context menu actions.
 - Output plugin discovery, replacement, direct card drop, and ejection.
 - Joy-Con OSC and Haptira OSC output plugins.
+- A scene-local Demo output plugin with `left` and `right` simulated devices.
 - Joy-Con Rumble Bridge for OSC reception, liveness acknowledgement, sensation mapping, and Bluetooth HID output.
 - Reproducible SlotSpec and ProtoGraph build inputs.
 

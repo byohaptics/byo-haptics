@@ -1,6 +1,6 @@
 # Building
 
-Document version: `0.1.1`
+Document version: `0.1.2`
 
 ## Requirements
 
@@ -61,6 +61,13 @@ Deployment requires a running Resonite session with ResoniteLink available to th
 npm run deploy:host
 npm run deploy:joycon
 npm run deploy:haptira
+npm run deploy:demo
+```
+
+To replace an existing Plugin Package on Windows, call the wrapper directly so the switch is preserved:
+
+```powershell
+scripts/deploy-plugin.ps1 -Plugin demo -Recreate
 ```
 
 Deployment creates fresh runtime IDs under `build/`. These files are disposable and must not be committed.
