@@ -45,4 +45,4 @@ Use `cargo run -- --dry-run` to inspect received output without opening controll
 
 The complete wire contract is in [Joy-Con Bridge](../../docs/joycon-bridge.md).
 
-Copyright 2026 byohaptica. All rights reserved.
+Licensed under the repository [MIT License](../../LICENSE).

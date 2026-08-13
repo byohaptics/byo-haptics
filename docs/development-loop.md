@@ -41,7 +41,7 @@ If a test fails because the implementation differs from a complete specification
 
 Stop and request input only for:
 
-- license selection;
+- changes to the selected MIT license;
 - creation or publication of the GitHub repository;
 - login, account, or secret configuration;
 - live Resonite, multi-user, or device tests;

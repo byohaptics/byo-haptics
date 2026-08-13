@@ -31,6 +31,4 @@ Version `0.1.0` is under reconstruction and is not a release.
 
 ## License
 
-A distribution license has not been selected. Publication is blocked until the copyright holder records that decision.
-
-Copyright 2026 byohaptica. All rights reserved.
+[MIT](LICENSE), Copyright (c) 2026 byohaptica.

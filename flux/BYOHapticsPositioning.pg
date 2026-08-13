@@ -9,7 +9,7 @@ use PanelResetFromUser
 
 where {
     switch ButtonEvents(Button=PositionResetButton)
-    | Pressed |> impulse {
+    | Released |> impulse {
         PositionResetUser = LocalUser;
         PositionReset = PanelResetFromUser(User=PositionResetUser);
         ToolRoot->SetGlobalPositionRotation(

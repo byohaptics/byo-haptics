@@ -91,7 +91,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "localhost"
+              "value": "127.0.0.1"
             }
           }
         },
@@ -111,7 +111,7 @@
           "members": {
             "Value": {
               "type": "uri",
-              "value": "osc://localhost:9010"
+              "value": "osc://127.0.0.1:9010"
             }
           }
         },
@@ -2111,7 +2111,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "localhost"
+              "value": "127.0.0.1"
             },
             "ParseRichText": {
               "type": "bool",

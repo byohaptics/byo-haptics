@@ -31,9 +31,9 @@ check("specs/joycon-osc-plugin.resoslots.json", {
   version: versions.plugins.joyconOsc,
   canReportConnection: true,
   config: {
-    "config.bridgeAddress": "localhost",
+    "config.bridgeAddress": "127.0.0.1",
     "config.bridgePort": 9010,
-    "config.endpoint": "osc://localhost:9010",
+    "config.endpoint": "osc://127.0.0.1:9010",
     "config.statusPort": 9002,
     "config.heartbeatAddress": "/avatar/parameters/joyconrumble/heartbeat",
     "config.statusPortAddress": "/avatar/parameters/joyconrumble/status/port",

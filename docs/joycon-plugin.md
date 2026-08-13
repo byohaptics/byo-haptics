@@ -9,13 +9,15 @@ Document version: `0.1.0`
 - Bridge API version: `0.1.0`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: OSC over UDP
-- Default Bridge address: `localhost`
+- Default Bridge address: `127.0.0.1`
 - Default send port: `9010`
 - Default acknowledgement port: `9002`
 
 ## Configuration
 
 The Plugin Package card exposes Bridge Address and Port fields. It derives the OSC sender endpoint from these values and remains inactive when either value is invalid. The Bridge listen port must match the plugin Port. The acknowledgement receiver remains on the separate acknowledgement port.
+
+The address is passed directly to Resonite's OSC sender. The plugin does not resolve or rewrite host names; use a numeric IP address unless host-name support has been verified independently.
 
 ## Target Routing
 

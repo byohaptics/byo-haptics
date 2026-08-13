@@ -2,7 +2,7 @@
 
 Document version: `0.1.0`
 
-- [ ] Copyright holder approved the distribution license.
+- [x] Copyright holder approved the MIT distribution license.
 - [x] Repository owner and contact are `byohaptica` and `byohaptics@gmail.com`.
 - [x] Local publication policy check passes on tracked and untracked files.
 - [x] Git history began in this repository and contains no private prototype commits.

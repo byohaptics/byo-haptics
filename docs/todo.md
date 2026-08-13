@@ -11,7 +11,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Set product, plugin, and document versions to `0.1.0`.
 - [x] Define the autonomous development loop.
 - [x] Add baseline static checks.
-- [ ] Select and add a distribution license. Requires copyright-holder decision.
+- [x] Select and add the MIT distribution license.
 - [ ] Create the GitHub repository under the `byohaptics` organization. Requires account action.
 
 ## Phase 1: Public Specifications
@@ -69,14 +69,15 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 ## Phase 6: Live Verification
 
-- [ ] Test under World Root while logged in as `byohaptica`.
-- [ ] Test install, uninstall, grab, close, and panel reset.
+- [x] Test under World Root while logged in as `byohaptica`.
+- [x] Test install, uninstall, grab, close, and panel reset.
 - [ ] Test Node and Slot source modes and null-source behavior.
-- [ ] Test sampler edit, offset persistence, and reset.
+- [x] Test sampler edit, offset persistence, and reset.
 - [ ] Test Joy-Con Force, Vibration, Pain, heartbeat, and bridge loss.
 - [ ] Test Haptira channels `00`, `01`, `02`, and an upper channel.
 - [ ] Test plugin replacement, ejection, inventory save, and another world.
-- [ ] Test two users and another user's world.
+- [x] Test both plugins from both users in a two-user session.
+- [ ] Test installation and output in another user's world.
 
 ## Phase 7: Publication
 
