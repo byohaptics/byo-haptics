@@ -1,6 +1,6 @@
 # Output Plugin Contract
 
-Document version: `0.1.5`
+Document version: `0.1.6`
 
 ## Contract Identity
 

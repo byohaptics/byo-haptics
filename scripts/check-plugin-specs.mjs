@@ -116,8 +116,8 @@ for (const [path, id] of [
     if (!graph.includes("LeftWigglerMagnitude <- LeftMagnitudeValue") || !graph.includes("RightWigglerMagnitude <- RightMagnitudeValue")) {
       throw new Error(`${path}: Wiggler magnitude writers missing`);
     }
-    if (!graph.includes("LeftOutput * 12.0") || !graph.includes("RightOutput * 12.0")) {
-      throw new Error(`${path}: visible twelve-degree Demo magnitude missing`);
+    if (!graph.includes("LeftOutput * 30.0") || !graph.includes("RightOutput * 30.0")) {
+      throw new Error(`${path}: visible thirty-degree Demo magnitude missing`);
     }
   }
 }

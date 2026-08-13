@@ -1,11 +1,11 @@
 # Demo Output Plugin
 
-Document version: `0.1.5`
+Document version: `0.1.6`
 
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.demo`
-- Plugin version: `0.1.3`
+- Plugin version: `0.1.4`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: direct scene fields
 - Connection reporting: available
@@ -34,7 +34,7 @@ For each row, combine Force, Vibration, Pain, and Temperature by maximum value. 
 
 Each device uses a `Wiggler` component targeting its Slot `Rotation` field. This represents a vibration motor as small, fast angular motion; horizontal translation is not used because contact friction constrains it more strongly than rotation.
 
-Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to twelve degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation. The larger range is intentional so vibration is unmistakable during a demo.
+Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to thirty degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation. The exaggerated range is intentional: these are visual indicators for a demo, not a physical vibration simulation.
 
 The devices expose their current normalized intensity for inspection. The plugin reports connected while it is selected, contract-compatible, active, and installed because both devices are package-owned direct references.
 

@@ -131,7 +131,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "v0.1.3"
+              "value": "v0.1.4"
             }
           }
         },
@@ -1180,7 +1180,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "v0.1.3"
+              "value": "v0.1.4"
             },
             "ParseRichText": {
               "type": "bool",

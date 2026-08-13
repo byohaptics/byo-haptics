@@ -1,6 +1,6 @@
 # Release Checklist
 
-Document version: `0.1.5`
+Document version: `0.1.6`
 
 - [x] Copyright holder approved the MIT distribution license.
 - [x] Repository owner and contact are `byohaptics` and `byohaptics@gmail.com`.

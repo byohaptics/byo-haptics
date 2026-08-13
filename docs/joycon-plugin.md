@@ -1,6 +1,6 @@
 # Joy-Con OSC Plugin
 
-Document version: `0.1.5`
+Document version: `0.1.6`
 
 ## Identity
 
