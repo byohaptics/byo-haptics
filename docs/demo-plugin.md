@@ -1,11 +1,11 @@
 # Demo Output Plugin
 
-Document version: `0.1.3`
+Document version: `0.1.4`
 
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.demo`
-- Plugin version: `0.1.1`
+- Plugin version: `0.1.2`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: direct scene fields
 - Connection reporting: available
@@ -17,6 +17,10 @@ The Plugin Package contains two simulated devices named `Demo Device Left` and `
 Each device visual uses one Canvas Slot with separate child Slots for its background and label. A RectTransform is not added to the Canvas Slot itself.
 
 Keeping the devices inside the package prevents one copied demo plugin from driving another copy's devices. Installing the plugin under a Host moves the complete demo together.
+
+The package card follows the Joy-Con Plugin card style: a `420 × 340` rounded panel, opaque backing, accent stripe, vertical metadata layout, and the same typography. Its accent stripe is purple so it is distinct from the Joy-Con blue and Haptira orange stripes.
+
+The simulated devices use base positions `(-0.55, 0, 0)` and `(0.55, 0, 0)` relative to the plugin root. When the plugin is dropped into the Host socket, they sit outside the Host UI panel instead of overlapping it.
 
 ## Target Routing
 
@@ -30,7 +34,7 @@ For each row, combine Force, Vibration, Pain, and Temperature by maximum value. 
 
 Each device uses a `Wiggler` component targeting its Slot `Rotation` field. This represents a vibration motor as small, fast angular motion; horizontal translation is not used because contact friction constrains it more strongly than rotation.
 
-Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to two degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation.
+Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to twelve degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation. The larger range is intentional so vibration is unmistakable during a demo.
 
 The devices expose their current normalized intensity for inspection. The plugin reports connected while it is selected, contract-compatible, active, and installed because both devices are package-owned direct references.
 

@@ -18,14 +18,14 @@ Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Ha
 
 Both Plugin Package SlotSpecs now include the same `License` policy as the Host: credit required, credit string `byohaptics`, and export disabled. The source change requires rebuilding and redeploying both Plugin Packages before the live objects contain these components.
 
-The Demo Output Plugin source is implemented at version `0.1.1`. Its package owns blue `LEFT` and red `RIGHT` simulated devices, routes Targets `left` and `right`, and combines each row's four sensations by maximum value. Each device uses a `Wiggler` targeting its Slot rotation; output intensity drives up to two degrees of angular magnitude while speed remains fixed. Horizontal position motion is not used. The 19-slot, 40-component SlotSpec validates and all three Plugin graphs compile. AutoDiscovery found the live `Local` ResoniteLink session, the package was rebuilt under World Root, and its graph deployed with 408 responses, zero input-reference corrections, and zero module-discovery errors. Direct drop and HapticVolume interaction remain pending.
+The Demo Output Plugin is implemented at version `0.1.2`. The user passed direct drop, two-row `left`/`right` routing, and HapticVolume response in `byohaptics World`. Its card now matches the Joy-Con card's 420-by-340 rounded, backed, vertically laid-out style while using a distinct purple accent stripe. The blue `LEFT` and red `RIGHT` devices sit at x = -0.55 m and +0.55 m so they remain outside the Host panel after drop. Their rotation-targeting Wigglers now reach twelve degrees per axis for clear motion. The 26-slot, 58-component SlotSpec validates, all three Plugin graphs compile, and the polished package was redeployed to `byohaptics World` with 408 responses, zero input-reference corrections, and zero module-discovery errors. Visual acceptance of the polish remains pending.
 
 ## Next Task
 
-Deploy the Demo Output Plugin and verify direct drop, `left`/`right` routing, visible vibration, and zero-state return with two configured sampler rows.
+Verify the polished Demo card, stronger vibration, and non-overlapping device placement in `byohaptics World`.
 
 ## Blocking Decisions
 
-- User VR interaction for Demo Plugin direct-drop and HapticVolume verification.
+- User VR visual acceptance of the polished Demo Plugin.
 
 Neither decision blocks local specification and reconstruction work.

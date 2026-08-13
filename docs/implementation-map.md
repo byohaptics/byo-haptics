@@ -1,6 +1,6 @@
 # Implementation Map
 
-Document version: `0.1.3`
+Document version: `0.1.4`
 
 This map ties each public requirement to its declarative source, executable source, and verification boundary. Specifications remain authoritative when a test exposes a mismatch.
 
@@ -24,7 +24,7 @@ This map ties each public requirement to its declarative source, executable sour
 |---|---|---|---|---|
 | Joy-Con OSC | `joycon-plugin.md` | `joycon-osc-plugin.resoslots.json`, `BYOHapticsJoyConOSCOutput.pg` | 44 slots, 129 components, contract and defaults validated | Row 0/`left` and Row 1/`right` Force passed |
 | Haptira OSC | `haptira-plugin.md` | `haptira-osc-plugin.resoslots.json`, `BYOHapticsHaptiraOSCOutput.pg` | 42 slots, 124 components, contract, defaults, and rear backing validated | Channels `00`, `01`, `02`, and `15` passed |
-| Demo | `demo-plugin.md` | `demo-output-plugin.resoslots.json`, `BYOHapticsDemoOutput.pg` | 19 slots, 40 components, contract, routing, Wiggler rotation targets, and defaults validated | Wiggler package and graph deployed; interaction pending |
+| Demo | `demo-plugin.md` | `demo-output-plugin.resoslots.json`, `BYOHapticsDemoOutput.pg` | 26 slots, 58 components, Joy-Con-style card, distinct accent, routing, Wiggler targets, and device offsets validated | Routing and response passed; visual polish deployed and awaiting acceptance |
 
 Both graphs consume the same transport-neutral Output Bus. Row Targets remain opaque to the Host and are interpreted only by the selected Plugin.
 

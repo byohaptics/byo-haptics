@@ -1,6 +1,6 @@
 # Test Results
 
-Document version: `0.1.3`
+Document version: `0.1.4`
 
 The public build was first deployed to a live Resonite world on 2026-08-12. Functional VR and device testing was completed by the later passing results recorded below. Statements that a retest or confirmation remained pending describe the state at that point in the test history; subsequent rows preserve the evidence of completion.
 
@@ -38,6 +38,8 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Live world | Joy-Con OSC Plugin and Bridge | Generate sampler output after Bridge restart and Link recovery | Pass | The Joy-Con resumed device output without reinserting the plugin or Host. Bridge-loss and restart recovery coverage is complete. |
 | 2026-08-13 | working tree after `e5349bc` | Local Resonite client | Local session | Demo Output Plugin | Recreate the 19-slot, 39-component package and deploy `BYOHapticsDemoOutput` | Pass | AutoDiscovery selected the reachable `Local` session. SlotSpec construction completed, the graph deployed with 406 responses, input patching required 0 corrections, and module discovery reported 0 errors. Direct drop and HapticVolume interaction remain pending. |
 | 2026-08-13 | working tree after `c039e08` | Local Resonite client | Local session | Demo Output Plugin | Replace horizontal position motion with two rotation-targeting `Wiggler` components | Pass | Resonite accepted both Wiggler definitions and Rotation field references. The 19-slot, 40-component package rebuilt successfully; the graph deployed with 408 responses, 0 input-reference corrections, and 0 module-discovery errors. Direct drop and HapticVolume interaction remain pending. |
+| 2026-08-13 | `18bc7f4` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Drop the plugin into BYO Haptics, configure two sampler rows for Targets `left` and `right`, and touch HapticVolume items | Pass | The user confirmed the Demo Plugin operated and the simulated devices responded to the configured targets. Visual polish remains: match the established card style, increase motion, and prevent device overlap with the Host panel. |
+| 2026-08-13 | working tree after `18bc7f4` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Redeploy the polished v0.1.2 package | Pass | AutoDiscovery selected `byohaptics World`. The 26-slot, 58-component package and 408-response graph deployed with zero module-discovery errors and zero input-reference corrections. Card, motion, and placement acceptance remain pending. |
 
 ## Required Result Detail
 
