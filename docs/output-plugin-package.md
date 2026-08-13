@@ -1,10 +1,12 @@
 # Output Plugin Package
 
-Document version: `0.1.0`
+Document version: `0.1.1`
 
 ## Distribution Card
 
 A plugin root is its own inventory package. In World Root it presents a grabbable card. Under the host socket its card, collider, and grabbable are inactive.
+
+Each plugin root has a `License` component with credit required, credit string `byohaptics`, and export disabled, matching the Host license policy.
 
 Card appearance is not part of the contract. A card must visibly provide:
 

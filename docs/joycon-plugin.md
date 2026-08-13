@@ -1,11 +1,11 @@
 # Joy-Con OSC Plugin
 
-Document version: `0.1.0`
+Document version: `0.1.1`
 
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.joycon.osc`
-- Plugin version: `0.1.0`
+- Plugin version: `0.1.1`
 - Bridge API version: `0.1.0`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: OSC over UDP

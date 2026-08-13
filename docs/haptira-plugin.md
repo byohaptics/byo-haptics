@@ -1,11 +1,11 @@
 # Haptira OSC Plugin
 
-Document version: `0.1.0`
+Document version: `0.1.1`
 
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.haptira.osc`
-- Plugin version: `0.1.0`
+- Plugin version: `0.1.1`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: OSC over UDP
 - Default device port: `8000`

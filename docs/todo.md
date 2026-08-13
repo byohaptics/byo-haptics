@@ -1,6 +1,6 @@
 # Build Plan And Tasks
 
-Document version: `0.1.0`
+Document version: `0.1.1`
 
 Tasks are executed from top to bottom. A checked task must have a verification result or commit.
 
@@ -12,7 +12,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Define the autonomous development loop.
 - [x] Add baseline static checks.
 - [x] Select and add the MIT distribution license.
-- [ ] Create the GitHub repository under the `byohaptics` organization. Requires account action.
+- [x] Create the private GitHub repository under the `byohaptics` account.
 
 ## Phase 1: Public Specifications
 
@@ -87,4 +87,9 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Complete release checklist.
 - [x] Confirm no private history, local IDs, logs, or inventory artifacts exist.
 - [x] Tag `v0.1.0` after live acceptance passes.
-- [ ] Push and publish documentation.
+- [x] Push the private repository and release documentation.
+
+## Post-release Maintenance
+
+- [x] Add the Host license policy to both Plugin Package SlotSpecs and static checks.
+- [ ] Rebuild and redeploy both Plugin Packages, then verify their root `License` components live.

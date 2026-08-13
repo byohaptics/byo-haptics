@@ -1,6 +1,6 @@
 # Sampler Specification
 
-Document version: `0.1.0`
+Document version: `0.1.1`
 
 ## Row State
 

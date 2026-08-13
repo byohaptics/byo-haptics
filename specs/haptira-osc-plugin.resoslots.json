@@ -55,6 +55,24 @@
         {
           "alias": "package.objectRoot",
           "type": "[FrooxEngine]FrooxEngine.ObjectRoot"
+        },
+        {
+          "alias": "package.license",
+          "type": "[FrooxEngine]FrooxEngine.License",
+          "members": {
+            "RequireCredit": {
+              "type": "bool",
+              "value": true
+            },
+            "CreditString": {
+              "type": "string",
+              "value": "byohaptics"
+            },
+            "CanExport": {
+              "type": "bool",
+              "value": false
+            }
+          }
         }
       ]
     },
@@ -670,7 +688,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "v0.1.0"
+              "value": "v0.1.1"
             },
             "ParseRichText": {
               "type": "bool",
@@ -945,7 +963,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "v0.1.0"
+              "value": "v0.1.1"
             }
           }
         },

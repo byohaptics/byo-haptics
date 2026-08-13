@@ -14,14 +14,16 @@ The Joy-Con Plugin Package card exposes configurable Bridge Address and Port fie
 
 Haptira OSC live tests passed for Targets `00`, `01`, `02`, and upper channel `15`. In a two-user session, both Joy-Con OSC and Haptira OSC drove their devices from Row 0 for both users.
 
-Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Haptira Target `01`. Slot source mode passed for Rows 0 through 3 with assigned Source slots. Null-source disable passed for all four rows with Node set to `NONE`, and Slot mode remained inactive with Source null. Plugin replacement automatically installed the dropped plugin and ejected the previous plugin. Inventory save, spawning and installation in another world passed. Installation and device output also passed in another user's world. Stopping the Joy-Con Bridge changed the Link indicator to down; restarting the Bridge restored both the connected indication and device output without reinsertion. Phase 6 live verification is complete. No GitHub repository has been created or pushed.
+Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Haptira Target `01`. Slot source mode passed for Rows 0 through 3 with assigned Source slots. Null-source disable passed for all four rows with Node set to `NONE`, and Slot mode remained inactive with Source null. Plugin replacement automatically installed the dropped plugin and ejected the previous plugin. Inventory save, spawning and installation in another world passed. Installation and device output also passed in another user's world. Stopping the Joy-Con Bridge changed the Link indicator to down; restarting the Bridge restored both the connected indication and device output without reinsertion. Phase 6 live verification is complete. The private GitHub repository exists under `byohaptics`, with `main` and `v0.1.0` pushed.
+
+Both Plugin Package SlotSpecs now include the same `License` policy as the Host: credit required, credit string `byohaptics`, and export disabled. The source change requires rebuilding and redeploying both Plugin Packages before the live objects contain these components.
 
 ## Next Task
 
-Create the GitHub repository under `byohaptics`, then push the release commit and `v0.1.0` tag when the account holder is ready.
+Rebuild and redeploy both Plugin Packages, then verify their root `License` components in Resonite.
 
 ## Blocking Decisions
 
-- GitHub repository creation under the `byohaptics` organization.
+- Live Resonite access for Plugin Package rebuild and verification.
 
 Neither decision blocks local specification and reconstruction work.

@@ -20,6 +20,9 @@ function check(path, expected) {
   expect("Author", value(components, "manifest.author"), "byohaptics");
   expect("Transport", value(components, "manifest.transport"), "osc");
   expect("CanReportConnection", value(components, "manifest.canReportConnection"), expected.canReportConnection);
+  expect("RequireCredit", value(components, "package.license", "RequireCredit"), true);
+  expect("CreditString", value(components, "package.license", "CreditString"), "byohaptics");
+  expect("CanExport", value(components, "package.license", "CanExport"), false);
   expect("Card version", value(components, "package.version.text", "Content"), `v${expected.version}`);
   expect("Card contract", value(components, "package.contract.text", "Content"), "Contract: BYOHaptics.Output.v1");
   for (const [alias, wanted] of Object.entries(expected.config)) expect(alias, value(components, alias), wanted);
