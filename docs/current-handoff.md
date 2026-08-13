@@ -18,11 +18,11 @@ Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Ha
 
 Both Plugin Package SlotSpecs now include the same `License` policy as the Host: credit required, credit string `byohaptics`, and export disabled. The source change requires rebuilding and redeploying both Plugin Packages before the live objects contain these components.
 
-The Demo Output Plugin is implemented at version `0.1.2`. The user passed direct drop, two-row `left`/`right` routing, and HapticVolume response in `byohaptics World`. Its card now matches the Joy-Con card's 420-by-340 rounded, backed, vertically laid-out style while using a distinct purple accent stripe. The blue `LEFT` and red `RIGHT` devices sit at x = -0.55 m and +0.55 m so they remain outside the Host panel after drop. Their rotation-targeting Wigglers now reach twelve degrees per axis for clear motion. The 26-slot, 58-component SlotSpec validates, all three Plugin graphs compile, and the polished package was redeployed to `byohaptics World` with 408 responses, zero input-reference corrections, and zero module-discovery errors. Visual acceptance of the polish remains pending.
+The Demo Output Plugin is implemented at version `0.1.3`. The user passed direct drop, two-row `left`/`right` routing, and HapticVolume response in `byohaptics World`. Its card uses the shared rounded, backed visual language and distinct purple accent, but its height is content-derived rather than copied from a configurable plugin: 420 by 186 pixels, with an 18-pixel stripe, 24-pixel top padding, four metadata rows totalling 150 pixels, and 12-pixel bottom padding. The blue `LEFT` and red `RIGHT` devices sit at x = -0.55 m and +0.55 m so they remain outside the Host panel after drop. Their rotation-targeting Wigglers reach twelve degrees per axis for clear motion. The 26-slot, 58-component SlotSpec validates, all three Plugin graphs compile, and v0.1.3 was redeployed to `byohaptics World` with 408 responses, zero input-reference corrections, and zero module-discovery errors. Visual acceptance of the compact spacing remains pending.
 
 ## Next Task
 
-Verify the polished Demo card, stronger vibration, and non-overlapping device placement in `byohaptics World`.
+Verify the compact Demo card spacing in `byohaptics World`.
 
 ## Blocking Decisions
 

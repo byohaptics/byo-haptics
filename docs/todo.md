@@ -1,6 +1,6 @@
 # Build Plan And Tasks
 
-Document version: `0.1.4`
+Document version: `0.1.5`
 
 Tasks are executed from top to bottom. A checked task must have a verification result or commit.
 
@@ -100,4 +100,4 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Build and compile the Demo Plugin Package and both simulated devices.
 - [x] Validate direct drop, independent `left` and `right` routing, and vibration live.
 - [x] Match the Joy-Con card style with a distinct accent, increase vibration visibility, and keep installed devices clear of the Host panel.
-- [ ] Visually accept the polished card, stronger vibration, and device placement in `byohaptics World`.
+- [ ] Visually accept the compact card spacing, stronger vibration, and device placement in `byohaptics World`.

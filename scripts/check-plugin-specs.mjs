@@ -79,12 +79,16 @@ for (const alias of ["device.left.intensity", "device.right.intensity"]) {
 }
 const demoSlot = (path) => demoSpec.slots.find((slot) => slot.path === path);
 const demoCanvasSize = demoComponents.get("package.canvas")?.members?.Size?.value;
-if (demoCanvasSize?.x !== 420 || demoCanvasSize?.y !== 340) throw new Error("Demo card must use the 420 x 340 plugin card size");
+if (demoCanvasSize?.x !== 420 || demoCanvasSize?.y !== 186) throw new Error("Demo card must fit its four rows at 420 x 186");
 for (const alias of ["package.roundedTexture", "package.backing.image", "package.accent.image", "package.content.layout"]) {
   if (!demoComponents.has(alias)) throw new Error(`Demo Joy-Con card-style component missing: ${alias}`);
 }
 const accent = demoComponents.get("package.accent.image")?.members?.Tint?.value;
 if (accent?.r !== 0.62 || accent?.g !== 0.28 || accent?.b !== 0.88) throw new Error("Demo accent must use its distinct purple color");
+const demoLayout = demoComponents.get("package.content.layout")?.members;
+if (demoLayout?.PaddingTop?.value !== 24 || demoLayout?.PaddingBottom?.value !== 12) {
+  throw new Error("Demo card padding must fit its content without inherited empty space");
+}
 if (demoSlot("Devices/Left")?.position?.x !== -0.55 || demoSlot("Devices/Right")?.position?.x !== 0.55) {
   throw new Error("Demo devices must remain clear of the Host panel at x = +/-0.55");
 }

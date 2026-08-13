@@ -1,6 +1,6 @@
 # Building
 
-Document version: `0.1.4`
+Document version: `0.1.5`
 
 ## Requirements
 

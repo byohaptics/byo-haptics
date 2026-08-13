@@ -1,11 +1,11 @@
 {
   "product": "0.1.0",
-  "documents": "0.1.4",
+  "documents": "0.1.5",
   "outputContract": 1,
   "plugins": {
     "joyconOsc": "0.1.1",
     "haptiraOsc": "0.1.1",
-    "demo": "0.1.2"
+    "demo": "0.1.3"
   },
   "bridges": {
     "joyconRumble": "0.1.0"
