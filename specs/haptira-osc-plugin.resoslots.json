@@ -955,7 +955,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "byohaptica"
+              "value": "byohaptics"
             }
           }
         }

@@ -27,7 +27,7 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
 }
 
 expect("RequireCredit", value("tool.license", "RequireCredit"), true);
-expect("CreditString", value("tool.license", "CreditString"), "byohaptica");
+expect("CreditString", value("tool.license", "CreditString"), "byohaptics");
 expect("CanExport", value("tool.license", "CanExport"), false);
 
 const serialized = JSON.stringify(spec);

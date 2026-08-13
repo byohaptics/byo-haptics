@@ -12,7 +12,7 @@ Document version: `0.1.0`
 6. Run `ponytail-review` on the diff and remove dead flexibility, duplicate writers, and one-time migration code.
 7. Update specifications first if implementation uncovered a missing requirement.
 8. Update the task and handoff.
-9. Commit with the local `byohaptica` identity.
+9. Commit with the local `byohaptics` identity.
 10. Continue automatically unless a live test, account action, hardware action, or product decision is required.
 
 ## Commit Boundary

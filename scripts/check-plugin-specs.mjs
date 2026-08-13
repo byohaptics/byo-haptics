@@ -17,7 +17,7 @@ function check(path, expected) {
   expect("DisplayName", value(components, "manifest.displayName"), expected.name);
   expect("ContractVersion", value(components, "manifest.contractVersion"), versions.outputContract);
   expect("PluginVersion", value(components, "manifest.pluginVersion"), `v${expected.version}`);
-  expect("Author", value(components, "manifest.author"), "byohaptica");
+  expect("Author", value(components, "manifest.author"), "byohaptics");
   expect("Transport", value(components, "manifest.transport"), "osc");
   expect("CanReportConnection", value(components, "manifest.canReportConnection"), expected.canReportConnection);
   expect("Card version", value(components, "package.version.text", "Content"), `v${expected.version}`);

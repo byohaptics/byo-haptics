@@ -33,5 +33,5 @@ Build a portable Resonite avatar tool that samples four haptic sensation values 
 - Product display name: `BYO Haptics`
 - Root slot name: `BYOHaptics`
 - Initial product version: `0.1.0`
-- Copyright holder: `byohaptica`
+- Copyright holder: `byohaptics`
 - Contact: `byohaptics@gmail.com`

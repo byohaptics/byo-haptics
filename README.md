@@ -6,7 +6,7 @@ This repository contains the host tool, the public plugin contract, Joy-Con and 
 
 ## Status
 
-Version `0.1.0` is under reconstruction and is not a release.
+Version `0.1.0` is the initial public release.
 
 ## Documentation
 
@@ -31,4 +31,4 @@ Version `0.1.0` is under reconstruction and is not a release.
 
 ## License
 
-[MIT](LICENSE), Copyright (c) 2026 byohaptica.
+[MIT](LICENSE), Copyright (c) 2026 byohaptics.

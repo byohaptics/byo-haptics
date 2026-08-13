@@ -3,7 +3,7 @@
 Document version: `0.1.0`
 
 - [x] Copyright holder approved the MIT distribution license.
-- [x] Repository owner and contact are `byohaptica` and `byohaptics@gmail.com`.
+- [x] Repository owner and contact are `byohaptics` and `byohaptics@gmail.com`.
 - [x] Local publication policy check passes on tracked and untracked files.
 - [x] Git history began in this repository and contains no private prototype commits.
 - [x] No runtime IDs, session ports, local paths, logs, or inventory artifacts are tracked.
@@ -11,6 +11,6 @@ Document version: `0.1.0`
 - [x] Static validation passes.
 - [x] `ponytail-review` has no accepted unresolved findings.
 - [x] Joy-Con Bridge release packaging rejects private build paths.
-- [ ] Live test plan passes under the `byohaptica` Resonite account.
+- [x] Live test plan passes under the `byohaptica` Resonite account.
 - [x] Multi-user limitations are documented.
-- [ ] `versions.json`, UI title, package metadata, and release tag agree.
+- [x] `versions.json`, UI title, package metadata, and release tag agree at `v0.1.0`.

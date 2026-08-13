@@ -2,7 +2,7 @@
 
 Document version: `0.1.0`
 
-The public build was first deployed to a live Resonite world on 2026-08-12. Functional VR and device tests remain pending.
+The public build was first deployed to a live Resonite world on 2026-08-12. Functional VR and device testing was completed by the later passing results recorded below. Statements that a retest or confirmation remained pending describe the state at that point in the test history; subsequent rows preserve the evidence of completion.
 
 Add one row for each distinct environment and keep failed observations. A later pass does not erase evidence that exposed a missing requirement.
 
@@ -22,6 +22,20 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-12 | working tree after `67e8a1a` | `byohaptics` | Own world (`byohaptics World`) | Joy-Con OSC Plugin and Bridge | Use the direct `127.0.0.1:9010` default with Row 0 targeting `left` | Pass | Row 0 drove Joy-Con (L) normally with no `localhost` rewrite in the plugin. |
 | 2026-08-13 | working tree after `67e8a1a` | `byohaptics` | Own world (`byohaptics World`) | Sampler Edit | Open Sampler Edit from the context menu, adjust the Row 0 sampler position offset, then use Reset All Positions | Pass | Row 0 retained the adjusted position offset, and Reset All Positions cleared the sampler position offsets. |
 | 2026-08-13 | working tree after `67e8a1a` | Two users | Multi-user session | Joy-Con OSC and Haptira OSC Plugins | Exercise Row 0 for both plugins from each user's installed BYO Haptics | Pass | In the two-user environment, each plugin drove its device from Row 0 for both users. This confirms reciprocal per-user operation in the tested session. |
+| 2026-08-13 | `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Host UI | Hide the UI panel, then aim a laser at its previous location | Pass | The hidden panel did not react to laser input. |
+| 2026-08-13 | `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Output Plugin Package | Press the Eject button with a plugin installed | Pass | The installed plugin was ejected successfully. |
+| 2026-08-13 | `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Haptira OSC Plugin | Set Row 1 Target to upper channel `15` and generate sampler output | Pass | Haptira channel `15` drove the device successfully. Together with the existing `00`, `01`, and `02` results, the planned channel-range coverage is complete. |
+| 2026-08-13 | `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Node source mode and Haptira OSC Plugin | Configure Row 3 with BodyNode `RightFoot` and Target `01` | Pass | Row 3 followed `RightFoot`, and Haptira channel `01` drove the device. This confirms Node mode and Row 3 output in the tested configuration. |
+| 2026-08-13 | `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Null-source handling | Set Node mode to `NONE` for Rows 0 through 3 and exercise nearby haptic sources | Pass | None of the four samplers reacted while its Node source was `NONE`, confirming null-source disable across all rows. |
+| 2026-08-13 | `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Slot source mode | Turn Node mode off, leave Source null, and exercise nearby haptic sources | Pass | The sampler did not react while the Slot-mode Source reference was null. Together with the Node-mode tests, source-mode and null-source coverage is complete. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Own world (`byohaptics World`) | Output Plugin Package | Drop a different plugin while another plugin is installed | Pass | The new plugin was installed automatically and the previously installed plugin was ejected. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Cross-world | Host inventory lifecycle | Save BYO Haptics to inventory, spawn it in another world, and install it | Pass | The inventory-spawned Host installed successfully in the destination world. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Another user's world | Host installation and device output | Install BYO Haptics as a visitor and generate haptic output | Pass | Installation completed under the visiting user and the configured device produced output. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Live world | Slot source mode | Turn Node mode off, assign a Source slot, and exercise Rows 0 through 3 | Pass | All four rows followed their assigned Source slots and produced output in Slot mode. Together with the null-Source result, Slot-mode positive and inactive behavior are covered. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Live world | Joy-Con OSC Plugin and Bridge | Generate Force, Vibration, and Pain sampler output | Pass | The connected Joy-Con produced device output for all three sensation types. Heartbeat loss and Bridge restart behavior remain to be tested separately. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Live world | Joy-Con OSC Plugin and Bridge | Stop the Bridge and observe Link status | Pass | The Link indicator changed to the down/disconnected state after Bridge acknowledgement stopped. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Live world | Joy-Con OSC Plugin and Bridge | Restart the Bridge after observing Link disconnection | Pass | The Link indicator returned to the connected state without reinserting the plugin or Host. Device-output recovery remains to be confirmed. |
+| 2026-08-13 | working tree after `f70dd1b` | `byohaptics` | Live world | Joy-Con OSC Plugin and Bridge | Generate sampler output after Bridge restart and Link recovery | Pass | The Joy-Con resumed device output without reinserting the plugin or Host. Bridge-loss and restart recovery coverage is complete. |
 
 ## Required Result Detail
 

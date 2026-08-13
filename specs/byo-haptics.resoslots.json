@@ -39270,7 +39270,7 @@
             },
             "CreditString": {
               "type": "string",
-              "value": "byohaptica"
+              "value": "byohaptics"
             },
             "CanExport": {
               "type": "bool",

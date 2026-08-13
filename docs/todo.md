@@ -7,7 +7,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 ## Phase 0: Repository Foundation
 
 - [x] Create a history-free local repository.
-- [x] Configure local commit identity as `byohaptica <byohaptics@gmail.com>`.
+- [x] Configure local commit identity as `byohaptics <byohaptics@gmail.com>`.
 - [x] Set product, plugin, and document versions to `0.1.0`.
 - [x] Define the autonomous development loop.
 - [x] Add baseline static checks.
@@ -71,17 +71,20 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 - [x] Test under World Root while logged in as `byohaptica`.
 - [x] Test install, uninstall, grab, close, and panel reset.
-- [ ] Test Node and Slot source modes and null-source behavior.
+- [x] Test Node and Slot source modes and null-source behavior.
 - [x] Test sampler edit, offset persistence, and reset.
-- [ ] Test Joy-Con Force, Vibration, Pain, heartbeat, and bridge loss.
-- [ ] Test Haptira channels `00`, `01`, `02`, and an upper channel.
-- [ ] Test plugin replacement, ejection, inventory save, and another world.
+- [x] Test Joy-Con Force, Vibration, and Pain output.
+- [x] Test Bridge shutdown and Link down indication.
+- [x] Test Link recovery after Joy-Con Bridge restart.
+- [x] Test device-output recovery after Joy-Con Bridge restart.
+- [x] Test Haptira channels `00`, `01`, `02`, and an upper channel.
+- [x] Test plugin replacement, ejection, inventory save, and another world.
 - [x] Test both plugins from both users in a two-user session.
-- [ ] Test installation and output in another user's world.
+- [x] Test installation and output in another user's world.
 
 ## Phase 7: Publication
 
-- [ ] Complete release checklist.
-- [ ] Confirm no private history, local IDs, logs, or inventory artifacts exist.
-- [ ] Tag `v0.1.0` only after live acceptance passes.
+- [x] Complete release checklist.
+- [x] Confirm no private history, local IDs, logs, or inventory artifacts exist.
+- [x] Tag `v0.1.0` after live acceptance passes.
 - [ ] Push and publish documentation.
