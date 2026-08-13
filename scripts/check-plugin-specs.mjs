@@ -77,10 +77,10 @@ const demoComponents = new Map(demoSpec.slots.flatMap((slot) => (slot.components
 for (const alias of ["device.left.intensity", "device.right.intensity"]) {
   if (!demoComponents.has(alias)) throw new Error(`Demo device component missing: ${alias}`);
 }
-for (const [input, path] of [["LeftPosition", "Devices/Left"], ["RightPosition", "Devices/Right"]]) {
-  const actual = demoSpec.fluxInputs?.[input]?.slotField;
-  if (actual?.slotPath !== path || actual?.slotMember !== "Position") {
-    throw new Error(`Demo ${input} must directly reference ${path}.Position`);
+for (const [side, path] of [["left", "Devices/Left"], ["right", "Devices/Right"]]) {
+  const reference = demoSpec.slotFieldReferences?.find((item) => item.component === `device.${side}.wiggler`);
+  if (reference?.member !== "_target" || reference?.slotPath !== path || reference?.slotMember !== "Rotation") {
+    throw new Error(`Demo ${side} Wiggler must directly target ${path}.Rotation`);
   }
 }
 
@@ -98,8 +98,8 @@ for (const [path, id] of [
     for (const target of ["left", "right"]) {
       if (!graph.includes(`== "${target}"`)) throw new Error(`${path}: Target ${target} routing missing`);
     }
-    if (!graph.includes("LeftPosition <- LeftPositionValue") || !graph.includes("RightPosition <- RightPositionValue")) {
-      throw new Error(`${path}: direct device Position writers missing`);
+    if (!graph.includes("LeftWigglerMagnitude <- LeftMagnitudeValue") || !graph.includes("RightWigglerMagnitude <- RightMagnitudeValue")) {
+      throw new Error(`${path}: Wiggler magnitude writers missing`);
     }
   }
 }

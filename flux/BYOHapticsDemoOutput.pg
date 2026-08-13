@@ -3,14 +3,15 @@ module BYOHapticsDemoOutput
 
 in PluginRoot: Slot element
 in CanReportConnection: bool
-in Phase: bool mutable
 in DiagnosticsActive: bool mutable
 in DiagnosticsConnected: bool mutable
 in PackageVisualActive: bool mutable
 in PackageGrabbableEnabled: bool mutable
 in PackageInstalled: bool mutable
-in LeftPosition: float3 mutable
-in RightPosition: float3 mutable
+in LeftWigglerEnabled: bool mutable
+in RightWigglerEnabled: bool mutable
+in LeftWigglerMagnitude: float3 mutable
+in RightWigglerMagnitude: float3 mutable
 in LeftIntensity: float mutable
 in RightIntensity: float mutable
 
@@ -87,12 +88,8 @@ where {
     Right23 = ValueMax(A=RightRow2, B=RightRow3);
     RightOutput = if ActiveState then ValueMax(A=Right01, B=Right23) else 0.0;
 
-    LeftDisplacement = LeftOutput * 0.01;
-    RightDisplacement = RightOutput * 0.01;
-    LeftX = if Phase then -0.22 + LeftDisplacement else -0.22 - LeftDisplacement;
-    RightX = if Phase then 0.22 + RightDisplacement else 0.22 - RightDisplacement;
-    LeftPositionValue = Pack_Float3(X=LeftX, Y=-0.2, Z=0.0);
-    RightPositionValue = Pack_Float3(X=RightX, Y=-0.2, Z=0.0);
+    LeftMagnitudeValue = Pack_Float3(X=LeftOutput * 2.0, Y=LeftOutput * 2.0, Z=LeftOutput * 2.0);
+    RightMagnitudeValue = Pack_Float3(X=RightOutput * 2.0, Y=RightOutput * 2.0, Z=RightOutput * 2.0);
 
     switch LocalUpdate
     | OnUpdate |> impulse {
@@ -103,9 +100,10 @@ where {
         DiagnosticsConnected <- ActiveState;
         LeftIntensity <- LeftOutput;
         RightIntensity <- RightOutput;
-        LeftPosition <- LeftPositionValue;
-        RightPosition <- RightPositionValue;
-        Phase <- not Phase;
+        LeftWigglerEnabled <- LeftOutput > 0.0;
+        RightWigglerEnabled <- RightOutput > 0.0;
+        LeftWigglerMagnitude <- LeftMagnitudeValue;
+        RightWigglerMagnitude <- RightMagnitudeValue;
     };
 
     UpdatesTimer(

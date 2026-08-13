@@ -1,6 +1,6 @@
 # Autonomous Development Loop
 
-Document version: `0.1.2`
+Document version: `0.1.3`
 
 ## Loop
 

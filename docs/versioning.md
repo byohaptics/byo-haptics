@@ -1,6 +1,6 @@
 # Versioning
 
-Document version: `0.1.2`
+Document version: `0.1.3`
 
 `versions.json` is the only version source of truth.
 

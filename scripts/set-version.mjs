@@ -6,6 +6,7 @@ const paths = {
   documents: ["documents"],
   "joycon-osc": ["plugins", "joyconOsc"],
   "haptira-osc": ["plugins", "haptiraOsc"],
+  demo: ["plugins", "demo"],
   "joycon-bridge": ["bridges", "joyconRumble"],
   "joycon-bridge-api": ["bridgeApis", "joyconOsc"],
 };
@@ -62,6 +63,9 @@ if (target === "product") {
 } else if (target === "haptira-osc") {
   replace("docs/haptira-plugin.md", /^- Plugin version: `[^`]+`$/m, `- Plugin version: \`${version}\``);
   updatePluginSpec("specs/haptira-osc-plugin.resoslots.json");
+} else if (target === "demo") {
+  replace("docs/demo-plugin.md", /^- Plugin version: `[^`]+`$/m, `- Plugin version: \`${version}\``);
+  updatePluginSpec("specs/demo-output-plugin.resoslots.json");
 } else if (target === "joycon-bridge-api") {
   replace("docs/joycon-plugin.md", /^- Bridge API version: `[^`]+`$/m, `- Bridge API version: \`${version}\``);
   replace("docs/joycon-bridge.md", /^- Bridge API version: `[^`]+`$/m, `- Bridge API version: \`${version}\``);

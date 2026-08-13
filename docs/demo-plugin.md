@@ -1,11 +1,11 @@
 # Demo Output Plugin
 
-Document version: `0.1.2`
+Document version: `0.1.3`
 
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.demo`
-- Plugin version: `0.1.0`
+- Plugin version: `0.1.1`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: direct scene fields
 - Connection reporting: available
@@ -28,7 +28,9 @@ For each row, combine Force, Vibration, Pain, and Temperature by maximum value. 
 
 ## Simulated Vibration
 
-While a target intensity is greater than zero, alternate its device Slot `Position` field every local update around a fixed base position. Displacement is intensity multiplied by `0.01` metres. At zero intensity the device returns to its base position.
+Each device uses a `Wiggler` component targeting its Slot `Rotation` field. This represents a vibration motor as small, fast angular motion; horizontal translation is not used because contact friction constrains it more strongly than rotation.
+
+Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to two degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation.
 
 The devices expose their current normalized intensity for inspection. The plugin reports connected while it is selected, contract-compatible, active, and installed because both devices are package-owned direct references.
 
@@ -37,4 +39,4 @@ The devices expose their current normalized intensity for inspection. The plugin
 1. Drop the Demo Output Plugin card into BYO Haptics.
 2. Assign sources to two rows and set their Targets to `left` and `right`.
 3. Touch each sampler source to an item with `HapticVolume`.
-4. Confirm only the matching simulated device vibrates and returns to its base position when the sensation stops.
+4. Confirm only the matching simulated device vibrates rotationally and returns to its base rotation when the sensation stops.
