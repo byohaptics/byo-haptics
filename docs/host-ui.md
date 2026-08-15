@@ -44,9 +44,9 @@ Left to right:
 
 The `Node` checkbox selects BodyNode mode when checked and manual Slot mode when unchecked. Clear is immediately to the right of Source. Visual is last so it cannot be read as a Target setting.
 
-Each row is the same height and structure. Symbol columns have fixed width `60`. Text must autosize without wrapping column titles.
+Each row is the same height and structure. The row-index and symbol columns have fixed width `60`. The header includes a matching blank index column so `Node`, `Source`, and later titles align with their row controls. Text must autosize without wrapping column titles.
 
-Each sampler row starts with its zero-based row index in inventory-list form: `0:`, `1:`, `2:`, or `3:`. It is the leftmost element, immediately before the `Node` checkbox.
+Each sampler row starts with its zero-based row index in inventory-list form: `0:`, `1:`, `2:`, or `3:`. It is the leftmost element, immediately before the `Node` checkbox, and uses font size `32`.
 
 Default rows:
 

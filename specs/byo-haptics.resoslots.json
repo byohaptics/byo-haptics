@@ -35137,8 +35137,8 @@
           "alias": "ui.row0.index.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
-            "MinWidth": { "type": "float", "value": 30 },
-            "PreferredWidth": { "type": "float", "value": 30 },
+            "MinWidth": { "type": "float", "value": 60 },
+            "PreferredWidth": { "type": "float", "value": 60 },
             "FlexibleWidth": { "type": "float", "value": 0 }
           }
         },
@@ -35147,7 +35147,7 @@
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
           "members": {
             "Content": { "type": "string", "value": "0:" },
-            "Size": { "type": "float", "value": 24 },
+            "Size": { "type": "float", "value": 32 },
             "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } },
             "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" },
             "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" }
@@ -36097,8 +36097,8 @@
       "orderOffset": -10,
       "components": [
         { "alias": "ui.row1.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
-        { "alias": "ui.row1.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
-        { "alias": "ui.row1.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "1:" }, "Size": { "type": "float", "value": 24 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
+        { "alias": "ui.row1.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 60 }, "PreferredWidth": { "type": "float", "value": 60 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
+        { "alias": "ui.row1.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "1:" }, "Size": { "type": "float", "value": 32 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
       ]
     },
     {
@@ -37043,8 +37043,8 @@
       "orderOffset": -10,
       "components": [
         { "alias": "ui.row2.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
-        { "alias": "ui.row2.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
-        { "alias": "ui.row2.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "2:" }, "Size": { "type": "float", "value": 24 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
+        { "alias": "ui.row2.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 60 }, "PreferredWidth": { "type": "float", "value": 60 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
+        { "alias": "ui.row2.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "2:" }, "Size": { "type": "float", "value": 32 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
       ]
     },
     {
@@ -37989,8 +37989,8 @@
       "orderOffset": -10,
       "components": [
         { "alias": "ui.row3.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
-        { "alias": "ui.row3.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
-        { "alias": "ui.row3.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "3:" }, "Size": { "type": "float", "value": 24 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
+        { "alias": "ui.row3.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 60 }, "PreferredWidth": { "type": "float", "value": 60 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
+        { "alias": "ui.row3.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "3:" }, "Size": { "type": "float", "value": 32 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
       ]
     },
     {
@@ -39125,6 +39125,22 @@
               "type": "float",
               "value": -1
             }
+          }
+        }
+      ]
+    },
+    {
+      "path": "UI/Vertical layout/Main Area/Column Header/Index",
+      "orderOffset": -10,
+      "components": [
+        {
+          "alias": "ui.columnHeader.index.layoutElement",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinWidth": { "type": "float", "value": 60 },
+            "PreferredWidth": { "type": "float", "value": 60 },
+            "FlexibleWidth": { "type": "float", "value": 0 },
+            "MinHeight": { "type": "float", "value": 36 }
           }
         }
       ]

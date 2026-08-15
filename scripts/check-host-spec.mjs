@@ -26,6 +26,8 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
   expect(`Row ${row} BodyNode`, value(`row${row}.selectedBodyNode`), "NONE");
   expect(`Row ${row} Visual`, value(`row${row}.sampler`, "ShowDebugVisual"), false);
   expect(`Row ${row} index label`, value(`ui.row${row}.index.text`, "Content"), `${row}:`);
+  expect(`Row ${row} index font size`, value(`ui.row${row}.index.text`, "Size"), 32);
+  expect(`Row ${row} index width`, value(`ui.row${row}.index.layoutElement`, "PreferredWidth"), 60);
   expect(
     `Row ${row} index order`,
     slots.get(`UI/Vertical layout/Main Area/Row_${String(row).padStart(3, "0")}/Index`)?.orderOffset,
@@ -34,6 +36,8 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
   expect(`Row ${row} Sampler Edit label`, value(`context.row${row}SamplerEdit.source`, "Label"), `${row}`);
   expect(`Row ${row} Sampler Edit visibility`, value(`config.row${row}SourceConfigured`, "Value"), true);
 }
+
+expect("Header index width", value("ui.columnHeader.index.layoutElement", "PreferredWidth"), 60);
 
 expect("RequireCredit", value("tool.license", "RequireCredit"), true);
 expect("CreditString", value("tool.license", "CreditString"), "byohaptics");
