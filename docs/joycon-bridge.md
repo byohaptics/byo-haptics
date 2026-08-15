@@ -1,6 +1,6 @@
 # Joy-Con Bridge
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 ## Identity
 

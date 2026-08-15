@@ -1,6 +1,6 @@
 # Build Plan And Tasks
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 Tasks are executed from top to bottom. A checked task must have a verification result or commit.
 
@@ -92,6 +92,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 ## Post-release Maintenance
 
 - [x] Add the Host license policy to both Plugin Package SlotSpecs and static checks.
+- [x] Use stable row-index labels in Sampler Edit and the Host panel, and distinguish configured sources from currently resolvable sources.
 - [ ] Rebuild and redeploy both Plugin Packages, then verify their root `License` components live.
 
 ## Demo Plugin

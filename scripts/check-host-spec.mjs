@@ -24,6 +24,8 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
   expect(`Row ${row} Node mode`, value(`config.row${row}UseBodyNode`), true);
   expect(`Row ${row} BodyNode`, value(`row${row}.selectedBodyNode`), "NONE");
   expect(`Row ${row} Visual`, value(`row${row}.sampler`, "ShowDebugVisual"), false);
+  expect(`Row ${row} index label`, value(`ui.row${row}.index.text`, "Content"), `${row}:`);
+  expect(`Row ${row} Sampler Edit label`, value(`context.row${row}SamplerEdit.source`, "Label"), `${row}`);
 }
 
 expect("RequireCredit", value("tool.license", "RequireCredit"), true);
@@ -35,5 +37,8 @@ if (/PluginError|plugin\.error|pluginActiveLed\.error/i.test(serialized)) {
   throw new Error("Dead PluginError state must not be present");
 }
 if (serialized.includes("BYOHaptics.Output.v2")) throw new Error("Legacy output contract v2 is present");
+if (/context\.row\dSamplerEdit\.targetLabel\.copy/.test(serialized)) {
+  throw new Error("Sampler Edit labels must not be copied from Target");
+}
 
 console.log("Host SlotSpec defaults and public contract are consistent");

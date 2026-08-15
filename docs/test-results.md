@@ -1,6 +1,6 @@
 # Test Results
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 The public build was first deployed to a live Resonite world on 2026-08-12. Functional VR and device testing was completed by the later passing results recorded below. Statements that a retest or confirmation remained pending describe the state at that point in the test history; subsequent rows preserve the evidence of completion.
 

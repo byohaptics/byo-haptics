@@ -1,6 +1,6 @@
 # Host UI Specification
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 ## Panel
 
@@ -46,6 +46,8 @@ The `Node` checkbox selects BodyNode mode when checked and manual Slot mode when
 
 Each row is the same height and structure. Symbol columns have fixed width `60`. Text must autosize without wrapping column titles.
 
+Each sampler row starts with its zero-based row index in inventory-list form: `0:`, `1:`, `2:`, or `3:`.
+
 Default rows:
 
 | Row | Target | Node mode | BodyNode |
@@ -74,6 +76,6 @@ Sampler Edit submenu:
 
 - Back
 - Reset All Positions
-- One action per row with non-null Source
+- One action per row with a configured Source, labeled with its zero-based row index (`0` through `3`)
 
-Each row action label follows its current Target. Active edit state uses a distinct color.
+Sampler Edit labels are stable row indices and never use Source or Target values. Active edit state uses a distinct color.

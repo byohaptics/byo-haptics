@@ -1,6 +1,6 @@
 # Known Limitations
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 ## Multi-user Execution
 

@@ -1,6 +1,6 @@
 # Sampler Specification
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 ## Row State
 
@@ -21,6 +21,7 @@ Each of four rows owns:
 
 ```text
 ResolvedSource = NodeMode ? ActiveAvatar.BodyNodeSlot : ManualSource
+SourceConfigured = NodeMode ? SelectedBodyNode != NONE : ManualSource != null
 RowValid = ResolvedSource != null && Target != "" && RowEnabled
 ```
 
@@ -52,4 +53,4 @@ SamplerGlobal = SourceGlobal * AvatarRelativeOffset
 
 When edit starts, the sampler becomes grabbable without removing Source tracking. On release, calculate the offset in avatar-local coordinates from the new sampler pose. When edit ends, disable grabbing but retain the offset. `Reset All Positions` sets every offset to identity.
 
-A row with null ResolvedSource is omitted from the Sampler Edit submenu.
+A row without a configured Source is omitted from the Sampler Edit submenu. A configured BodyNode remains listed even when the current avatar cannot resolve that node; sampling remains disabled until ResolvedSource becomes non-null. Each included action is labeled with its zero-based row index (`0` through `3`), independent of Source and Target values.

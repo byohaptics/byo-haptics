@@ -10,6 +10,7 @@ in Row0Target: string mutable
 in Row0TargetAutoManaged: bool mutable
 in Row0LastAutoTarget: string mutable
 in Row0ClearButton: IButton global
+in Row0SourceConfigured: bool mutable
 
 in Row1UseBodyNode: bool
 in Row1SelectedBodyNode: Renderite.Shared.BodyNode mutable
@@ -18,6 +19,7 @@ in Row1Target: string mutable
 in Row1TargetAutoManaged: bool mutable
 in Row1LastAutoTarget: string mutable
 in Row1ClearButton: IButton global
+in Row1SourceConfigured: bool mutable
 
 in Row2UseBodyNode: bool
 in Row2SelectedBodyNode: Renderite.Shared.BodyNode mutable
@@ -26,6 +28,7 @@ in Row2Target: string mutable
 in Row2TargetAutoManaged: bool mutable
 in Row2LastAutoTarget: string mutable
 in Row2ClearButton: IButton global
+in Row2SourceConfigured: bool mutable
 
 in Row3UseBodyNode: bool
 in Row3SelectedBodyNode: Renderite.Shared.BodyNode mutable
@@ -34,6 +37,7 @@ in Row3Target: string mutable
 in Row3TargetAutoManaged: bool mutable
 in Row3LastAutoTarget: string mutable
 in Row3ClearButton: IButton global
+in Row3SourceConfigured: bool mutable
 
 where {
     User = LocalUser;
@@ -136,6 +140,10 @@ where {
         If(
             Condition=ToolIsUnderLocalUser,
             OnTrue=impulse {
+        Row0SourceConfigured <- if Row0UseBodyNode then Row0SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row0ManualSource);
+        Row1SourceConfigured <- if Row1UseBodyNode then Row1SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row1ManualSource);
+        Row2SourceConfigured <- if Row2UseBodyNode then Row2SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row2ManualSource);
+        Row3SourceConfigured <- if Row3UseBodyNode then Row3SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row3ManualSource);
         If(
             Condition=Row0UseBodyNode,
             OnTrue=impulse {

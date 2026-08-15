@@ -35126,6 +35126,36 @@
       ]
     },
     {
+      "path": "UI/Vertical layout/Main Area/Row_000/Index",
+      "orderOffset": 10,
+      "components": [
+        {
+          "alias": "ui.row0.index.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
+        },
+        {
+          "alias": "ui.row0.index.layoutElement",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinWidth": { "type": "float", "value": 30 },
+            "PreferredWidth": { "type": "float", "value": 30 },
+            "FlexibleWidth": { "type": "float", "value": 0 }
+          }
+        },
+        {
+          "alias": "ui.row0.index.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": { "type": "string", "value": "0:" },
+            "Size": { "type": "float", "value": 24 },
+            "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } },
+            "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" },
+            "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" }
+          }
+        }
+      ]
+    },
+    {
       "path": "UI/Vertical layout/Main Area/Row_000/TargetFieldArea",
       "orderOffset": 20,
       "components": [
@@ -36060,6 +36090,15 @@
             }
           }
         }
+      ]
+    },
+    {
+      "path": "UI/Vertical layout/Main Area/Row_001/Index",
+      "orderOffset": 10,
+      "components": [
+        { "alias": "ui.row1.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "ui.row1.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
+        { "alias": "ui.row1.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "1:" }, "Size": { "type": "float", "value": 24 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
       ]
     },
     {
@@ -37000,6 +37039,15 @@
       ]
     },
     {
+      "path": "UI/Vertical layout/Main Area/Row_002/Index",
+      "orderOffset": 10,
+      "components": [
+        { "alias": "ui.row2.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "ui.row2.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
+        { "alias": "ui.row2.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "2:" }, "Size": { "type": "float", "value": 24 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
+      ]
+    },
+    {
       "path": "UI/Vertical layout/Main Area/Row_002/TargetFieldArea",
       "orderOffset": 20,
       "components": [
@@ -37934,6 +37982,15 @@
             }
           }
         }
+      ]
+    },
+    {
+      "path": "UI/Vertical layout/Main Area/Row_003/Index",
+      "orderOffset": 10,
+      "components": [
+        { "alias": "ui.row3.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
+        { "alias": "ui.row3.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
+        { "alias": "ui.row3.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "3:" }, "Size": { "type": "float", "value": 24 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
       ]
     },
     {
@@ -41637,6 +41694,12 @@
       ]
     },
     {
+      "path": "Config/Row_000SourceConfigured",
+      "components": [
+        { "alias": "config.row0SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+      ]
+    },
+    {
       "path": "Config/Row_000SourceValid",
       "components": [
         {
@@ -41649,6 +41712,12 @@
             }
           }
         }
+      ]
+    },
+    {
+      "path": "Config/Row_001SourceConfigured",
+      "components": [
+        { "alias": "config.row1SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
       ]
     },
     {
@@ -41667,6 +41736,12 @@
       ]
     },
     {
+      "path": "Config/Row_002SourceConfigured",
+      "components": [
+        { "alias": "config.row2SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+      ]
+    },
+    {
       "path": "Config/Row_002SourceValid",
       "components": [
         {
@@ -41679,6 +41754,12 @@
             }
           }
         }
+      ]
+    },
+    {
+      "path": "Config/Row_003SourceConfigured",
+      "components": [
+        { "alias": "config.row3SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
       ]
     },
     {
@@ -48954,7 +49035,7 @@
           "members": {
             "Label": {
               "type": "string",
-              "value": "left"
+              "value": "0"
             },
             "Color": {
               "type": "colorX",
@@ -48983,10 +49064,6 @@
         {
           "alias": "context.row0SamplerEdit.toggle",
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
-        },
-        {
-          "alias": "context.row0SamplerEdit.targetLabel.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
         },
         {
           "alias": "context.row0SamplerEdit.active.copy",
@@ -49042,7 +49119,7 @@
           "members": {
             "Label": {
               "type": "string",
-              "value": "right"
+          "value": "1"
             },
             "Color": {
               "type": "colorX",
@@ -49071,10 +49148,6 @@
         {
           "alias": "context.row1SamplerEdit.toggle",
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
-        },
-        {
-          "alias": "context.row1SamplerEdit.targetLabel.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
         },
         {
           "alias": "context.row1SamplerEdit.active.copy",
@@ -49130,7 +49203,7 @@
           "members": {
             "Label": {
               "type": "string",
-              "value": "head"
+          "value": "2"
             },
             "Color": {
               "type": "colorX",
@@ -49159,10 +49232,6 @@
         {
           "alias": "context.row2SamplerEdit.toggle",
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
-        },
-        {
-          "alias": "context.row2SamplerEdit.targetLabel.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
         },
         {
           "alias": "context.row2SamplerEdit.active.copy",
@@ -49218,7 +49287,7 @@
           "members": {
             "Label": {
               "type": "string",
-              "value": "hips"
+          "value": "3"
             },
             "Color": {
               "type": "colorX",
@@ -49247,10 +49316,6 @@
         {
           "alias": "context.row3SamplerEdit.toggle",
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
-        },
-        {
-          "alias": "context.row3SamplerEdit.targetLabel.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
         },
         {
           "alias": "context.row3SamplerEdit.active.copy",
@@ -50188,27 +50253,15 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<colorX>"
     },
     {
-      "component": "context.row0SamplerEdit.targetLabel.copy",
-      "member": "Source",
-      "fieldRef": "row0.target.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
-      "component": "context.row0SamplerEdit.targetLabel.copy",
-      "member": "Target",
-      "fieldRef": "context.row0SamplerEdit.source.Label",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
       "component": "context.row0SamplerEdit.active.copy",
       "member": "Source",
-      "fieldRef": "config.row0SourceValid.Value",
+      "fieldRef": "config.row0SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "context.row0SamplerEdit.sourceEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row0SourceValid.Value",
+      "fieldRef": "config.row0SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50220,7 +50273,7 @@
     {
       "component": "context.row0SamplerEdit.buttonEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row0SourceValid.Value",
+      "fieldRef": "config.row0SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50254,27 +50307,15 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row1SamplerEdit.targetLabel.copy",
-      "member": "Source",
-      "fieldRef": "row1.target.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
-      "component": "context.row1SamplerEdit.targetLabel.copy",
-      "member": "Target",
-      "fieldRef": "context.row1SamplerEdit.source.Label",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
       "component": "context.row1SamplerEdit.active.copy",
       "member": "Source",
-      "fieldRef": "config.row1SourceValid.Value",
+      "fieldRef": "config.row1SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "context.row1SamplerEdit.sourceEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row1SourceValid.Value",
+      "fieldRef": "config.row1SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50286,7 +50327,7 @@
     {
       "component": "context.row1SamplerEdit.buttonEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row1SourceValid.Value",
+      "fieldRef": "config.row1SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50320,27 +50361,15 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row2SamplerEdit.targetLabel.copy",
-      "member": "Source",
-      "fieldRef": "row2.target.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
-      "component": "context.row2SamplerEdit.targetLabel.copy",
-      "member": "Target",
-      "fieldRef": "context.row2SamplerEdit.source.Label",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
       "component": "context.row2SamplerEdit.active.copy",
       "member": "Source",
-      "fieldRef": "config.row2SourceValid.Value",
+      "fieldRef": "config.row2SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "context.row2SamplerEdit.sourceEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row2SourceValid.Value",
+      "fieldRef": "config.row2SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50352,7 +50381,7 @@
     {
       "component": "context.row2SamplerEdit.buttonEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row2SourceValid.Value",
+      "fieldRef": "config.row2SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50386,27 +50415,15 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row3SamplerEdit.targetLabel.copy",
-      "member": "Source",
-      "fieldRef": "row3.target.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
-      "component": "context.row3SamplerEdit.targetLabel.copy",
-      "member": "Target",
-      "fieldRef": "context.row3SamplerEdit.source.Label",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
-    },
-    {
       "component": "context.row3SamplerEdit.active.copy",
       "member": "Source",
-      "fieldRef": "config.row3SourceValid.Value",
+      "fieldRef": "config.row3SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "context.row3SamplerEdit.sourceEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row3SourceValid.Value",
+      "fieldRef": "config.row3SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50418,7 +50435,7 @@
     {
       "component": "context.row3SamplerEdit.buttonEnabled.copy",
       "member": "Source",
-      "fieldRef": "config.row3SourceValid.Value",
+      "fieldRef": "config.row3SourceConfigured.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -51301,14 +51318,26 @@
     "Row0SourceValid": {
       "fieldRef": "config.row0SourceValid.Value"
     },
+    "Row0SourceConfigured": {
+      "fieldRef": "config.row0SourceConfigured.Value"
+    },
     "Row1SourceValid": {
       "fieldRef": "config.row1SourceValid.Value"
+    },
+    "Row1SourceConfigured": {
+      "fieldRef": "config.row1SourceConfigured.Value"
     },
     "Row2SourceValid": {
       "fieldRef": "config.row2SourceValid.Value"
     },
+    "Row2SourceConfigured": {
+      "fieldRef": "config.row2SourceConfigured.Value"
+    },
     "Row3SourceValid": {
       "fieldRef": "config.row3SourceValid.Value"
+    },
+    "Row3SourceConfigured": {
+      "fieldRef": "config.row3SourceConfigured.Value"
     },
     "SamplersActive": {
       "slotField": {

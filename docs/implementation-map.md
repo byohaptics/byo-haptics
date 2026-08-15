@@ -1,6 +1,6 @@
 # Implementation Map
 
-Document version: `0.1.7`
+Document version: `0.1.8`
 
 This map ties each public requirement to its declarative source, executable source, and verification boundary. Specifications remain authoritative when a test exposes a mismatch.
 
