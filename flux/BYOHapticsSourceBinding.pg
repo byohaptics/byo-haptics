@@ -137,13 +137,13 @@ where {
         UpdatingUser=User->asDrivenGlobal,
         SkipIfNull=true,
         OnUpdate=impulse {
-        If(
-            Condition=ToolIsUnderLocalUser,
-            OnTrue=impulse {
         Row0SourceConfigured <- if Row0UseBodyNode then Row0SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row0ManualSource);
         Row1SourceConfigured <- if Row1UseBodyNode then Row1SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row1ManualSource);
         Row2SourceConfigured <- if Row2UseBodyNode then Row2SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row2ManualSource);
         Row3SourceConfigured <- if Row3UseBodyNode then Row3SelectedBodyNode != BodyNode.NONE else NotNull(Instance=Row3ManualSource);
+        If(
+            Condition=ToolIsUnderLocalUser,
+            OnTrue=impulse {
         If(
             Condition=Row0UseBodyNode,
             OnTrue=impulse {
