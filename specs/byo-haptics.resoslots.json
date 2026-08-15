@@ -41696,7 +41696,7 @@
     {
       "path": "Config/Row_000SourceConfigured",
       "components": [
-        { "alias": "config.row0SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+        { "alias": "config.row0SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
       ]
     },
     {
@@ -41717,7 +41717,7 @@
     {
       "path": "Config/Row_001SourceConfigured",
       "components": [
-        { "alias": "config.row1SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+        { "alias": "config.row1SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
       ]
     },
     {
@@ -41738,7 +41738,7 @@
     {
       "path": "Config/Row_002SourceConfigured",
       "components": [
-        { "alias": "config.row2SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+        { "alias": "config.row2SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
       ]
     },
     {
@@ -41759,7 +41759,7 @@
     {
       "path": "Config/Row_003SourceConfigured",
       "components": [
-        { "alias": "config.row3SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": false } } }
+        { "alias": "config.row3SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
       ]
     },
     {

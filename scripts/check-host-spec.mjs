@@ -32,6 +32,7 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
     -10,
   );
   expect(`Row ${row} Sampler Edit label`, value(`context.row${row}SamplerEdit.source`, "Label"), `${row}`);
+  expect(`Row ${row} Sampler Edit visibility`, value(`config.row${row}SourceConfigured`, "Value"), true);
 }
 
 expect("RequireCredit", value("tool.license", "RequireCredit"), true);

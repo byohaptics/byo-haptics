@@ -20,11 +20,11 @@ Both Plugin Package SlotSpecs now include the same `License` policy as the Host:
 
 The Demo Output Plugin is implemented at version `0.1.5`. The user passed direct drop, two-row `left`/`right` routing, and HapticVolume response in `byohaptics World`, but a forced 0.85 signal showed that the original Wiggler target produced no visible motion despite correct Intensity, Enabled, and magnitude values. The Wiggler now targets the dedicated `Devices/<side>/Visual.Rotation` child field instead of the interactive device root Rotation, eliminating the display-writer conflict while retaining the thirty-degree maximum. Its card remains content-sized at 420 by 186 pixels, and the device roots remain at x = -0.55 m and +0.55 m. The 26-slot, 58-component SlotSpec validates, all three Plugin graphs compile, and v0.1.5 was redeployed to `byohaptics World` with 408 responses, zero input-reference corrections, and zero module-discovery errors. Live visible-motion confirmation remains pending.
 
-Sampler Edit now uses stable labels `0` through `3`, and each Host UI row starts with `0:` through `3:`. Live inspection after the report that only Row 1 appeared found Row 0 configured for BodyNode `Jaw` but unresolved (`SourceValid=false`), while Row 1 `RightHand` resolved. Menu visibility now uses a separate SourceConfigured state, so configured BodyNodes remain listed even when the current avatar lacks that node; sampling and output still require ResolvedSource. The updated Host has not yet been rebuilt or redeployed.
+Sampler Edit uses stable labels `0` through `3`, always exposes all four rows, and each Host UI row starts with `0:` through `3:`. Menu availability is independent of source configuration and resolution; sampling and output still require ResolvedSource. The Host was rebuilt and redeployed to `byohaptics World`; live inspection confirmed all four item slots active with labels `0` through `3`, and each ContextMenuItemSource enabled and clickable.
 
 ## Next Task
 
-Rebuild and redeploy the Host, then verify Sampler Edit lists configured Rows 0 and 1 as `0` and `1`, and the panel shows `0:` through `3:`.
+Verify the Sampler Edit submenu visually in VR and confirm each row selection changes the active sampler edit row.
 
 ## Blocking Decisions
 
