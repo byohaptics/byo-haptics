@@ -131,7 +131,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "v0.1.4"
+              "value": "v0.1.5"
             }
           }
         },
@@ -1180,7 +1180,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "v0.1.4"
+              "value": "v0.1.5"
             },
             "ParseRichText": {
               "type": "bool",
@@ -1493,14 +1493,14 @@
     {
       "component": "device.left.wiggler",
       "member": "_target",
-      "slotPath": "Devices/Left",
+      "slotPath": "Devices/Left/Visual",
       "slotMember": "Rotation",
       "targetType": "[FrooxEngine]FrooxEngine.IField<[BaseX]BaseX.floatQ>"
     },
     {
       "component": "device.right.wiggler",
       "member": "_target",
-      "slotPath": "Devices/Right",
+      "slotPath": "Devices/Right/Visual",
       "slotMember": "Rotation",
       "targetType": "[FrooxEngine]FrooxEngine.IField<[BaseX]BaseX.floatQ>"
     }

@@ -1,11 +1,11 @@
 # Demo Output Plugin
 
-Document version: `0.1.6`
+Document version: `0.1.7`
 
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.demo`
-- Plugin version: `0.1.4`
+- Plugin version: `0.1.5`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: direct scene fields
 - Connection reporting: available
@@ -32,7 +32,7 @@ For each row, combine Force, Vibration, Pain, and Temperature by maximum value. 
 
 ## Simulated Vibration
 
-Each device uses a `Wiggler` component targeting its Slot `Rotation` field. This represents a vibration motor as small, fast angular motion; horizontal translation is not used because contact friction constrains it more strongly than rotation.
+Each device uses a `Wiggler` component targeting the dedicated child `Devices/<side>/Visual` Slot's `Rotation` field. The device root contains Grabbable and collider state and is not an animation target. Keeping the sole rotation writer on the visual child ensures the Canvas visibly moves without competing with root interaction or synchronization state.
 
 Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to thirty degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation. The exaggerated range is intentional: these are visual indicators for a demo, not a physical vibration simulation.
 

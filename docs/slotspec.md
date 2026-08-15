@@ -1,6 +1,6 @@
 # SlotSpec Schema
 
-Document version: `0.1.6`
+Document version: `0.1.7`
 
 SlotSpec is the declarative source for slots, components, initial member values, references, and ProtoGraph inputs. It never stores runtime IDs.
 

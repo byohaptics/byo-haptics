@@ -1,6 +1,6 @@
 # Test Results
 
-Document version: `0.1.6`
+Document version: `0.1.7`
 
 The public build was first deployed to a live Resonite world on 2026-08-12. Functional VR and device testing was completed by the later passing results recorded below. Statements that a retest or confirmation remained pending describe the state at that point in the test history; subsequent rows preserve the evidence of completion.
 
@@ -42,6 +42,8 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-13 | working tree after `18bc7f4` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Redeploy the polished v0.1.2 package | Pass | AutoDiscovery selected `byohaptics World`. The 26-slot, 58-component package and 408-response graph deployed with zero module-discovery errors and zero input-reference corrections. Card, motion, and placement acceptance remain pending. |
 | 2026-08-14 | working tree after `129edae` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Replace inherited 340-pixel height with a content-derived 186-pixel card and redeploy v0.1.3 | Pass | The reachable `byohaptics World` ResoniteLink endpoint was confirmed from the latest log fallback. The package and 408-response graph deployed with zero module-discovery errors and zero input-reference corrections. Visual spacing acceptance remains pending. |
 | 2026-08-14 | working tree after `e5a19c8` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Increase simulated-device Wiggler magnitude from 12 to 30 degrees and redeploy v0.1.4 | Pass | The `byohaptics World` endpoint was reachable. The package and 408-response graph deployed with zero module-discovery errors and zero input-reference corrections. Visual motion acceptance remains pending. |
+| 2026-08-15 | `e894451` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Force a 5 m Force region for one second and inspect the complete signal path | Fail | Raw Force, Output Force, and device Intensity each reached `0.85`; Wiggler was enabled with `25.5` degrees per axis, but no visible device motion appeared. The temporary trigger radius was restored to 0.09 m. The display animation target, not sampling or routing, requires correction. |
+| 2026-08-15 | working tree after `e894451` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Move each Wiggler target from the interactive device root Rotation to its dedicated Visual child Rotation and redeploy v0.1.5 | Pass | The 26-slot, 58-component package and 408-response graph deployed with zero module-discovery errors and zero input-reference corrections. Visible-motion confirmation remains pending. |
 
 ## Required Result Detail
 

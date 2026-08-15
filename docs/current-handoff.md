@@ -18,14 +18,14 @@ Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Ha
 
 Both Plugin Package SlotSpecs now include the same `License` policy as the Host: credit required, credit string `byohaptics`, and export disabled. The source change requires rebuilding and redeploying both Plugin Packages before the live objects contain these components.
 
-The Demo Output Plugin is implemented at version `0.1.4`. The user passed direct drop, two-row `left`/`right` routing, and HapticVolume response in `byohaptics World`. Its card uses the shared rounded, backed visual language and distinct purple accent, but its height is content-derived rather than copied from a configurable plugin: 420 by 186 pixels, with an 18-pixel stripe, 24-pixel top padding, four metadata rows totalling 150 pixels, and 12-pixel bottom padding. The blue `LEFT` and red `RIGHT` devices sit at x = -0.55 m and +0.55 m so they remain outside the Host panel after drop. Their rotation-targeting Wigglers reach an intentionally exaggerated thirty degrees per axis for unmistakable demo motion. The 26-slot, 58-component SlotSpec validates, all three Plugin graphs compile, and v0.1.4 was redeployed to `byohaptics World` with 408 responses, zero input-reference corrections, and zero module-discovery errors. Visual acceptance remains pending.
+The Demo Output Plugin is implemented at version `0.1.5`. The user passed direct drop, two-row `left`/`right` routing, and HapticVolume response in `byohaptics World`, but a forced 0.85 signal showed that the original Wiggler target produced no visible motion despite correct Intensity, Enabled, and magnitude values. The Wiggler now targets the dedicated `Devices/<side>/Visual.Rotation` child field instead of the interactive device root Rotation, eliminating the display-writer conflict while retaining the thirty-degree maximum. Its card remains content-sized at 420 by 186 pixels, and the device roots remain at x = -0.55 m and +0.55 m. The 26-slot, 58-component SlotSpec validates, all three Plugin graphs compile, and v0.1.5 was redeployed to `byohaptics World` with 408 responses, zero input-reference corrections, and zero module-discovery errors. Live visible-motion confirmation remains pending.
 
 ## Next Task
 
-Verify the compact Demo card spacing in `byohaptics World`.
+Verify visible LEFT and RIGHT motion from the v0.1.5 Visual-child Wiggler targets in `byohaptics World`.
 
 ## Blocking Decisions
 
-- User VR visual acceptance of the polished Demo Plugin.
+- User VR confirmation of visible Demo device motion.
 
 Neither decision blocks local specification and reconstruction work.

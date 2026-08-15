@@ -92,7 +92,7 @@ if (demoLayout?.PaddingTop?.value !== 24 || demoLayout?.PaddingBottom?.value !==
 if (demoSlot("Devices/Left")?.position?.x !== -0.55 || demoSlot("Devices/Right")?.position?.x !== 0.55) {
   throw new Error("Demo devices must remain clear of the Host panel at x = +/-0.55");
 }
-for (const [side, path] of [["left", "Devices/Left"], ["right", "Devices/Right"]]) {
+for (const [side, path] of [["left", "Devices/Left/Visual"], ["right", "Devices/Right/Visual"]]) {
   const reference = demoSpec.slotFieldReferences?.find((item) => item.component === `device.${side}.wiggler`);
   if (reference?.member !== "_target" || reference?.slotPath !== path || reference?.slotMember !== "Rotation") {
     throw new Error(`Demo ${side} Wiggler must directly target ${path}.Rotation`);

@@ -1,6 +1,6 @@
 # Test Plan
 
-Document version: `0.1.6`
+Document version: `0.1.7`
 
 ## Static Tests
 

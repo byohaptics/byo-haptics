@@ -1,6 +1,6 @@
 # Build Plan And Tasks
 
-Document version: `0.1.6`
+Document version: `0.1.7`
 
 Tasks are executed from top to bottom. A checked task must have a verification result or commit.
 
