@@ -35127,7 +35127,7 @@
     },
     {
       "path": "UI/Vertical layout/Main Area/Row_000/Index",
-      "orderOffset": 10,
+      "orderOffset": -10,
       "components": [
         {
           "alias": "ui.row0.index.rect",
@@ -36094,7 +36094,7 @@
     },
     {
       "path": "UI/Vertical layout/Main Area/Row_001/Index",
-      "orderOffset": 10,
+      "orderOffset": -10,
       "components": [
         { "alias": "ui.row1.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
         { "alias": "ui.row1.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
@@ -37040,7 +37040,7 @@
     },
     {
       "path": "UI/Vertical layout/Main Area/Row_002/Index",
-      "orderOffset": 10,
+      "orderOffset": -10,
       "components": [
         { "alias": "ui.row2.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
         { "alias": "ui.row2.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
@@ -37986,7 +37986,7 @@
     },
     {
       "path": "UI/Vertical layout/Main Area/Row_003/Index",
-      "orderOffset": 10,
+      "orderOffset": -10,
       "components": [
         { "alias": "ui.row3.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
         { "alias": "ui.row3.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 30 }, "PreferredWidth": { "type": "float", "value": 30 }, "FlexibleWidth": { "type": "float", "value": 0 } } },

@@ -46,7 +46,7 @@ The `Node` checkbox selects BodyNode mode when checked and manual Slot mode when
 
 Each row is the same height and structure. Symbol columns have fixed width `60`. Text must autosize without wrapping column titles.
 
-Each sampler row starts with its zero-based row index in inventory-list form: `0:`, `1:`, `2:`, or `3:`.
+Each sampler row starts with its zero-based row index in inventory-list form: `0:`, `1:`, `2:`, or `3:`. It is the leftmost element, immediately before the `Node` checkbox.
 
 Default rows:
 

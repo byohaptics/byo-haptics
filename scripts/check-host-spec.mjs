@@ -5,6 +5,7 @@ const version = JSON.parse(fs.readFileSync(new URL("../versions.json", import.me
 const components = new Map(
   spec.slots.flatMap((slot) => (slot.components ?? []).map((component) => [component.alias, component])),
 );
+const slots = new Map(spec.slots.map((slot) => [slot.path, slot]));
 
 const value = (alias, member = "Value") => components.get(alias)?.members?.[member]?.value;
 const expect = (label, actual, expected) => {
@@ -25,6 +26,11 @@ for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
   expect(`Row ${row} BodyNode`, value(`row${row}.selectedBodyNode`), "NONE");
   expect(`Row ${row} Visual`, value(`row${row}.sampler`, "ShowDebugVisual"), false);
   expect(`Row ${row} index label`, value(`ui.row${row}.index.text`, "Content"), `${row}:`);
+  expect(
+    `Row ${row} index order`,
+    slots.get(`UI/Vertical layout/Main Area/Row_${String(row).padStart(3, "0")}/Index`)?.orderOffset,
+    -10,
+  );
   expect(`Row ${row} Sampler Edit label`, value(`context.row${row}SamplerEdit.source`, "Label"), `${row}`);
 }
 
