@@ -33,10 +33,15 @@ Clearing Source sets manual Source null, disables output, resets sampler local t
 For each sensation `S`:
 
 ```text
-OutputS = RowValid ? clamp01(Sampler.S * RowGain * GlobalGain) : 0
+RawOutputS = RowValid ? clamp01(Sampler.S * RowGain * GlobalGain) : 0
+OutputS = RawOutputS > 0
+    ? RawOutputS
+    : HoldRemainingS > 0 ? LastPositiveOutputS : 0
 ```
 
 The four sensations remain separate on the Output Bus. Debug visual state is observational and is never used as a signal value.
+
+Each row and sensation independently retains its last positive output for at least `MinimumPulseDuration` after the final positive sample. `MinimumPulseDuration` is a Host configuration value in seconds, defaults to `0.08`, and may be set to `0` to disable retention. A new positive sample replaces the retained strength and restarts its duration. Disabling the Host or row, losing Source resolution, or clearing Target bypasses and clears retention immediately.
 
 ## Local-user Isolation
 

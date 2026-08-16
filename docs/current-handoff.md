@@ -1,6 +1,6 @@
 # Current Handoff
 
-Updated: 2026-08-15
+Updated: 2026-08-16
 
 ## Current State
 
@@ -22,12 +22,15 @@ The Demo Output Plugin is implemented at version `0.1.5`. The user passed direct
 
 Sampler Edit uses stable labels `0` through `3`, always exposes all four rows, and each Host UI row starts with `0:` through `3:`. The user confirmed the row-index position, all four Sampler Edit items, and Row 0 selection behavior. The row-index font is now 32 px in a fixed 60 px column, and the header has a matching blank 60 px column so Node and later headers align with their controls. The updated Host was rebuilt and redeployed to `byohaptics World`; live inspection confirmed the new width and font values. Visual acceptance of the enlarged index and checkbox clearance is pending.
 
+The Output Bus now retains each positive Force, Vibration, Pain, and Temperature value independently per row for at least `Config/MinimumPulseDuration`. The default is `0.08` seconds, zero disables retention, a new positive sample replaces the retained value and restarts its duration, and an invalid Host, row, Source, or Target still clears output immediately. The Host was rebuilt and deployed to the reachable `Local` session; live inspection confirmed the `0.08` configuration value and the deployed hold-state structure. All static tests pass. A short-collision VR acceptance test remains pending.
+
 ## Next Task
 
-Verify the enlarged row indices, Node-checkbox clearance, and header alignment visually in VR.
+Verify in VR that a short collision remains perceptible for the configured minimum duration, then verify the enlarged row indices, Node-checkbox clearance, and header alignment.
 
 ## Blocking Decisions
 
 - User VR confirmation of visible Demo device motion.
+- User VR confirmation of minimum-duration output from a short collision.
 
 Neither decision blocks local specification and reconstruction work.

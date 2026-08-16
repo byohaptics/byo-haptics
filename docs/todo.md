@@ -93,6 +93,8 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 - [x] Add the Host license policy to both Plugin Package SlotSpecs and static checks.
 - [x] Use stable row-index labels in Sampler Edit and the Host panel, and distinguish configured sources from currently resolvable sources.
+- [x] Retain each positive sampler sensation for a configurable minimum duration, defaulting to 80 ms.
+- [ ] Confirm in VR that a short collision remains perceptible for the configured minimum duration.
 - [ ] Rebuild and redeploy both Plugin Packages, then verify their root `License` components live.
 
 ## Demo Plugin

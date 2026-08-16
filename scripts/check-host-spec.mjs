@@ -18,6 +18,22 @@ expect("Config version", value("config.version"), `v${version}`);
 expect("Panel title", value("ui.title.text", "Content"), `BYO Haptics v${version}`);
 expect("Contract version", value("output.bus.contractVersion.variable"), 1);
 expect("Contract namespace", value("output.pluginSocket.space", "SpaceName"), "BYOHaptics.Output.v1");
+expect("Minimum pulse duration", value("config.minimumPulseDuration"), 0.08);
+
+for (const row of [0, 1, 2, 3]) {
+  for (const sensation of ["Force", "Vibration", "Pain", "Temperature"]) {
+    expect(
+      `Row ${row} ${sensation} held input`,
+      spec.fluxInputs[`Row${row}${sensation}Held`]?.fieldRef,
+      `runtime.row${row}${sensation}Held.Value`,
+    );
+    expect(
+      `Row ${row} ${sensation} hold timer input`,
+      spec.fluxInputs[`Row${row}${sensation}HoldRemaining`]?.fieldRef,
+      `runtime.row${row}${sensation}HoldRemaining.Value`,
+    );
+  }
+}
 
 for (const [row, target] of ["left", "right", "head", "hips"].entries()) {
   expect(`Row ${row} Target`, value(`row${row}.target`), target);
