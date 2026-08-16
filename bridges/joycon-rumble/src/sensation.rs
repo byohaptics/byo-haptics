@@ -23,12 +23,8 @@ pub struct HapticDriveFrame {
     pub duration: Duration,
 }
 
-pub trait RandomSource {
-    fn next_f32(&mut self) -> f32;
-}
-
 #[derive(Debug, Clone)]
-pub struct XorShift32(u32);
+struct XorShift32(u32);
 
 impl Default for XorShift32 {
     fn default() -> Self {
@@ -36,7 +32,7 @@ impl Default for XorShift32 {
     }
 }
 
-impl RandomSource for XorShift32 {
+impl XorShift32 {
     fn next_f32(&mut self) -> f32 {
         let mut value = self.0;
         value ^= value << 13;
@@ -47,19 +43,12 @@ impl RandomSource for XorShift32 {
     }
 }
 
-pub struct SensationDriveEngine<R> {
+pub struct SensationDriveEngine {
     pain_phase: f32,
-    random: R,
+    random: XorShift32,
 }
 
-impl<R: RandomSource> SensationDriveEngine<R> {
-    pub fn new(random: R) -> Self {
-        Self {
-            pain_phase: 0.0,
-            random,
-        }
-    }
-
+impl SensationDriveEngine {
     pub fn reset(&mut self) {
         self.pain_phase = 0.0;
     }
@@ -80,9 +69,12 @@ impl<R: RandomSource> SensationDriveEngine<R> {
     }
 }
 
-impl Default for SensationDriveEngine<XorShift32> {
+impl Default for SensationDriveEngine {
     fn default() -> Self {
-        Self::new(XorShift32::default())
+        Self {
+            pain_phase: 0.0,
+            random: XorShift32::default(),
+        }
     }
 }
 
@@ -146,10 +138,10 @@ fn render_point(point: SensationPoint, pain_envelope: f32, random_01: f32) -> Ha
 mod tests {
     use super::*;
 
-    struct FixedRandom(f32);
-    impl RandomSource for FixedRandom {
-        fn next_f32(&mut self) -> f32 {
-            self.0
+    fn fixed_engine() -> SensationDriveEngine {
+        SensationDriveEngine {
+            pain_phase: 0.0,
+            random: XorShift32(0),
         }
     }
 
@@ -188,7 +180,7 @@ mod tests {
 
     #[test]
     fn pain_uses_shared_phase_for_both_sides() {
-        let mut engine = SensationDriveEngine::new(FixedRandom(0.0));
+        let mut engine = fixed_engine();
         let outputs = engine.update(
             SensationState {
                 left: SensationPoint {
@@ -207,7 +199,7 @@ mod tests {
 
     #[test]
     fn non_finite_values_are_sanitized() {
-        let mut engine = SensationDriveEngine::new(FixedRandom(0.0));
+        let mut engine = fixed_engine();
         let outputs = engine.update(
             SensationState {
                 left: SensationPoint {

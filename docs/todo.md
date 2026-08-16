@@ -95,6 +95,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Use stable row-index labels in Sampler Edit and the Host panel, and distinguish configured sources from currently resolvable sources.
 - [x] Retain each positive sampler sensation for a configurable minimum duration, defaulting to 80 ms.
 - [x] Confirm in VR that a short collision remains perceptible for the configured minimum duration.
+- [x] Apply the repository-wide Ponytail audit by removing unused Host deployment recovery paths and the Bridge's test-only random abstraction.
 - [ ] Rebuild and redeploy both Plugin Packages, then verify their root `License` components live.
 
 ## Demo Plugin

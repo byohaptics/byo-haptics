@@ -24,6 +24,8 @@ Sampler Edit uses stable labels `0` through `3`, always exposes all four rows, a
 
 The Output Bus retains each positive Force, Vibration, Pain, and Temperature value independently per row for at least `Config/MinimumPulseDuration`. The default is `0.08` seconds, zero disables retention, a new positive sample replaces the retained value and restarts its duration, and an invalid Host, row, Source, or Target still clears output immediately. The user confirmed in VR that short collisions feel effective. A Ponytail review then removed the redundant held-value fields by reusing the mutable Output Bus values; this reduced the Host by 16 components and the Output Bus graph from 1589 to 1429 responses. The simplified Host was deployed to `byohaptics World` with zero module-discovery errors, and all static tests pass.
 
+A repository-wide Ponytail audit removed 416 net lines. Host deployment now has one path: `deploy-host.ps1` builds a fresh SlotSpec, then all eight sheets consume only that build's generated IDs. The unused live-graph discovery, stale-ID recovery, diagnostic-field repair, partial-sheet, patch-only, and keep-previous paths are gone. The Bridge now stores its concrete deterministic PRNG directly instead of carrying a test-only random-source abstraction, and the Plugin wrapper no longer sets an unreachable fallback URL after SlotSpec construction. All static checks and 32 Rust tests pass; live deployment of this audit reduction remains pending.
+
 ## Next Task
 
 Verify the enlarged row indices, Node-checkbox clearance, and header alignment in VR.

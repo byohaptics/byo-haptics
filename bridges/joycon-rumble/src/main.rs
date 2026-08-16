@@ -17,7 +17,7 @@ use std::time::{Duration, Instant};
 use backend::{ConsoleBackend, RumbleBackend};
 use config::{Config, DeviceSide};
 use joycon::{HidJoyConBackend, ImuProfileStore};
-use sensation::{HapticDriveFrame, SensationDriveEngine, XorShift32};
+use sensation::{HapticDriveFrame, SensationDriveEngine};
 use signal::{HapticEvent, HapticRouter, Target};
 use trace::TraceRecorder;
 use transport::ReceivedPacket;
@@ -67,7 +67,7 @@ impl OscRuntime {
         &mut self,
         socket: &UdpSocket,
         packets: &[ReceivedPacket],
-        drive_engine: &mut SensationDriveEngine<XorShift32>,
+        drive_engine: &mut SensationDriveEngine,
         sensation_schedule: &mut PeriodicDeadline,
         trace: &mut Option<TraceRecorder>,
     ) {

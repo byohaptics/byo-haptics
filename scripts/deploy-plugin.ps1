@@ -19,7 +19,6 @@ $env:RESONITE_SLOTSPEC_RECREATE = if ($Recreate) { '1' } else { '0' }
 & $runner -ScriptPath "$PSScriptRoot/build-from-resonite-slotspec.fsx"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-if (-not $env:RESONITELINK_URL) { $env:RESONITELINK_URL = 'ws://localhost:24319' }
 $env:OUTPUT_PLUGIN_MODULE = $settings[1]
 $env:OUTPUT_PLUGIN_IDS = $settings[2]
 $env:OUTPUT_PLUGIN_DEPLOY = '1'

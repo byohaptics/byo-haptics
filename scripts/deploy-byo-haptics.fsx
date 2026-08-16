@@ -37,42 +37,7 @@ let allModulePaths =
       "flux/BYOHapticsOutputBus"
       "flux/BYOHapticsDiagnostics" ]
 
-let requestedModuleNames =
-    match Environment.GetEnvironmentVariable "BYO_HAPTICS_MODULES" with
-    | null | "" -> None
-    | value ->
-        value.Split(',', StringSplitOptions.RemoveEmptyEntries ||| StringSplitOptions.TrimEntries)
-        |> Seq.map (fun name ->
-            if name.StartsWith("flux/", StringComparison.OrdinalIgnoreCase) then
-                name.Substring("flux/".Length)
-            else name)
-        |> Set.ofSeq
-        |> Some
-
-let modulePaths =
-    match requestedModuleNames with
-    | None -> allModulePaths
-    | Some names ->
-        allModulePaths
-        |> List.filter (fun path -> names.Contains(Path.GetFileName path))
-
-if modulePaths.IsEmpty then
-    failwith "BYO_HAPTICS_MODULES did not match any deployable BYO Haptics sheet."
-
-let selectedModuleNames = modulePaths |> Seq.map Path.GetFileName |> Set.ofSeq
-let patchOnly = Environment.GetEnvironmentVariable "BYO_HAPTICS_PATCH_ONLY" = "1"
-let skipLiveDiscovery = Environment.GetEnvironmentVariable "BYO_HAPTICS_SKIP_LIVE_DISCOVERY" = "1"
-
-let deployedModuleNames =
-    set
-        [ "BYOHapticsLifecycle"
-          "BYOHapticsPositioning"
-          "BYOHapticsSourceBinding"
-          "BYOHapticsSampler"
-          "BYOHapticsPluginDiscovery"
-          "BYOHapticsPluginPackageManager"
-          "BYOHapticsOutputBus"
-          "BYOHapticsDiagnostics" ]
+let moduleNames = allModulePaths |> Seq.map Path.GetFileName |> Set.ofSeq
 let resoniteLinkUrl =
     match Environment.GetEnvironmentVariable "RESONITELINK_URL" with
     | null
@@ -95,7 +60,6 @@ let loadGeneratedIds path =
     use stream = File.OpenRead path
     use doc = JsonDocument.Parse stream
     let root = doc.RootElement
-    let fluxSlotId = root.GetProperty("fluxSlotId").GetString()
     let inputs = Dictionary<string, string>()
     for inputProp in root.GetProperty("fluxInputs").EnumerateObject() do
         inputs[inputProp.Name] <- inputProp.Value.GetString()
@@ -105,35 +69,18 @@ let loadGeneratedIds path =
         if root.TryGetProperty("components", &components)
            && components.TryGetProperty("ui.close.button", &closeButton) then
             inputs["CloseButton"] <- closeButton.GetString()
-    fluxSlotId, inputs :> IDictionary<string, string>
+    ( root.GetProperty("fluxSlotId").GetString(),
+      root.GetProperty("toolRootSlotId").GetString(),
+      root.GetProperty("avatarRootSlotId").GetString(),
+      root.GetProperty("components").GetProperty("config.installed").GetString(),
+      inputs :> IDictionary<string, string> )
 
-let initialTargetFluxSlotId, inputs =
+let targetFluxSlotId, toolRootSlotId, avatarRootSlotId, installedComponentId, inputs =
     if not (File.Exists generatedIdsPath) then
         failwithf
             "Generated deployment IDs were not found: %s. Build the SlotSpec in the current Resonite session before deploying ProtoFlux."
             generatedIdsPath
     loadGeneratedIds generatedIdsPath
-
-let mutable targetFluxSlotId = initialTargetFluxSlotId
-let mutable usingDiscoveredLiveIds = false
-let mutable discoveredToolRootSlotId: string option = None
-let requestedToolRootSlotId =
-    match Environment.GetEnvironmentVariable "BYO_HAPTICS_TOOL_ID" with
-    | null | "" -> None
-    | value -> Some value
-
-let generatedRuntimeIds =
-    if File.Exists generatedIdsPath then
-        use stream = File.OpenRead generatedIdsPath
-        use doc = JsonDocument.Parse stream
-        let root = doc.RootElement
-        Some(
-            root.GetProperty("toolRootSlotId").GetString(),
-            root.GetProperty("avatarRootSlotId").GetString(),
-            root.GetProperty("components").GetProperty("config.installed").GetString()
-        )
-    else
-        None
 
 let outputs = Dictionary<string, string>()
 
@@ -229,301 +176,6 @@ let loadGeneratedDiagnosticOutputs () =
 
 loadGeneratedDiagnosticOutputs ()
 
-let rec flattenDiscoverySlots (slot: Slot) =
-    seq {
-        yield slot
-        if not (isNull slot.Children) then
-            for child in slot.Children do
-                yield! flattenDiscoverySlots child
-    }
-
-let discoveryInputName (name: string) =
-    if not (name.StartsWith("Input:", StringComparison.Ordinal)) then None
-    else
-        let suffix = name.Substring("Input:".Length)
-        if suffix.StartsWith("[", StringComparison.Ordinal) then
-            let modifierEnd = suffix.IndexOf(']')
-            if modifierEnd >= 0 && modifierEnd + 1 < suffix.Length then
-                Some(suffix.Substring(modifierEnd + 1))
-            else None
-        else Some suffix
-
-let discoverLiveFluxAndInputs () =
-    let discoveryLink = new ResoniteLink.LinkInterface()
-    discoveryLink.Connect(resoniteLinkUrl, CancellationToken.None).GetAwaiter().GetResult()
-
-    let get slotId depth includeComponents =
-        let request = GetSlot()
-        request.SlotID <- slotId
-        request.Depth <- depth
-        request.IncludeComponentData <- includeComponents
-        let response = discoveryLink.GetSlotData(request).GetAwaiter().GetResult()
-        if not response.Success then failwith response.ErrorInfo
-        response.Data
-
-    let slotName (slot: Slot) =
-        if isNull slot.Name || isNull slot.Name.Value then "" else slot.Name.Value
-
-    let parentId (slot: Slot) =
-        if isNull slot.Parent then "" else slot.Parent.TargetID
-
-    let makeFieldMember kind =
-        match kind with
-        | "float" -> Field_float(Value = 0.0f) :> Member
-        | "bool" -> Field_bool(Value = false) :> Member
-        | "string" -> Field_string(Value = "") :> Member
-        | other -> failwithf "Unsupported diagnostic output field kind: %s" other
-
-    let findDirectChild (children: seq<Slot>) expectedParentId name =
-        children
-        |> Seq.tryFind (fun slot -> parentId slot = expectedParentId && slotName slot = name)
-
-    let makeSlot parentSlotId name =
-        let slot = Slot()
-        slot.ID <- "Deploy_" + Guid.NewGuid().ToString("N")
-        slot.Name <- Field_string(Value = name)
-        slot.Parent <- Reference(TargetID = parentSlotId, TargetType = "[FrooxEngine]FrooxEngine.Slot")
-        slot.Position <- Field_float3(Value = float3())
-        slot.Rotation <- Field_floatQ(Value = floatQ(w = 1.0f))
-        slot.Scale <- Field_float3(Value = float3(x = 1.0f, y = 1.0f, z = 1.0f))
-        slot.OrderOffset <- Field_long(Value = 0L)
-        slot
-
-    let makeValueField slotId componentType kind =
-        let comp = Component()
-        comp.ID <- "Deploy_" + Guid.NewGuid().ToString("N")
-        comp.ComponentType <- componentType
-        comp.Members <- Dictionary<string, Member>()
-        comp.Members["Value"] <- makeFieldMember kind
-        let op = AddComponent()
-        op.ContainerSlotId <- slotId
-        op.Data <- comp
-        op :> DataModelOperation
-
-    let addSlot parentSlotId name =
-        let data = makeSlot parentSlotId name
-        let op = AddSlot()
-        op.Data <- data
-        let ops = ResizeArray<DataModelOperation>()
-        ops.Add(op :> DataModelOperation)
-        let result = discoveryLink.RunDataModelOperationBatch(ops).GetAwaiter().GetResult()
-        if not result.Success then failwith result.ErrorInfo
-        for response in result.Responses do
-            if not response.Success then failwith response.ErrorInfo
-        data.ID
-
-    let addComponent slotId componentType kind =
-        let op = makeValueField slotId componentType kind
-        let ops = ResizeArray<DataModelOperation>()
-        ops.Add(op)
-        let result = discoveryLink.RunDataModelOperationBatch(ops).GetAwaiter().GetResult()
-        if not result.Success then failwith result.ErrorInfo
-        for response in result.Responses do
-            if not response.Success then failwith response.ErrorInfo
-
-    let valueFieldMemberId slotId componentType =
-        let slot = get slotId 1 true
-        if isNull slot.Components then None
-        else
-            slot.Components
-            |> Seq.tryPick (fun componentData ->
-                if componentData.ComponentType = componentType
-                   && not (isNull componentData.Members)
-                   && componentData.Members.ContainsKey("Value") then
-                    Some componentData.Members["Value"].ID
-                else None)
-
-    let ensureDiagnosticOutputFields toolRootSlotId =
-        let mutable toolHierarchy = get toolRootSlotId -1 false |> flattenDiscoverySlots |> Seq.toArray
-        let refresh () =
-            toolHierarchy <- get toolRootSlotId -1 false |> flattenDiscoverySlots |> Seq.toArray
-
-        let diagnosticsSlotId =
-            match findDirectChild toolHierarchy toolRootSlotId "Diagnostics" with
-            | Some slot -> slot.ID
-            | None ->
-                let id = addSlot toolRootSlotId "Diagnostics"
-                refresh()
-                id
-
-        let ensurePath (relativePath: string) =
-            let segments = relativePath.Split('/', StringSplitOptions.RemoveEmptyEntries)
-            let mutable parentId = toolRootSlotId
-            for segment in segments do
-                match findDirectChild toolHierarchy parentId segment with
-                | Some slot -> parentId <- slot.ID
-                | None ->
-                    parentId <- addSlot parentId segment
-                    refresh()
-            parentId
-
-        for outputName, relativePath, componentType, kind in diagnosticOutputSpecs do
-            let slotId = ensurePath relativePath
-
-            match valueFieldMemberId slotId componentType with
-            | Some fieldId -> outputs[outputName] <- fieldId
-            | None ->
-                addComponent slotId componentType kind
-                match valueFieldMemberId slotId componentType with
-                | Some fieldId -> outputs[outputName] <- fieldId
-                | None -> failwithf "Failed to create diagnostic output field: %s" relativePath
-
-    let world = get "Root" -1 false
-    let hierarchy = flattenDiscoverySlots world |> Seq.toArray
-    let slotsById = hierarchy |> Seq.map (fun slot -> slot.ID, slot) |> dict
-
-    let existingGraphs =
-        hierarchy
-        |> Seq.filter (fun slot ->
-            slotName slot <> ""
-            && deployedModuleNames
-               |> Seq.exists (fun name -> (slotName slot).Equals(name, StringComparison.OrdinalIgnoreCase))
-            && not (isNull slot.Parent)
-            && slotsById.ContainsKey(slot.Parent.TargetID)
-            && slotName slotsById[slot.Parent.TargetID] = "Flux")
-        |> Seq.filter (fun graph ->
-            match requestedToolRootSlotId with
-            | None -> true
-            | Some toolRootSlotId ->
-                let fluxSlot = slotsById[graph.Parent.TargetID]
-                not (isNull fluxSlot.Parent) && fluxSlot.Parent.TargetID = toolRootSlotId)
-        |> Seq.toArray
-
-    if existingGraphs.Length = 0 then
-        match generatedRuntimeIds with
-        | Some(toolRootSlotId, _, _) when not (String.IsNullOrWhiteSpace toolRootSlotId) ->
-            ensureDiagnosticOutputFields toolRootSlotId
-        | _ -> ()
-        0
-    else
-        let fluxIds =
-            existingGraphs
-            |> Seq.map (fun graph -> graph.Parent.TargetID)
-            |> Seq.distinct
-            |> Seq.toArray
-        if fluxIds.Length <> 1 then
-            failwithf "Expected one live BYO Haptics Flux slot, found %d." fluxIds.Length
-
-        targetFluxSlotId <- fluxIds[0]
-        usingDiscoveredLiveIds <- targetFluxSlotId <> initialTargetFluxSlotId
-        discoveredToolRootSlotId <-
-            if slotsById.ContainsKey(targetFluxSlotId)
-               && not (isNull slotsById[targetFluxSlotId].Parent) then
-                Some slotsById[targetFluxSlotId].Parent.TargetID
-            else None
-
-        match requestedToolRootSlotId, discoveredToolRootSlotId with
-        | Some requested, Some discovered when requested <> discovered ->
-            failwithf "Discovered BYO Haptics tool %s does not match BYO_HAPTICS_TOOL_ID=%s." discovered requested
-        | Some requested, None ->
-            failwithf "Could not resolve the BYO Haptics parent for BYO_HAPTICS_TOOL_ID=%s." requested
-        | _ -> ()
-
-        discoveredToolRootSlotId |> Option.iter ensureDiagnosticOutputFields
-        let liveSamplerInputOverrides = Dictionary<string, string>()
-        discoveredToolRootSlotId
-        |> Option.iter (fun toolRootSlotId ->
-            let toolHierarchy =
-                get toolRootSlotId -1 false
-                |> flattenDiscoverySlots
-                |> Seq.filter (fun slot -> not (isNull slot.Name) && not (isNull slot.Name.Value))
-                |> Seq.toArray
-
-            let childNamed parentSlotId name =
-                toolHierarchy
-                |> Seq.tryFind (fun slot ->
-                    not (isNull slot.Parent)
-                    && slot.Parent.TargetID = parentSlotId
-                    && slot.Name.Value = name)
-
-            let rec slotByRelativePath parentSlotId (parts: string list) =
-                match parts with
-                | [] -> Some parentSlotId
-                | name :: rest ->
-                    childNamed parentSlotId name
-                    |> Option.bind (fun slot -> slotByRelativePath slot.ID rest)
-
-            let memberIdForComponent slotId componentType memberName =
-                let slot = get slotId 0 true
-                if isNull slot.Components then None
-                else
-                    slot.Components
-                    |> Seq.tryPick (fun componentData ->
-                        if componentData.ComponentType = componentType
-                           && not (isNull componentData.Members)
-                           && componentData.Members.ContainsKey(memberName) then
-                            Some componentData.Members[memberName].ID
-                        else None)
-
-            let toolRoot = get toolRootSlotId 0 true
-            let grabbable =
-                if isNull toolRoot.Components then None
-                else
-                    toolRoot.Components
-                    |> Seq.tryFind (fun componentData -> componentData.ComponentType = "[FrooxEngine]FrooxEngine.Grabbable")
-
-            match grabbable with
-            | None -> ()
-            | Some componentData ->
-                    inputs["ToolGrabbable"] <- componentData.ID
-                    if not (isNull componentData.Members) && componentData.Members.ContainsKey("_lastParent") then
-                        inputs["ToolGrabbableLastParent"] <- componentData.Members["_lastParent"].ID
-                    if not (isNull componentData.Members) && componentData.Members.ContainsKey("_lastParentIsUserSpace") then
-                        inputs["ToolGrabbableLastParentIsUserSpace"] <- componentData.Members["_lastParentIsUserSpace"].ID
-
-            for row in 0 .. 3 do
-                let rowName = sprintf "Row_%03d" row
-                match slotByRelativePath toolRootSlotId [ "Samplers"; rowName; "Target" ] with
-                | None -> ()
-                | Some targetSlotId ->
-                    match memberIdForComponent targetSlotId "[FrooxEngine]FrooxEngine.ValueField<string>" "Value" with
-                    | None -> ()
-                    | Some targetFieldId -> inputs[sprintf "Row%dTarget" row] <- targetFieldId
-
-                match slotByRelativePath toolRootSlotId [ "Samplers"; rowName; "Sampler" ] with
-                | None -> ()
-                | Some samplerSlotId ->
-                    let samplerSlot = get samplerSlotId 0 true
-                    if not (isNull samplerSlot.Components) then
-                        samplerSlot.Components
-                        |> Seq.tryFind (fun componentData ->
-                            componentData.ComponentType = "[FrooxEngine]FrooxEngine.Grabbable")
-                        |> Option.iter (fun componentData ->
-                            inputs[sprintf "Row%dSamplerGrabbable" row] <- componentData.ID)
-                    for memberName in [ "Enabled"; "Force"; "Vibration"; "Pain"; "Temperature" ] do
-                        match memberIdForComponent samplerSlotId "[FrooxEngine]FrooxEngine.VirtualHapticPointSampler" memberName with
-                        | None -> ()
-                        | Some fieldId ->
-                            let inputName =
-                                if memberName = "Enabled" then sprintf "Row%dSamplerEnabled" row
-                                else sprintf "Row%d%s" row memberName
-                            inputs[inputName] <- fieldId
-                            liveSamplerInputOverrides[inputName] <- fieldId)
-
-        let mutable recovered = 0
-        let fluxHierarchy = get targetFluxSlotId -1 false |> flattenDiscoverySlots
-        for slot in fluxHierarchy do
-            if not (isNull slot.Name) then
-                match discoveryInputName slot.Name.Value with
-                | None -> ()
-                | Some inputName ->
-                    let inputSlot = get slot.ID 0 true
-                    if not (isNull inputSlot.Components) then
-                        for componentData in inputSlot.Components do
-                            if componentData.ComponentType.Contains("ProtoFlux.GlobalReference")
-                               && not (isNull componentData.Members)
-                               && componentData.Members.ContainsKey("Reference") then
-                                let reference = componentData.Members["Reference"] :?> ResoniteLink.Reference
-                                if not (String.IsNullOrWhiteSpace reference.TargetID) then
-                                    inputs[inputName] <- reference.TargetID
-                                    recovered <- recovered + 1
-
-        // A repaired/recreated sampler can leave stale GlobalReferences in the
-        // currently deployed graphs. The live component is authoritative.
-        for KeyValue(inputName, fieldId) in liveSamplerInputOverrides do
-            inputs[inputName] <- fieldId
-        recovered
-
 let hasTodo =
     seq {
         yield targetFluxSlotId
@@ -538,15 +190,6 @@ if hasTodo then
 if Environment.GetEnvironmentVariable "BYO_HAPTICS_DEPLOY" <> "1" then
     failwith
         "Refusing to deploy until BYO_HAPTICS_DEPLOY=1 is set. Set row TargetSlot references and initial values in Resonite first."
-
-let recoveredLiveInputs =
-    if skipLiveDiscovery then
-        match generatedRuntimeIds with
-        | Some(toolRootSlotId, _, _) -> discoveredToolRootSlotId <- Some toolRootSlotId
-        | None -> ()
-        0
-    else
-        discoverLiveFluxAndInputs ()
 
 ElementID.setEpoch (DateTime.UtcNow.Ticks |> uint64) |> ignore
 
@@ -573,12 +216,12 @@ let findExistingModuleSlots () =
         |> Seq.filter (fun slot ->
             not (isNull slot.Name)
             && not (isNull slot.Name.Value)
-            && selectedModuleNames
+            && moduleNames
                |> Seq.exists (fun name -> slot.Name.Value.Equals(name, StringComparison.OrdinalIgnoreCase)))
         |> Seq.map _.ID
         |> Seq.toArray
 
-let previousModuleSlotIds = if patchOnly then [||] else findExistingModuleSlots ()
+let previousModuleSlotIds = findExistingModuleSlots ()
 
 let compileModule modulePath =
     match Build.compileModule (struct (projectStore, moduleStore)) config modulePath with
@@ -593,7 +236,7 @@ let compileModule modulePath =
 
 // Compile every sheet before mutating the live scene. A compile failure leaves
 // the currently deployed graph untouched.
-let compiledModules = if patchOnly then [] else modulePaths |> List.map compileModule
+let compiledModules = allModulePaths |> List.map compileModule
 
 let deployModule (modulePath, nodeData) =
     let moduleLink: LinkInterface = Link.initialize (resoniteLinkUrl, CancellationToken.None)
@@ -748,13 +391,7 @@ let patchConnectionLedReference () =
     match outputs.TryGetValue "PluginConnected" with
     | false, _ -> 0
     | true, connectedFieldId ->
-        let toolRootId =
-            match discoveredToolRootSlotId with
-            | Some value -> value
-            | None ->
-                let fluxSlot = getSlot targetFluxSlotId 0 false
-                if isNull fluxSlot.Parent then failwith "Flux slot has no parent tool root."
-                fluxSlot.Parent.TargetID
+        let toolRootId = toolRootSlotId
         let toolHierarchy = getSlot toolRootId -1 false
         let slots = flattenSlots toolHierarchy |> Seq.toArray
         let slotsById = slots |> Seq.map (fun slot -> slot.ID, slot) |> dict
@@ -789,13 +426,7 @@ let patchPluginPresentLedReference () =
     match outputs.TryGetValue "PluginPresent" with
     | false, _ -> 0
     | true, presentFieldId ->
-        let toolRootId =
-            match discoveredToolRootSlotId with
-            | Some value -> value
-            | None ->
-                let fluxSlot = getSlot targetFluxSlotId 0 false
-                if isNull fluxSlot.Parent then failwith "Flux slot has no parent tool root."
-                fluxSlot.Parent.TargetID
+        let toolRootId = toolRootSlotId
         let toolHierarchy = getSlot toolRootId -1 false
         let ledSlot =
             flattenSlots toolHierarchy
@@ -821,15 +452,12 @@ let patchPluginPresentLedReference () =
                 1
 
 let removePreviousModules () =
-    if Environment.GetEnvironmentVariable "BYO_HAPTICS_KEEP_PREVIOUS" = "1" then
-        0
-    else
-        for slotId in previousModuleSlotIds do
-            let request = RemoveSlot()
-            request.SlotID <- slotId
-            let response = patchLink.RemoveSlot(request).GetAwaiter().GetResult()
-            if not response.Success then failwith response.ErrorInfo
-        previousModuleSlotIds.Length
+    for slotId in previousModuleSlotIds do
+        let request = RemoveSlot()
+        request.SlotID <- slotId
+        let response = patchLink.RemoveSlot(request).GetAwaiter().GetResult()
+        if not response.Success then failwith response.ErrorInfo
+    previousModuleSlotIds.Length
 
 let removedPreviousModules = removePreviousModules ()
 let patchedOutputDrives = patchFluxOutputDrives ()
@@ -875,55 +503,21 @@ let arrangeDeployedSheets () =
 let arrangedSheets = arrangeDeployedSheets ()
 
 let reconcileInstalledState () =
-    let updateInstalled toolRootSlotId installedComponentId installed =
+    if String.IsNullOrWhiteSpace avatarRootSlotId then None
+    else
         let toolRoot = getSlot toolRootSlotId 0 false
-
+        let installed =
+            not (isNull toolRoot.Parent)
+            && toolRoot.Parent.TargetID = avatarRootSlotId
         let compData = Component()
         compData.ID <- installedComponentId
         compData.Members <- Dictionary<string, Member>()
         compData.Members["Value"] <- Field_bool(Value = installed)
-
         let req = UpdateComponent()
         req.Data <- compData
         let response = patchLink.UpdateComponent(req).GetAwaiter().GetResult()
         if not response.Success then failwith response.ErrorInfo
-        installed
-
-    match discoveredToolRootSlotId with
-    | Some toolRootSlotId ->
-        let toolRoot = getSlot toolRootSlotId 0 false
-        if not (isNull toolRoot.Parent) && toolRoot.Parent.TargetID = "Root" then
-            let toolHierarchy = getSlot toolRootSlotId -1 false
-            let slots = flattenSlots toolHierarchy |> Seq.toArray
-            let slotsById = slots |> Seq.map (fun slot -> slot.ID, slot) |> dict
-            let installedSlot =
-                slots
-                |> Seq.find (fun slot ->
-                    not (isNull slot.Name)
-                    && slot.Name.Value = "Installed"
-                    && not (isNull slot.Parent)
-                    && slotsById.ContainsKey(slot.Parent.TargetID)
-                    && slotsById[slot.Parent.TargetID].Name.Value = "Config")
-                |> fun slot -> getSlot slot.ID 0 true
-            let installedComponent =
-                installedSlot.Components
-                |> Seq.find (fun componentData ->
-                    componentData.ComponentType.Contains("ValueField<bool>", StringComparison.Ordinal))
-            Some(updateInstalled toolRootSlotId installedComponent.ID false)
-        else
-            None
-
-    | None ->
-        match if usingDiscoveredLiveIds then None else generatedRuntimeIds with
-        | None -> None
-        | Some(_, avatarRootSlotId, _) when String.IsNullOrWhiteSpace avatarRootSlotId ->
-            None
-        | Some(toolRootSlotId, avatarRootSlotId, installedComponentId) ->
-            let toolRoot = getSlot toolRootSlotId 0 false
-            let installed =
-                not (isNull toolRoot.Parent)
-                && toolRoot.Parent.TargetID = avatarRootSlotId
-            Some(updateInstalled toolRootSlotId installedComponentId installed)
+        Some installed
 
 let reconciledInstalled = reconcileInstalledState ()
 printfn "Deployed BYO Haptics sheets: %d" moduleResponseCounts.Length
@@ -933,7 +527,6 @@ printfn "Patched Flux input GlobalReferences: %d" patchedInputReferences
 printfn "Patched Flux output drives: %d" patchedOutputDrives
 printfn "Patched connection LED references: %d" patchedConnectionLed
 printfn "Patched plugin-present LED references: %d" patchedPluginPresentLed
-printfn "Recovered live Flux input references: %d" recoveredLiveInputs
 printfn "Removed previous BYO Haptics sheet graphs: %d" removedPreviousModules
 printfn "Arranged BYO Haptics ModuPrint sheets: %d" arrangedSheets
 match reconciledInstalled with
