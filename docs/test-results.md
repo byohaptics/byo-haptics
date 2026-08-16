@@ -1,6 +1,6 @@
 # Test Results
 
-Document version: `0.1.8`
+Document version: `0.1.9`
 
 The public build was first deployed to a live Resonite world on 2026-08-12. Functional VR and device testing was completed by the later passing results recorded below. Statements that a retest or confirmation remained pending describe the state at that point in the test history; subsequent rows preserve the evidence of completion.
 
@@ -46,6 +46,7 @@ Add one row for each distinct environment and keep failed observations. A later 
 | 2026-08-15 | working tree after `e894451` | `byohaptics` | Own world (`byohaptics World`) | Demo Output Plugin | Move each Wiggler target from the interactive device root Rotation to its dedicated Visual child Rotation and redeploy v0.1.5 | Pass | The 26-slot, 58-component package and 408-response graph deployed with zero module-discovery errors and zero input-reference corrections. Visible-motion confirmation remains pending. |
 | 2026-08-15 | `4450c8a` | `byohaptics` | Own world (`byohaptics World`) | Host UI and Sampler Edit | Inspect row-index placement, open Sampler Edit, and select Row 0 | Pass | The user confirmed the panel row indices are correctly positioned, Sampler Edit lists `0` through `3`, and selecting `Sampler Edit/0` behaves correctly. |
 | 2026-08-16 | working tree after `25e0101` | Local Resonite client | Local session | Host Output Bus | Deploy configurable per-row and per-sensation minimum pulse retention | Pass | The Host deployed all eight sheets with zero module-discovery errors. Live inspection confirmed `Config/MinimumPulseDuration` is `0.08` seconds and the retained-value/timer state exists. Static validation and all 32 Rust tests passed; short-collision timing and perception remain pending VR confirmation. |
+| 2026-08-16 | working tree after `4b650ae` | `byohaptics` | Own world (`byohaptics World`) | Host Output Bus | Feel short collision pulses with the default 80 ms minimum, then deploy the simplified retained-state implementation | Pass | The user reported that short collisions felt effective in VR. The simplified Host redeployed all eight sheets with zero module-discovery errors; Output Bus responses decreased from 1589 to 1429 while retaining independent timers. |
 
 ## Required Result Detail
 

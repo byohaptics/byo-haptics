@@ -1,6 +1,6 @@
 {
-  "product": "0.1.0",
-  "documents": "0.1.8",
+  "product": "0.2.0",
+  "documents": "0.1.9",
   "outputContract": 1,
   "plugins": {
     "joyconOsc": "0.1.1",

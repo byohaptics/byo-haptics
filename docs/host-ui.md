@@ -1,6 +1,6 @@
 # Host UI Specification
 
-Document version: `0.1.8`
+Document version: `0.1.9`
 
 ## Panel
 
@@ -10,7 +10,7 @@ Document version: `0.1.8`
 - Backing is opaque and hides controls from the rear.
 - Panel, input, and button backgrounds use packaged rounded assets.
 - Panel is grabbable; hidden panel disables its collider and interaction.
-- Title: `BYO Haptics v0.1.0`.
+- Title: `BYO Haptics v0.2.0`.
 - Close is a compact red circular button in the title area.
 
 ## Main Order

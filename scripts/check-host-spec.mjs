@@ -23,11 +23,6 @@ expect("Minimum pulse duration", value("config.minimumPulseDuration"), 0.08);
 for (const row of [0, 1, 2, 3]) {
   for (const sensation of ["Force", "Vibration", "Pain", "Temperature"]) {
     expect(
-      `Row ${row} ${sensation} held input`,
-      spec.fluxInputs[`Row${row}${sensation}Held`]?.fieldRef,
-      `runtime.row${row}${sensation}Held.Value`,
-    );
-    expect(
       `Row ${row} ${sensation} hold timer input`,
       spec.fluxInputs[`Row${row}${sensation}HoldRemaining`]?.fieldRef,
       `runtime.row${row}${sensation}HoldRemaining.Value`,

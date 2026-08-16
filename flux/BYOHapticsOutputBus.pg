@@ -56,37 +56,21 @@ in OutputBusRow3Force: float mutable
 in OutputBusRow3Vibration: float mutable
 in OutputBusRow3Pain: float mutable
 in OutputBusRow3Temperature: float mutable
-in Row0ForceHeld: float mutable
 in Row0ForceHoldRemaining: float mutable
-in Row0VibrationHeld: float mutable
 in Row0VibrationHoldRemaining: float mutable
-in Row0PainHeld: float mutable
 in Row0PainHoldRemaining: float mutable
-in Row0TemperatureHeld: float mutable
 in Row0TemperatureHoldRemaining: float mutable
-in Row1ForceHeld: float mutable
 in Row1ForceHoldRemaining: float mutable
-in Row1VibrationHeld: float mutable
 in Row1VibrationHoldRemaining: float mutable
-in Row1PainHeld: float mutable
 in Row1PainHoldRemaining: float mutable
-in Row1TemperatureHeld: float mutable
 in Row1TemperatureHoldRemaining: float mutable
-in Row2ForceHeld: float mutable
 in Row2ForceHoldRemaining: float mutable
-in Row2VibrationHeld: float mutable
 in Row2VibrationHoldRemaining: float mutable
-in Row2PainHeld: float mutable
 in Row2PainHoldRemaining: float mutable
-in Row2TemperatureHeld: float mutable
 in Row2TemperatureHoldRemaining: float mutable
-in Row3ForceHeld: float mutable
 in Row3ForceHoldRemaining: float mutable
-in Row3VibrationHeld: float mutable
 in Row3VibrationHoldRemaining: float mutable
-in Row3PainHeld: float mutable
 in Row3PainHoldRemaining: float mutable
-in Row3TemperatureHeld: float mutable
 in Row3TemperatureHoldRemaining: float mutable
 
 where {
@@ -150,39 +134,39 @@ where {
         If(Condition=not Row2Active, OnTrue=impulse { Row2ForceHoldRemaining <- 0.0; Row2VibrationHoldRemaining <- 0.0; Row2PainHoldRemaining <- 0.0; Row2TemperatureHoldRemaining <- 0.0; });
         If(Condition=not Row3Active, OnTrue=impulse { Row3ForceHoldRemaining <- 0.0; Row3VibrationHoldRemaining <- 0.0; Row3PainHoldRemaining <- 0.0; Row3TemperatureHoldRemaining <- 0.0; });
 
-        If(Condition=Row0ForceOut > 0.0, OnTrue=impulse { Row0ForceHeld <- Row0ForceOut; Row0ForceHoldRemaining <- HoldWindow; });
-        If(Condition=Row0VibrationOut > 0.0, OnTrue=impulse { Row0VibrationHeld <- Row0VibrationOut; Row0VibrationHoldRemaining <- HoldWindow; });
-        If(Condition=Row0PainOut > 0.0, OnTrue=impulse { Row0PainHeld <- Row0PainOut; Row0PainHoldRemaining <- HoldWindow; });
-        If(Condition=Row0TemperatureOut > 0.0, OnTrue=impulse { Row0TemperatureHeld <- Row0TemperatureOut; Row0TemperatureHoldRemaining <- HoldWindow; });
-        If(Condition=Row1ForceOut > 0.0, OnTrue=impulse { Row1ForceHeld <- Row1ForceOut; Row1ForceHoldRemaining <- HoldWindow; });
-        If(Condition=Row1VibrationOut > 0.0, OnTrue=impulse { Row1VibrationHeld <- Row1VibrationOut; Row1VibrationHoldRemaining <- HoldWindow; });
-        If(Condition=Row1PainOut > 0.0, OnTrue=impulse { Row1PainHeld <- Row1PainOut; Row1PainHoldRemaining <- HoldWindow; });
-        If(Condition=Row1TemperatureOut > 0.0, OnTrue=impulse { Row1TemperatureHeld <- Row1TemperatureOut; Row1TemperatureHoldRemaining <- HoldWindow; });
-        If(Condition=Row2ForceOut > 0.0, OnTrue=impulse { Row2ForceHeld <- Row2ForceOut; Row2ForceHoldRemaining <- HoldWindow; });
-        If(Condition=Row2VibrationOut > 0.0, OnTrue=impulse { Row2VibrationHeld <- Row2VibrationOut; Row2VibrationHoldRemaining <- HoldWindow; });
-        If(Condition=Row2PainOut > 0.0, OnTrue=impulse { Row2PainHeld <- Row2PainOut; Row2PainHoldRemaining <- HoldWindow; });
-        If(Condition=Row2TemperatureOut > 0.0, OnTrue=impulse { Row2TemperatureHeld <- Row2TemperatureOut; Row2TemperatureHoldRemaining <- HoldWindow; });
-        If(Condition=Row3ForceOut > 0.0, OnTrue=impulse { Row3ForceHeld <- Row3ForceOut; Row3ForceHoldRemaining <- HoldWindow; });
-        If(Condition=Row3VibrationOut > 0.0, OnTrue=impulse { Row3VibrationHeld <- Row3VibrationOut; Row3VibrationHoldRemaining <- HoldWindow; });
-        If(Condition=Row3PainOut > 0.0, OnTrue=impulse { Row3PainHeld <- Row3PainOut; Row3PainHoldRemaining <- HoldWindow; });
-        If(Condition=Row3TemperatureOut > 0.0, OnTrue=impulse { Row3TemperatureHeld <- Row3TemperatureOut; Row3TemperatureHoldRemaining <- HoldWindow; });
+        If(Condition=Row0ForceOut > 0.0, OnTrue=impulse { Row0ForceHoldRemaining <- HoldWindow; });
+        If(Condition=Row0VibrationOut > 0.0, OnTrue=impulse { Row0VibrationHoldRemaining <- HoldWindow; });
+        If(Condition=Row0PainOut > 0.0, OnTrue=impulse { Row0PainHoldRemaining <- HoldWindow; });
+        If(Condition=Row0TemperatureOut > 0.0, OnTrue=impulse { Row0TemperatureHoldRemaining <- HoldWindow; });
+        If(Condition=Row1ForceOut > 0.0, OnTrue=impulse { Row1ForceHoldRemaining <- HoldWindow; });
+        If(Condition=Row1VibrationOut > 0.0, OnTrue=impulse { Row1VibrationHoldRemaining <- HoldWindow; });
+        If(Condition=Row1PainOut > 0.0, OnTrue=impulse { Row1PainHoldRemaining <- HoldWindow; });
+        If(Condition=Row1TemperatureOut > 0.0, OnTrue=impulse { Row1TemperatureHoldRemaining <- HoldWindow; });
+        If(Condition=Row2ForceOut > 0.0, OnTrue=impulse { Row2ForceHoldRemaining <- HoldWindow; });
+        If(Condition=Row2VibrationOut > 0.0, OnTrue=impulse { Row2VibrationHoldRemaining <- HoldWindow; });
+        If(Condition=Row2PainOut > 0.0, OnTrue=impulse { Row2PainHoldRemaining <- HoldWindow; });
+        If(Condition=Row2TemperatureOut > 0.0, OnTrue=impulse { Row2TemperatureHoldRemaining <- HoldWindow; });
+        If(Condition=Row3ForceOut > 0.0, OnTrue=impulse { Row3ForceHoldRemaining <- HoldWindow; });
+        If(Condition=Row3VibrationOut > 0.0, OnTrue=impulse { Row3VibrationHoldRemaining <- HoldWindow; });
+        If(Condition=Row3PainOut > 0.0, OnTrue=impulse { Row3PainHoldRemaining <- HoldWindow; });
+        If(Condition=Row3TemperatureOut > 0.0, OnTrue=impulse { Row3TemperatureHoldRemaining <- HoldWindow; });
 
-        OutputBusRow0Force <- if Row0Active then (if Row0ForceOut > 0.0 then Row0ForceOut else (if Row0ForceHoldRemaining > 0.0 then Row0ForceHeld else 0.0)) else 0.0;
-        OutputBusRow0Vibration <- if Row0Active then (if Row0VibrationOut > 0.0 then Row0VibrationOut else (if Row0VibrationHoldRemaining > 0.0 then Row0VibrationHeld else 0.0)) else 0.0;
-        OutputBusRow0Pain <- if Row0Active then (if Row0PainOut > 0.0 then Row0PainOut else (if Row0PainHoldRemaining > 0.0 then Row0PainHeld else 0.0)) else 0.0;
-        OutputBusRow0Temperature <- if Row0Active then (if Row0TemperatureOut > 0.0 then Row0TemperatureOut else (if Row0TemperatureHoldRemaining > 0.0 then Row0TemperatureHeld else 0.0)) else 0.0;
-        OutputBusRow1Force <- if Row1Active then (if Row1ForceOut > 0.0 then Row1ForceOut else (if Row1ForceHoldRemaining > 0.0 then Row1ForceHeld else 0.0)) else 0.0;
-        OutputBusRow1Vibration <- if Row1Active then (if Row1VibrationOut > 0.0 then Row1VibrationOut else (if Row1VibrationHoldRemaining > 0.0 then Row1VibrationHeld else 0.0)) else 0.0;
-        OutputBusRow1Pain <- if Row1Active then (if Row1PainOut > 0.0 then Row1PainOut else (if Row1PainHoldRemaining > 0.0 then Row1PainHeld else 0.0)) else 0.0;
-        OutputBusRow1Temperature <- if Row1Active then (if Row1TemperatureOut > 0.0 then Row1TemperatureOut else (if Row1TemperatureHoldRemaining > 0.0 then Row1TemperatureHeld else 0.0)) else 0.0;
-        OutputBusRow2Force <- if Row2Active then (if Row2ForceOut > 0.0 then Row2ForceOut else (if Row2ForceHoldRemaining > 0.0 then Row2ForceHeld else 0.0)) else 0.0;
-        OutputBusRow2Vibration <- if Row2Active then (if Row2VibrationOut > 0.0 then Row2VibrationOut else (if Row2VibrationHoldRemaining > 0.0 then Row2VibrationHeld else 0.0)) else 0.0;
-        OutputBusRow2Pain <- if Row2Active then (if Row2PainOut > 0.0 then Row2PainOut else (if Row2PainHoldRemaining > 0.0 then Row2PainHeld else 0.0)) else 0.0;
-        OutputBusRow2Temperature <- if Row2Active then (if Row2TemperatureOut > 0.0 then Row2TemperatureOut else (if Row2TemperatureHoldRemaining > 0.0 then Row2TemperatureHeld else 0.0)) else 0.0;
-        OutputBusRow3Force <- if Row3Active then (if Row3ForceOut > 0.0 then Row3ForceOut else (if Row3ForceHoldRemaining > 0.0 then Row3ForceHeld else 0.0)) else 0.0;
-        OutputBusRow3Vibration <- if Row3Active then (if Row3VibrationOut > 0.0 then Row3VibrationOut else (if Row3VibrationHoldRemaining > 0.0 then Row3VibrationHeld else 0.0)) else 0.0;
-        OutputBusRow3Pain <- if Row3Active then (if Row3PainOut > 0.0 then Row3PainOut else (if Row3PainHoldRemaining > 0.0 then Row3PainHeld else 0.0)) else 0.0;
-        OutputBusRow3Temperature <- if Row3Active then (if Row3TemperatureOut > 0.0 then Row3TemperatureOut else (if Row3TemperatureHoldRemaining > 0.0 then Row3TemperatureHeld else 0.0)) else 0.0;
+        OutputBusRow0Force <- if Row0Active then (if Row0ForceOut > 0.0 then Row0ForceOut else (if Row0ForceHoldRemaining > 0.0 then OutputBusRow0Force else 0.0)) else 0.0;
+        OutputBusRow0Vibration <- if Row0Active then (if Row0VibrationOut > 0.0 then Row0VibrationOut else (if Row0VibrationHoldRemaining > 0.0 then OutputBusRow0Vibration else 0.0)) else 0.0;
+        OutputBusRow0Pain <- if Row0Active then (if Row0PainOut > 0.0 then Row0PainOut else (if Row0PainHoldRemaining > 0.0 then OutputBusRow0Pain else 0.0)) else 0.0;
+        OutputBusRow0Temperature <- if Row0Active then (if Row0TemperatureOut > 0.0 then Row0TemperatureOut else (if Row0TemperatureHoldRemaining > 0.0 then OutputBusRow0Temperature else 0.0)) else 0.0;
+        OutputBusRow1Force <- if Row1Active then (if Row1ForceOut > 0.0 then Row1ForceOut else (if Row1ForceHoldRemaining > 0.0 then OutputBusRow1Force else 0.0)) else 0.0;
+        OutputBusRow1Vibration <- if Row1Active then (if Row1VibrationOut > 0.0 then Row1VibrationOut else (if Row1VibrationHoldRemaining > 0.0 then OutputBusRow1Vibration else 0.0)) else 0.0;
+        OutputBusRow1Pain <- if Row1Active then (if Row1PainOut > 0.0 then Row1PainOut else (if Row1PainHoldRemaining > 0.0 then OutputBusRow1Pain else 0.0)) else 0.0;
+        OutputBusRow1Temperature <- if Row1Active then (if Row1TemperatureOut > 0.0 then Row1TemperatureOut else (if Row1TemperatureHoldRemaining > 0.0 then OutputBusRow1Temperature else 0.0)) else 0.0;
+        OutputBusRow2Force <- if Row2Active then (if Row2ForceOut > 0.0 then Row2ForceOut else (if Row2ForceHoldRemaining > 0.0 then OutputBusRow2Force else 0.0)) else 0.0;
+        OutputBusRow2Vibration <- if Row2Active then (if Row2VibrationOut > 0.0 then Row2VibrationOut else (if Row2VibrationHoldRemaining > 0.0 then OutputBusRow2Vibration else 0.0)) else 0.0;
+        OutputBusRow2Pain <- if Row2Active then (if Row2PainOut > 0.0 then Row2PainOut else (if Row2PainHoldRemaining > 0.0 then OutputBusRow2Pain else 0.0)) else 0.0;
+        OutputBusRow2Temperature <- if Row2Active then (if Row2TemperatureOut > 0.0 then Row2TemperatureOut else (if Row2TemperatureHoldRemaining > 0.0 then OutputBusRow2Temperature else 0.0)) else 0.0;
+        OutputBusRow3Force <- if Row3Active then (if Row3ForceOut > 0.0 then Row3ForceOut else (if Row3ForceHoldRemaining > 0.0 then OutputBusRow3Force else 0.0)) else 0.0;
+        OutputBusRow3Vibration <- if Row3Active then (if Row3VibrationOut > 0.0 then Row3VibrationOut else (if Row3VibrationHoldRemaining > 0.0 then OutputBusRow3Vibration else 0.0)) else 0.0;
+        OutputBusRow3Pain <- if Row3Active then (if Row3PainOut > 0.0 then Row3PainOut else (if Row3PainHoldRemaining > 0.0 then OutputBusRow3Pain else 0.0)) else 0.0;
+        OutputBusRow3Temperature <- if Row3Active then (if Row3TemperatureOut > 0.0 then Row3TemperatureOut else (if Row3TemperatureHoldRemaining > 0.0 then OutputBusRow3Temperature else 0.0)) else 0.0;
     };
 }
 

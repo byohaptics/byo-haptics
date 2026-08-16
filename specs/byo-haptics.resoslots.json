@@ -75,37 +75,21 @@
     {
       "path": "Runtime/PulseHold",
       "components": [
-        { "alias": "runtime.row0ForceHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row0ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row0VibrationHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row0VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row0PainHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row0PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row0TemperatureHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row0TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1ForceHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row1ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1VibrationHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row1VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1PainHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row1PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1TemperatureHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row1TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2ForceHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row2ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2VibrationHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row2VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2PainHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row2PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2TemperatureHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row2TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3ForceHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row3ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3VibrationHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row3VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3PainHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row3PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3TemperatureHeld", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
         { "alias": "runtime.row3TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" }
       ]
     },
@@ -34641,7 +34625,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "BYO Haptics v0.1.0"
+              "value": "BYO Haptics v0.2.0"
             },
             "ParseRichText": {
               "type": "bool",
@@ -41513,7 +41497,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "v0.1.0"
+              "value": "v0.2.0"
             }
           }
         }
@@ -51333,37 +51317,21 @@
     "MinimumPulseDuration": {
       "fieldRef": "config.minimumPulseDuration.Value"
     },
-    "Row0ForceHeld": { "fieldRef": "runtime.row0ForceHeld.Value" },
     "Row0ForceHoldRemaining": { "fieldRef": "runtime.row0ForceHoldRemaining.Value" },
-    "Row0VibrationHeld": { "fieldRef": "runtime.row0VibrationHeld.Value" },
     "Row0VibrationHoldRemaining": { "fieldRef": "runtime.row0VibrationHoldRemaining.Value" },
-    "Row0PainHeld": { "fieldRef": "runtime.row0PainHeld.Value" },
     "Row0PainHoldRemaining": { "fieldRef": "runtime.row0PainHoldRemaining.Value" },
-    "Row0TemperatureHeld": { "fieldRef": "runtime.row0TemperatureHeld.Value" },
     "Row0TemperatureHoldRemaining": { "fieldRef": "runtime.row0TemperatureHoldRemaining.Value" },
-    "Row1ForceHeld": { "fieldRef": "runtime.row1ForceHeld.Value" },
     "Row1ForceHoldRemaining": { "fieldRef": "runtime.row1ForceHoldRemaining.Value" },
-    "Row1VibrationHeld": { "fieldRef": "runtime.row1VibrationHeld.Value" },
     "Row1VibrationHoldRemaining": { "fieldRef": "runtime.row1VibrationHoldRemaining.Value" },
-    "Row1PainHeld": { "fieldRef": "runtime.row1PainHeld.Value" },
     "Row1PainHoldRemaining": { "fieldRef": "runtime.row1PainHoldRemaining.Value" },
-    "Row1TemperatureHeld": { "fieldRef": "runtime.row1TemperatureHeld.Value" },
     "Row1TemperatureHoldRemaining": { "fieldRef": "runtime.row1TemperatureHoldRemaining.Value" },
-    "Row2ForceHeld": { "fieldRef": "runtime.row2ForceHeld.Value" },
     "Row2ForceHoldRemaining": { "fieldRef": "runtime.row2ForceHoldRemaining.Value" },
-    "Row2VibrationHeld": { "fieldRef": "runtime.row2VibrationHeld.Value" },
     "Row2VibrationHoldRemaining": { "fieldRef": "runtime.row2VibrationHoldRemaining.Value" },
-    "Row2PainHeld": { "fieldRef": "runtime.row2PainHeld.Value" },
     "Row2PainHoldRemaining": { "fieldRef": "runtime.row2PainHoldRemaining.Value" },
-    "Row2TemperatureHeld": { "fieldRef": "runtime.row2TemperatureHeld.Value" },
     "Row2TemperatureHoldRemaining": { "fieldRef": "runtime.row2TemperatureHoldRemaining.Value" },
-    "Row3ForceHeld": { "fieldRef": "runtime.row3ForceHeld.Value" },
     "Row3ForceHoldRemaining": { "fieldRef": "runtime.row3ForceHoldRemaining.Value" },
-    "Row3VibrationHeld": { "fieldRef": "runtime.row3VibrationHeld.Value" },
     "Row3VibrationHoldRemaining": { "fieldRef": "runtime.row3VibrationHoldRemaining.Value" },
-    "Row3PainHeld": { "fieldRef": "runtime.row3PainHeld.Value" },
     "Row3PainHoldRemaining": { "fieldRef": "runtime.row3PainHoldRemaining.Value" },
-    "Row3TemperatureHeld": { "fieldRef": "runtime.row3TemperatureHeld.Value" },
     "Row3TemperatureHoldRemaining": { "fieldRef": "runtime.row3TemperatureHoldRemaining.Value" },
     "InstallButton": {
       "componentRef": "ui.install.button"
