@@ -633,7 +633,6 @@ pub struct HidJoyConBackend {
     frames: [HapticDriveFrame; 2],
     next_keepalive: Instant,
     next_player_light_refresh: Instant,
-    next_reconnect: Instant,
     devices: Vec<DeviceConfig>,
     profiles: ImuProfileStore,
     capture_imu: bool,
@@ -656,7 +655,6 @@ impl HidJoyConBackend {
             frames: [HapticDriveFrame::default(); 2],
             next_keepalive: now,
             next_player_light_refresh: now,
-            next_reconnect: now,
             devices,
             profiles,
             capture_imu,
@@ -667,26 +665,25 @@ impl HidJoyConBackend {
 impl RumbleBackend for HidJoyConBackend {
     fn connect(&mut self) -> io::Result<()> {
         self.discover_missing()?;
-        if self.left.is_none() && self.right.is_none() {
-            eprintln!("no Joy-Con available; waiting for a Bluetooth connection");
+        if self.left.is_none() || self.right.is_none() {
+            return Err(io::Error::new(
+                io::ErrorKind::NotConnected,
+                "both configured Joy-Cons must be connected",
+            ));
         }
+        eprintln!("bridge-status joycon-left=connected joycon-right=connected");
         Ok(())
     }
 
     fn poll(&mut self) -> io::Result<()> {
         let now = Instant::now();
         if now >= self.next_keepalive {
-            self.keepalive();
+            self.keepalive()?;
             self.next_keepalive = now + Duration::from_secs(1);
         }
         if now >= self.next_player_light_refresh {
-            self.refresh_player_lights();
+            self.refresh_player_lights()?;
             self.next_player_light_refresh = now + Duration::from_secs(5);
-        }
-
-        if (self.left.is_none() || self.right.is_none()) && now >= self.next_reconnect {
-            self.discover_missing()?;
-            self.next_reconnect = now + Duration::from_secs(2);
         }
         Ok(())
     }
@@ -700,7 +697,7 @@ impl RumbleBackend for HidJoyConBackend {
                 output.write_rumble_report(rumble_bytes(low_freq, high_freq, amplitude))
             }
             Some(output) => output.stop(),
-            None => return Ok(()),
+            None => return Err(disconnected_error(target)),
         };
         self.handle_write_result(target, result)
     }
@@ -709,7 +706,7 @@ impl RumbleBackend for HidJoyConBackend {
         self.frames[target_index(target)] = HapticDriveFrame::default();
         let result = match self.output_for(target) {
             Some(output) => output.stop(),
-            None => return Ok(()),
+            None => return Err(disconnected_error(target)),
         };
         self.handle_write_result(target, result)
     }
@@ -839,22 +836,21 @@ impl HidJoyConBackend {
         Ok(())
     }
 
-    fn keepalive(&mut self) {
+    fn keepalive(&mut self) -> io::Result<()> {
         for target in [Target::Left, Target::Right] {
             let frame = self.frames[target_index(target)];
             let (low_freq, high_freq) = self.map_frequencies(target, frame);
             let rumble = rumble_bytes(low_freq, high_freq, frame.amplitude);
             let result = match self.output_for(target) {
                 Some(output) => output.write_rumble_report(rumble),
-                None => continue,
+                None => return Err(disconnected_error(target)),
             };
-            if let Err(error) = result {
-                self.disconnect(target, &error);
-            }
+            self.handle_write_result(target, result)?;
         }
+        Ok(())
     }
 
-    fn refresh_player_lights(&mut self) {
+    fn refresh_player_lights(&mut self) -> io::Result<()> {
         for (target, side) in [
             (Target::Left, JoyConSide::Left),
             (Target::Right, JoyConSide::Right),
@@ -867,12 +863,11 @@ impl HidJoyConBackend {
             let rumble = rumble_bytes(low_freq, high_freq, frame.amplitude);
             let result = match self.output_for(target) {
                 Some(output) => output.set_player_lights(player_light_mask(id), rumble),
-                None => continue,
+                None => return Err(disconnected_error(target)),
             };
-            if let Err(error) = result {
-                self.disconnect(target, &error);
-            }
+            self.handle_write_result(target, result)?;
         }
+        Ok(())
     }
 
     fn handle_write_result(&mut self, target: Target, result: io::Result<()>) -> io::Result<()> {
@@ -880,18 +875,30 @@ impl HidJoyConBackend {
             Ok(()) => Ok(()),
             Err(error) => {
                 self.disconnect(target, &error);
-                Ok(())
+                Err(error)
             }
         }
     }
 
     fn disconnect(&mut self, target: Target, error: &io::Error) {
-        eprintln!("{target:?} Joy-Con disconnected: {error}; reconnecting in background");
+        eprintln!("{target:?} Joy-Con disconnected: {error}; stopping bridge service");
         match target {
             Target::Left => self.left = None,
             Target::Right => self.right = None,
         }
-        self.next_reconnect = Instant::now();
+        eprintln!(
+            "bridge-status joycon-left={} joycon-right={}",
+            if self.left.is_some() {
+                "connected"
+            } else {
+                "disconnected"
+            },
+            if self.right.is_some() {
+                "connected"
+            } else {
+                "disconnected"
+            }
+        );
     }
 
     fn output_for(&mut self, target: Target) -> Option<&mut JoyConOutput> {
@@ -917,6 +924,13 @@ impl HidJoyConBackend {
             .iter()
             .find(|device| device.side == configured_side)
     }
+}
+
+fn disconnected_error(target: Target) -> io::Error {
+    io::Error::new(
+        io::ErrorKind::NotConnected,
+        format!("{target:?} Joy-Con is disconnected"),
+    )
 }
 
 const fn target_index(target: Target) -> usize {

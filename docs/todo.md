@@ -96,6 +96,20 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Retain each positive sampler sensation for a configurable minimum duration, defaulting to 80 ms.
 - [x] Confirm in VR that a short collision remains perceptible for the configured minimum duration.
 - [x] Apply the repository-wide Ponytail audit by removing unused Host deployment recovery paths and the Bridge's test-only random abstraction.
+- [x] Stop a nonfunctional Joy-Con Bridge after HID failure and expose controller, service, and Plugin connection states in its GUI.
+- [ ] Verify Joy-Con disconnect handling and all three Bridge GUI status indicators with live hardware.
+- [x] Repeat Haptira channel state every 50 ms while active and for a 250 ms zero tail to tolerate UDP loss.
+- [ ] Verify repeated GunRecoil samples no longer leave a Haptira motor running.
+- [x] Reduce the Host from 2088 to 1588 live slots by deleting diagnostic mirrors and merging Source Binding into Sampler.
+- [ ] Regression-test clear, Slot sources, offsets, plugin status, and 80 ms pulse retention on the lightweight Host.
+- [x] Replace the Output Bus's 16 scalar hold states with four row-local `float4` vectors without sharing sensation expiry.
+- [x] Deploy the vectorized Output Bus to `byohaptics World` and verify its six sheets, 80 ms default, and independent row hold-vector state by live readback.
+- [x] Confirm manual Slot source mode on the deployed vectorized Host.
+- [ ] Confirm in VR that Force does not retain Vibration and the configured 80 ms minimum remains perceptible after vectorization.
+- [x] Consolidate internal Host state Slots and duplicate full-stretch UI wrappers, then remove unused configuration and constant visibility state, reducing the source SlotSpec from 245 Slots and 650 components to 174 Slots and 597 components.
+- [x] Deploy the compacted Host and measure its live total at 1331 slots.
+- [x] Verify Node source mode and Demo Output Plugin behavior on the compacted Host.
+- [ ] Visually inspect the compacted panel and regression-test Slot sources, clear, offsets, plugin status, and pulse retention.
 - [ ] Rebuild and redeploy both Plugin Packages, then verify their root `License` components live.
 
 ## Demo Plugin
@@ -105,3 +119,4 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Validate direct drop, independent `left` and `right` routing, and vibration live.
 - [x] Match the Joy-Con card style with a distinct accent, increase vibration visibility, and keep installed devices clear of the Host panel.
 - [ ] Visually accept the compact card spacing, stronger vibration, and device placement in `byohaptics World`.
+- [x] Rebuild and redeploy Demo v0.1.6, then verify individual devices cannot be grabbed away from the Plugin Package.

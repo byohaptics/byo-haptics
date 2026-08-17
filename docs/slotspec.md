@@ -44,10 +44,10 @@ SlotSpec is the declarative source for slots, components, initial member values,
 
 ```json
 {
-  "alias": "config.version",
-  "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+  "alias": "config.globalGain",
+  "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
   "members": {
-    "Value": { "type": "string", "value": "v0.1.0" }
+    "Value": { "type": "float", "value": 1.0 }
   }
 }
 ```
@@ -72,10 +72,10 @@ Asset URLs may be stable content-addressed resources. Scene component and member
 
 ```json
 {
-  "component": "ui.version.copy",
+  "component": "ui.gain.copy",
   "member": "Source",
-  "fieldRef": "config.version.Value",
-  "targetType": "[FrooxEngine]FrooxEngine.IField<string>"
+  "fieldRef": "config.globalGain.Value",
+  "targetType": "[FrooxEngine]FrooxEngine.IField<float>"
 }
 ```
 

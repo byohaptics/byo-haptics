@@ -49,7 +49,6 @@ if (target === "product") {
   const specPath = new URL("../specs/byo-haptics.resoslots.json", import.meta.url);
   const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
   for (const slot of spec.slots) for (const component of slot.components ?? []) {
-    if (component.alias === "config.version") component.members.Value.value = `v${version}`;
     if (component.alias === "ui.title.text") component.members.Content.value = `BYO Haptics v${version}`;
   }
   fs.writeFileSync(specPath, `${JSON.stringify(spec, null, 2)}\n`);

@@ -28,6 +28,8 @@ The first five messages travel from Plugin to Bridge. The final acknowledgement 
 
 The sender registers its acknowledgement port and emits a heartbeat about every `500 ms`. The Bridge echoes each valid heartbeat sequence. If no heartbeat arrives for `2000 ms`, the Bridge clears all sensation state and sends stop reports to both controllers.
 
+The GUI shows the left and right Joy-Con connection, Bridge process, and Plugin heartbeat as separate states. Status is conveyed by both shape and color: a filled green `●` means connected or running, red `×` means disconnected or stopped, and gray `－` means not yet checked. Its workflow is Joy-Con connection check, Bridge operation, then vibration measurement and optimization. Measurement and optimization are not required before normal Bridge use. Normal action buttons share one color and size; only the stop action uses the danger color. Both configured Joy-Cons must be available when the service starts. A HID read or write failure stops the service instead of leaving a nonfunctional process running; reconnect the controller and start the service again.
+
 ## Output Scheduling
 
 OSC receive processing keeps only the latest requested values. The sensation engine calculates a frame every `50 ms`; HID output refresh runs every `15 ms`. Slow writes therefore do not build an unbounded queue of stale rumble commands. A transition to zero sends an immediate stop report.

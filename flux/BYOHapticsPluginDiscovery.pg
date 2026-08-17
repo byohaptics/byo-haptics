@@ -8,6 +8,9 @@ in OutputBusActive: bool mutable
 in OutputBusSelectedPluginId: string mutable
 in OutputBusConnected: bool mutable
 in OutputBusConnectionStatusAvailable: bool mutable
+in PluginPresentIndicator: bool mutable
+in PluginConnectedIndicator: bool mutable
+in PluginDisconnectedIndicator: bool mutable
 
 out PluginPresent: bool
 out PluginId: string
@@ -38,6 +41,9 @@ where {
         SkipIfNull=true,
         OnUpdate=impulse {
             OutputBusSelectedPluginId <- DetectedPluginId;
+            PluginPresentIndicator <- DetectedPluginPresent;
+            PluginConnectedIndicator <- OutputBusConnected;
+            PluginDisconnectedIndicator <- if PluginActiveState then (if OutputBusConnectionStatusAvailable then not OutputBusConnected else false) else false;
             If(
                 Condition=IsUnderLocalUser,
                 OnTrue=If(

@@ -20,22 +20,22 @@ The Demo plugin contains its `left` and `right` simulated devices and drives the
 
 ## Host Modules
 
-The host ProtoGraph is divided into eight readable sheets:
+The host ProtoGraph is divided into six operational sheets:
 
 1. `BYOHapticsLifecycle`
 2. `BYOHapticsPositioning`
-3. `BYOHapticsSourceBinding`
-4. `BYOHapticsSampler`
-5. `BYOHapticsPluginDiscovery`
-6. `BYOHapticsPluginPackageManager`
-7. `BYOHapticsOutputBus`
-8. `BYOHapticsDiagnostics`
+3. `BYOHapticsSampler`
+4. `BYOHapticsPluginDiscovery`
+5. `BYOHapticsPluginPackageManager`
+6. `BYOHapticsOutputBus`
 
-Diagnostics is read-only and placed below the operational sheets.
+Read-only diagnostic mirror fields are omitted. Inspect the authoritative sampler and Output Bus fields directly when debugging.
+
+Host-internal state is grouped by ownership rather than giving every field its own Slot. Publicly adjusted settings retain named children under `Config`; row bookkeeping shares `Config/State`, Output Plugin contract variables share the Bus Slot, and the three plugin-state indicators share `Diagnostics/Plugin`. Component aliases and Dynamic Variable names remain the stable references.
 
 ## Ownership And Activity
 
-The host is locally active only while its root is under the local user's User Root. This includes an installed host under the avatar and a host currently held in local user space. Samplers are controlled through the `Samplers` slot's per-user active state so another user's client does not sample or emit local output.
+The host is locally active only while its root is under the local user's User Root. This includes an installed host under the avatar and a host currently held in local user space. Samplers are controlled through the `Samplers` slot's per-user active state so another user's client does not sample or emit local output. An always-active Host-root `ValueUserOverride<bool>` drives `Samplers.IsActive`, and ProtoFlux writes that driven field to create the local user's override; the controller does not live on the subtree it can disable.
 
 ## Installation
 
@@ -50,7 +50,7 @@ Each row supports:
 - Node mode: resolve a selected BodyNode on the active avatar.
 - Slot mode: use a manually assigned Slot reference.
 
-A null source disables the row and resets its sampler transform and stored offset. Node mode is the default.
+A null source disables the row and resets its sampler transform and stored offset. Node mode is the default. Target routing remains explicitly user-configured; the host does not derive transport-specific Target names from BodyNode selections.
 
 ## Position Editing
 

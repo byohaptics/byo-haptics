@@ -78,6 +78,10 @@ for (const alias of ["device.left.intensity", "device.right.intensity"]) {
   if (!demoComponents.has(alias)) throw new Error(`Demo device component missing: ${alias}`);
 }
 const demoSlot = (path) => demoSpec.slots.find((slot) => slot.path === path);
+if (!demoComponents.has("package.grabbable")) throw new Error("Demo package must remain grabbable");
+for (const side of ["left", "right"]) {
+  if (demoComponents.has(`device.${side}.grabbable`)) throw new Error(`Demo ${side} device must not be independently grabbable`);
+}
 const demoCanvasSize = demoComponents.get("package.canvas")?.members?.Size?.value;
 if (demoCanvasSize?.x !== 420 || demoCanvasSize?.y !== 186) throw new Error("Demo card must fit its four rows at 420 x 186");
 for (const alias of ["package.roundedTexture", "package.backing.image", "package.accent.image", "package.content.layout"]) {
@@ -109,6 +113,9 @@ for (const [path, id] of [
   if (!graph.includes("BYOHaptics.Output.v1/Active")) throw new Error(`${path}: contract namespace missing`);
   if (!graph.includes("BusContractVersion.Value == 1")) throw new Error(`${path}: contract integer check missing`);
   if (/BYOHaptics\.Output\.v2|BusContractVersion\.Value == 2/.test(graph)) throw new Error(`${path}: legacy contract remains`);
+  if (path.includes("Haptira") && !graph.includes("ActiveResendInterval = if ResendTailActive then 0.05 else InactiveResendInterval")) {
+    throw new Error(`${path}: bounded 50 ms resend tail missing`);
+  }
   if (path.includes("Demo")) {
     for (const target of ["left", "right"]) {
       if (!graph.includes(`== "${target}"`)) throw new Error(`${path}: Target ${target} routing missing`);

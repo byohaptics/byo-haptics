@@ -285,6 +285,7 @@ fn main() -> io::Result<()> {
     let mut sensation_schedule = PeriodicDeadline::new(now, SENSATION_FRAME);
     let mut output_schedule = PeriodicDeadline::new(now, OUTPUT_REFRESH);
     let mut last_saturation_warning = None;
+    let mut plugin_connected = false;
     let mut buffer = [0_u8; 2048];
 
     loop {
@@ -319,24 +320,30 @@ fn main() -> io::Result<()> {
         );
 
         let now = Instant::now();
-        if let Err(error) = backend.poll() {
-            eprintln!("Joy-Con reconnect error: {error}");
-        }
-        match backend.take_imu_samples() {
-            Ok(samples) => {
-                if let Some(trace) = trace.as_mut() {
-                    for sample in samples {
-                        trace.imu(sample.target, sample.acceleration);
-                    }
-                }
+        backend.poll()?;
+        let samples = backend.take_imu_samples()?;
+        if let Some(trace) = trace.as_mut() {
+            for sample in samples {
+                trace.imu(sample.target, sample.acceleration);
             }
-            Err(error) => eprintln!("Joy-Con IMU read error: {error}"),
+        }
+        let heartbeat_valid = runtime.router.heartbeat_valid(now);
+        if heartbeat_valid != plugin_connected {
+            plugin_connected = heartbeat_valid;
+            eprintln!(
+                "bridge-status plugin={}",
+                if plugin_connected {
+                    "connected"
+                } else {
+                    "disconnected"
+                }
+            );
         }
         if runtime.router.take_timeout(now) {
             drive_engine.reset();
             drive_frames = [HapticDriveFrame::default(); 2];
-            stop_all(backend.as_mut(), &mut trace);
-        } else if runtime.router.heartbeat_valid(now) {
+            stop_all(backend.as_mut(), &mut trace)?;
+        } else if heartbeat_valid {
             if sensation_schedule.take_due(now) {
                 let state = runtime.router.state();
                 let next_frames = drive_engine.update(state, SENSATION_FRAME);
@@ -347,11 +354,11 @@ fn main() -> io::Result<()> {
                         trace.frame(target, state, frame);
                     }
                 }
-                stop_released_outputs(backend.as_mut(), drive_frames, next_frames, &mut trace);
+                stop_released_outputs(backend.as_mut(), drive_frames, next_frames, &mut trace)?;
                 drive_frames = next_frames;
             }
             if output_schedule.take_due(now) {
-                refresh_outputs(backend.as_mut(), drive_frames, &mut trace);
+                refresh_outputs(backend.as_mut(), drive_frames, &mut trace)?;
             }
         }
         thread::sleep(IDLE_SLEEP);
@@ -362,12 +369,13 @@ fn refresh_outputs(
     backend: &mut dyn RumbleBackend,
     frames: [HapticDriveFrame; 2],
     trace: &mut Option<TraceRecorder>,
-) {
+) -> io::Result<()> {
     for (target, frame) in [Target::Left, Target::Right].into_iter().zip(frames) {
         if frame.amplitude > 0.0 {
-            apply_frame(backend, target, frame, trace);
+            apply_frame(backend, target, frame, trace)?;
         }
     }
+    Ok(())
 }
 
 fn stop_released_outputs(
@@ -375,7 +383,7 @@ fn stop_released_outputs(
     previous: [HapticDriveFrame; 2],
     next: [HapticDriveFrame; 2],
     trace: &mut Option<TraceRecorder>,
-) {
+) -> io::Result<()> {
     for ((target, previous), next) in [Target::Left, Target::Right]
         .into_iter()
         .zip(previous)
@@ -386,11 +394,10 @@ fn stop_released_outputs(
             if let Some(trace) = trace.as_mut() {
                 trace.hid(target, HapticDriveFrame::default(), &result);
             }
-            if let Err(error) = result {
-                eprintln!("stop error for {target:?}: {error}");
-            }
+            result?;
         }
     }
+    Ok(())
 }
 
 fn apply_frame(
@@ -398,7 +405,7 @@ fn apply_frame(
     target: Target,
     frame: HapticDriveFrame,
     trace: &mut Option<TraceRecorder>,
-) {
+) -> io::Result<()> {
     let result = if frame.amplitude > 0.0 {
         backend.drive(target, frame)
     } else {
@@ -407,21 +414,18 @@ fn apply_frame(
     if let Some(trace) = trace.as_mut() {
         trace.hid(target, frame, &result);
     }
-    if let Err(error) = result {
-        eprintln!("output error for {target:?}: {error}");
-    }
+    result
 }
 
-fn stop_all(backend: &mut dyn RumbleBackend, trace: &mut Option<TraceRecorder>) {
+fn stop_all(backend: &mut dyn RumbleBackend, trace: &mut Option<TraceRecorder>) -> io::Result<()> {
     for target in [Target::Left, Target::Right] {
         let result = backend.stop(target);
         if let Some(trace) = trace.as_mut() {
             trace.hid(target, HapticDriveFrame::default(), &result);
         }
-        if let Err(error) = result {
-            eprintln!("stop error for {target:?}: {error}");
-        }
+        result?;
     }
+    Ok(())
 }
 
 #[cfg(test)]

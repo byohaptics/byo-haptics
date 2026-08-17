@@ -315,7 +315,7 @@ where {
     DelayedAnyChannelOutput = DelayValue(DelaySeconds=0.25, Value=AnyChannelOutput).DelayedValue;
     ResendTailActive = if AnyChannelOutput > 0.0 then true else DelayedAnyChannelOutput > 0.0;
     InactiveResendInterval = 1000000000.0;
-    ActiveResendInterval = InactiveResendInterval;
+    ActiveResendInterval = if ResendTailActive then 0.05 else InactiveResendInterval;
 
     OnLoaded(Trigger=impulse {
         ConfigConfigured <- ConfigurationValid;

@@ -10,13 +10,12 @@ This map ties each public requirement to its declarative source, executable sour
 |---|---|---|---|---|
 | Install, uninstall, close, visibility, local activity | `lifecycle.md` | `byo-haptics.resoslots.json`, `BYOHapticsLifecycle.pg` | SlotSpec validation and graph compilation | Pending |
 | Head-relative panel reset | `lifecycle.md`, `host-ui.md` | `BYOHapticsPositioning.pg`, `PanelResetFromUser.pg` | Graph compilation | Pending |
-| Node and manual Slot source modes | `sampler.md` | `BYOHapticsSourceBinding.pg` | Default and reference validation | Pending |
+| Node and manual Slot source modes | `sampler.md` | `BYOHapticsSampler.pg` | Default and reference validation | Pending |
 | Four sensation samplers and null-source disable | `sampler.md` | `BYOHapticsSampler.pg` | Four-row manifest validation and graph compilation | Pending |
 | Avatar-relative edit offsets and reset | `sampler.md` | `BYOHapticsSampler.pg` | Graph compilation | Pending |
 | Output Plugin discovery | `output-plugin-contract.md` | `BYOHapticsPluginDiscovery.pg` | Contract and Plugin ID validation | Pending |
 | Package drop, replacement, and ejection | `output-plugin-package.md` | `BYOHapticsPluginPackageManager.pg` | One `PackageReference` writer path after receipt | Pending |
 | Normalized four-row Output Bus | `output-plugin-contract.md` | `BYOHapticsOutputBus.pg` | Contract integer and namespace validation | Pending |
-| Read-only diagnostics | `architecture.md` | `BYOHapticsDiagnostics.pg` | Graph compilation | Pending |
 
 ## Output Plugins
 

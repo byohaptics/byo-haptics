@@ -131,7 +131,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "v0.1.5"
+              "value": "v0.1.6"
             }
           }
         },
@@ -261,20 +261,6 @@
                 "y": 2,
                 "z": 3
               }
-            }
-          }
-        },
-        {
-          "alias": "device.left.grabbable",
-          "type": "[FrooxEngine]FrooxEngine.Grabbable",
-          "members": {
-            "ReparentOnRelease": {
-              "type": "bool",
-              "value": false
-            },
-            "Scalable": {
-              "type": "bool",
-              "value": false
             }
           }
         },
@@ -453,20 +439,6 @@
                 "y": 5,
                 "z": 6
               }
-            }
-          }
-        },
-        {
-          "alias": "device.right.grabbable",
-          "type": "[FrooxEngine]FrooxEngine.Grabbable",
-          "members": {
-            "ReparentOnRelease": {
-              "type": "bool",
-              "value": false
-            },
-            "Scalable": {
-              "type": "bool",
-              "value": false
             }
           }
         },
@@ -1180,7 +1152,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "v0.1.5"
+              "value": "v0.1.6"
             },
             "ParseRichText": {
               "type": "bool",

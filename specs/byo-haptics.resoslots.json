@@ -3,51 +3,6 @@
   "toolName": "BYOHaptics",
   "slots": [
     {
-      "path": "Config/Enabled",
-      "components": [
-        {
-          "alias": "config.enabled",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/SendInterval",
-      "components": [
-        {
-          "alias": "config.sendInterval",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
-          "members": {
-            "Value": {
-              "type": "int",
-              "value": 15
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/DefaultRadius",
-      "components": [
-        {
-          "alias": "config.defaultRadius",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0.05
-            }
-          }
-        }
-      ]
-    },
-    {
       "path": "Config/GlobalGain",
       "components": [
         {
@@ -68,29 +23,34 @@
         {
           "alias": "config.minimumPulseDuration",
           "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": { "Value": { "type": "float", "value": 0.08 } }
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0.08
+            }
+          }
         }
       ]
     },
     {
       "path": "Runtime/PulseHold",
       "components": [
-        { "alias": "runtime.row0ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row0VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row0PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row0TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row1TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row2TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3ForceHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3VibrationHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3PainHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" },
-        { "alias": "runtime.row3TemperatureHoldRemaining", "type": "[FrooxEngine]FrooxEngine.ValueField<float>" }
+        {
+          "alias": "runtime.row0HoldRemaining",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float4>"
+        },
+        {
+          "alias": "runtime.row1HoldRemaining",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float4>"
+        },
+        {
+          "alias": "runtime.row2HoldRemaining",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float4>"
+        },
+        {
+          "alias": "runtime.row3HoldRemaining",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float4>"
+        }
       ]
     },
     {
@@ -34549,50 +34509,6 @@
           }
         },
         {
-          "alias": "ui.titleTextArea.layout",
-          "type": "[FrooxEngine]FrooxEngine.UIX.VerticalLayout",
-          "members": {
-            "PaddingTop": {
-              "type": "float",
-              "value": 5.545812
-            },
-            "PaddingRight": {
-              "type": "float",
-              "value": 0
-            },
-            "PaddingBottom": {
-              "type": "float",
-              "value": 0
-            },
-            "PaddingLeft": {
-              "type": "float",
-              "value": 14.51912
-            },
-            "Spacing": {
-              "type": "float",
-              "value": 0
-            },
-            "HorizontalAlign": {
-              "type": "enum",
-              "enumType": "LayoutHorizontalAlignment",
-              "value": "Center"
-            },
-            "VerticalAlign": {
-              "type": "enum",
-              "enumType": "LayoutVerticalAlignment",
-              "value": "Middle"
-            },
-            "ForceExpandWidth": {
-              "type": "bool",
-              "value": true
-            },
-            "ForceExpandHeight": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        },
-        {
           "alias": "ui.titleTextArea.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
@@ -34613,12 +34529,7 @@
               "value": -1
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Title layout/Text area/Text",
-      "components": [
+        },
         {
           "alias": "ui.title.text",
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
@@ -35168,20 +35079,52 @@
           "alias": "ui.row0.index.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
-            "MinWidth": { "type": "float", "value": 60 },
-            "PreferredWidth": { "type": "float", "value": 60 },
-            "FlexibleWidth": { "type": "float", "value": 0 }
+            "MinWidth": {
+              "type": "float",
+              "value": 60
+            },
+            "PreferredWidth": {
+              "type": "float",
+              "value": 60
+            },
+            "FlexibleWidth": {
+              "type": "float",
+              "value": 0
+            }
           }
         },
         {
           "alias": "ui.row0.index.text",
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
           "members": {
-            "Content": { "type": "string", "value": "0:" },
-            "Size": { "type": "float", "value": 32 },
-            "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } },
-            "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" },
-            "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" }
+            "Content": {
+              "type": "string",
+              "value": "0:"
+            },
+            "Size": {
+              "type": "float",
+              "value": 32
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.882353,
+                "g": 0.882353,
+                "b": 0.878431,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "enumType": "TextHorizontalAlignment",
+              "value": "Right"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "enumType": "TextVerticalAlignment",
+              "value": "Middle"
+            }
           }
         }
       ]
@@ -35189,71 +35132,6 @@
     {
       "path": "UI/Vertical layout/Main Area/Row_000/TargetFieldArea",
       "orderOffset": 20,
-      "components": [
-        {
-          "alias": "ui.row0.targetField.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.row0.targetField.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 160
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 160
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_000/TargetFieldArea/Labeled button element",
       "components": [
         {
           "alias": "ui.row0.targetField.rect",
@@ -35365,21 +35243,17 @@
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": -1
+              "value": 160
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 290
+              "value": 160
             },
             "FlexibleWidth": {
               "type": "float",
-              "value": -1
+              "value": 0
             },
             "MinHeight": {
-              "type": "float",
-              "value": -1
-            },
-            "PreferredHeight": {
               "type": "float",
               "value": 60
             },
@@ -35454,7 +35328,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_000/TargetFieldArea/Labeled button element/Text",
+      "path": "UI/Vertical layout/Main Area/Row_000/TargetFieldArea/Text",
       "components": [
         {
           "alias": "ui.row0.targetField.text.text",
@@ -35958,6 +35832,21 @@
               "value": true
             }
           }
+        },
+        {
+          "alias": "ui.row0.clear.bodyNodeSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonValueSet<[Renderite.Shared]Renderite.Shared.BodyNode>",
+          "members": {
+            "SetValue": {
+              "type": "enum",
+              "enumType": "BodyNode",
+              "value": "NONE"
+            }
+          }
+        },
+        {
+          "alias": "ui.row0.clear.manualSourceSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonReferenceSet<[FrooxEngine]FrooxEngine.Slot>"
         }
       ]
     },
@@ -36127,79 +36016,67 @@
       "path": "UI/Vertical layout/Main Area/Row_001/Index",
       "orderOffset": -10,
       "components": [
-        { "alias": "ui.row1.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
-        { "alias": "ui.row1.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 60 }, "PreferredWidth": { "type": "float", "value": 60 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
-        { "alias": "ui.row1.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "1:" }, "Size": { "type": "float", "value": 32 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_001/TargetFieldArea",
-      "orderOffset": 20,
-      "components": [
         {
-          "alias": "ui.row1.targetField.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
+          "alias": "ui.row1.index.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
         },
         {
-          "alias": "ui.row1.targetField.area.layoutElement",
+          "alias": "ui.row1.index.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": 160
+              "value": 60
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 160
+              "value": 60
             },
             "FlexibleWidth": {
               "type": "float",
               "value": 0
+            }
+          }
+        },
+        {
+          "alias": "ui.row1.index.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "1:"
             },
-            "MinHeight": {
+            "Size": {
               "type": "float",
-              "value": 60
+              "value": 32
             },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.882353,
+                "g": 0.882353,
+                "b": 0.878431,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "enumType": "TextHorizontalAlignment",
+              "value": "Right"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "enumType": "TextVerticalAlignment",
+              "value": "Middle"
             }
           }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_001/TargetFieldArea/Labeled button element",
+      "path": "UI/Vertical layout/Main Area/Row_001/TargetFieldArea",
+      "orderOffset": 20,
       "components": [
         {
           "alias": "ui.row1.targetField.rect",
@@ -36311,21 +36188,17 @@
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": -1
+              "value": 160
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 290
+              "value": 160
             },
             "FlexibleWidth": {
               "type": "float",
-              "value": -1
+              "value": 0
             },
             "MinHeight": {
-              "type": "float",
-              "value": -1
-            },
-            "PreferredHeight": {
               "type": "float",
               "value": 60
             },
@@ -36400,7 +36273,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_001/TargetFieldArea/Labeled button element/Text",
+      "path": "UI/Vertical layout/Main Area/Row_001/TargetFieldArea/Text",
       "components": [
         {
           "alias": "ui.row1.targetField.text.text",
@@ -36904,6 +36777,21 @@
               "value": true
             }
           }
+        },
+        {
+          "alias": "ui.row1.clear.bodyNodeSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonValueSet<[Renderite.Shared]Renderite.Shared.BodyNode>",
+          "members": {
+            "SetValue": {
+              "type": "enum",
+              "enumType": "BodyNode",
+              "value": "NONE"
+            }
+          }
+        },
+        {
+          "alias": "ui.row1.clear.manualSourceSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonReferenceSet<[FrooxEngine]FrooxEngine.Slot>"
         }
       ]
     },
@@ -37073,79 +36961,67 @@
       "path": "UI/Vertical layout/Main Area/Row_002/Index",
       "orderOffset": -10,
       "components": [
-        { "alias": "ui.row2.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
-        { "alias": "ui.row2.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 60 }, "PreferredWidth": { "type": "float", "value": 60 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
-        { "alias": "ui.row2.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "2:" }, "Size": { "type": "float", "value": 32 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_002/TargetFieldArea",
-      "orderOffset": 20,
-      "components": [
         {
-          "alias": "ui.row2.targetField.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
+          "alias": "ui.row2.index.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
         },
         {
-          "alias": "ui.row2.targetField.area.layoutElement",
+          "alias": "ui.row2.index.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": 160
+              "value": 60
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 160
+              "value": 60
             },
             "FlexibleWidth": {
               "type": "float",
               "value": 0
+            }
+          }
+        },
+        {
+          "alias": "ui.row2.index.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "2:"
             },
-            "MinHeight": {
+            "Size": {
               "type": "float",
-              "value": 60
+              "value": 32
             },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.882353,
+                "g": 0.882353,
+                "b": 0.878431,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "enumType": "TextHorizontalAlignment",
+              "value": "Right"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "enumType": "TextVerticalAlignment",
+              "value": "Middle"
             }
           }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_002/TargetFieldArea/Labeled button element",
+      "path": "UI/Vertical layout/Main Area/Row_002/TargetFieldArea",
+      "orderOffset": 20,
       "components": [
         {
           "alias": "ui.row2.targetField.rect",
@@ -37257,21 +37133,17 @@
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": -1
+              "value": 160
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 290
+              "value": 160
             },
             "FlexibleWidth": {
               "type": "float",
-              "value": -1
+              "value": 0
             },
             "MinHeight": {
-              "type": "float",
-              "value": -1
-            },
-            "PreferredHeight": {
               "type": "float",
               "value": 60
             },
@@ -37346,7 +37218,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_002/TargetFieldArea/Labeled button element/Text",
+      "path": "UI/Vertical layout/Main Area/Row_002/TargetFieldArea/Text",
       "components": [
         {
           "alias": "ui.row2.targetField.text.text",
@@ -37850,6 +37722,21 @@
               "value": true
             }
           }
+        },
+        {
+          "alias": "ui.row2.clear.bodyNodeSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonValueSet<[Renderite.Shared]Renderite.Shared.BodyNode>",
+          "members": {
+            "SetValue": {
+              "type": "enum",
+              "enumType": "BodyNode",
+              "value": "NONE"
+            }
+          }
+        },
+        {
+          "alias": "ui.row2.clear.manualSourceSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonReferenceSet<[FrooxEngine]FrooxEngine.Slot>"
         }
       ]
     },
@@ -38019,79 +37906,67 @@
       "path": "UI/Vertical layout/Main Area/Row_003/Index",
       "orderOffset": -10,
       "components": [
-        { "alias": "ui.row3.index.rect", "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform" },
-        { "alias": "ui.row3.index.layoutElement", "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement", "members": { "MinWidth": { "type": "float", "value": 60 }, "PreferredWidth": { "type": "float", "value": 60 }, "FlexibleWidth": { "type": "float", "value": 0 } } },
-        { "alias": "ui.row3.index.text", "type": "[FrooxEngine]FrooxEngine.UIX.Text", "members": { "Content": { "type": "string", "value": "3:" }, "Size": { "type": "float", "value": 32 }, "Color": { "type": "colorX", "value": { "r": 0.882353, "g": 0.882353, "b": 0.878431, "a": 1, "profile": "sRGB" } }, "HorizontalAlign": { "type": "enum", "enumType": "TextHorizontalAlignment", "value": "Right" }, "VerticalAlign": { "type": "enum", "enumType": "TextVerticalAlignment", "value": "Middle" } } }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_003/TargetFieldArea",
-      "orderOffset": 20,
-      "components": [
         {
-          "alias": "ui.row3.targetField.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
+          "alias": "ui.row3.index.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
         },
         {
-          "alias": "ui.row3.targetField.area.layoutElement",
+          "alias": "ui.row3.index.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": 160
+              "value": 60
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 160
+              "value": 60
             },
             "FlexibleWidth": {
               "type": "float",
               "value": 0
+            }
+          }
+        },
+        {
+          "alias": "ui.row3.index.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "3:"
             },
-            "MinHeight": {
+            "Size": {
               "type": "float",
-              "value": 60
+              "value": 32
             },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.882353,
+                "g": 0.882353,
+                "b": 0.878431,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "enumType": "TextHorizontalAlignment",
+              "value": "Right"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "enumType": "TextVerticalAlignment",
+              "value": "Middle"
             }
           }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_003/TargetFieldArea/Labeled button element",
+      "path": "UI/Vertical layout/Main Area/Row_003/TargetFieldArea",
+      "orderOffset": 20,
       "components": [
         {
           "alias": "ui.row3.targetField.rect",
@@ -38203,21 +38078,17 @@
           "members": {
             "MinWidth": {
               "type": "float",
-              "value": -1
+              "value": 160
             },
             "PreferredWidth": {
               "type": "float",
-              "value": 290
+              "value": 160
             },
             "FlexibleWidth": {
               "type": "float",
-              "value": -1
+              "value": 0
             },
             "MinHeight": {
-              "type": "float",
-              "value": -1
-            },
-            "PreferredHeight": {
               "type": "float",
               "value": 60
             },
@@ -38292,7 +38163,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_003/TargetFieldArea/Labeled button element/Text",
+      "path": "UI/Vertical layout/Main Area/Row_003/TargetFieldArea/Text",
       "components": [
         {
           "alias": "ui.row3.targetField.text.text",
@@ -38796,6 +38667,21 @@
               "value": true
             }
           }
+        },
+        {
+          "alias": "ui.row3.clear.bodyNodeSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonValueSet<[Renderite.Shared]Renderite.Shared.BodyNode>",
+          "members": {
+            "SetValue": {
+              "type": "enum",
+              "enumType": "BodyNode",
+              "value": "NONE"
+            }
+          }
+        },
+        {
+          "alias": "ui.row3.clear.manualSourceSet",
+          "type": "[FrooxEngine]FrooxEngine.ButtonReferenceSet<[FrooxEngine]FrooxEngine.Slot>"
         }
       ]
     },
@@ -38852,7 +38738,8 @@
       ]
     },
     {
-      "path": "Flux"
+      "path": "Flux",
+      "components": []
     },
     {
       "path": "UI/Vertical layout/Title layout/Close button area/Close button/Background",
@@ -39168,10 +39055,22 @@
           "alias": "ui.columnHeader.index.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
-            "MinWidth": { "type": "float", "value": 60 },
-            "PreferredWidth": { "type": "float", "value": 60 },
-            "FlexibleWidth": { "type": "float", "value": 0 },
-            "MinHeight": { "type": "float", "value": 36 }
+            "MinWidth": {
+              "type": "float",
+              "value": 60
+            },
+            "PreferredWidth": {
+              "type": "float",
+              "value": 60
+            },
+            "FlexibleWidth": {
+              "type": "float",
+              "value": 0
+            },
+            "MinHeight": {
+              "type": "float",
+              "value": 36
+            }
           }
         }
       ]
@@ -39239,12 +39138,7 @@
               "value": -1
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Column Header/Target/Text",
-      "components": [
+        },
         {
           "alias": "ui.columnHeader.target.text",
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
@@ -39385,11 +39279,33 @@
         {
           "alias": "visibility.uiActive.copy",
           "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
+        },
+        {
+          "alias": "samplers.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<bool>",
+          "members": {
+            "Default": {
+              "type": "bool",
+              "value": false
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
         }
       ]
     },
     {
-      "path": "Config/Installed",
+      "path": "Config/State",
       "components": [
         {
           "alias": "config.installed",
@@ -39400,14 +39316,185 @@
               "value": false
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "Config/PanelVisible",
-      "components": [
+        },
         {
           "alias": "config.panelVisible",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row0SamplerEdit",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "config.row1SamplerEdit",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "config.row2SamplerEdit",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "config.row3SamplerEdit",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "config.row0SamplerOffset",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
+          "members": {
+            "Value": {
+              "type": "float3",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "config.row1SamplerOffset",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
+          "members": {
+            "Value": {
+              "type": "float3",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "config.row2SamplerOffset",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
+          "members": {
+            "Value": {
+              "type": "float3",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "config.row3SamplerOffset",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
+          "members": {
+            "Value": {
+              "type": "float3",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "config.row0SourceValid",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row1SourceValid",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row2SourceValid",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row3SourceValid",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row0UseBodyNode",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row1UseBodyNode",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row2UseBodyNode",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "config.row3UseBodyNode",
           "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
           "members": {
             "Value": {
@@ -39510,68 +39597,6 @@
     },
     {
       "path": "UI/Vertical layout/Main Area/Button/ButtonArea",
-      "components": [
-        {
-          "alias": "ui.install.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.install.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": -1
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 1
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ],
-      "orderOffset": 10
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Button/ButtonArea/Labeled button element",
       "components": [
         {
           "alias": "ui.install.rect",
@@ -39714,10 +39739,11 @@
             }
           }
         }
-      ]
+      ],
+      "orderOffset": 10
     },
     {
-      "path": "UI/Vertical layout/Main Area/Button/ButtonArea/Labeled button element/Text",
+      "path": "UI/Vertical layout/Main Area/Button/ButtonArea/Text",
       "components": [
         {
           "alias": "ui.install.text",
@@ -40011,67 +40037,6 @@
       "orderOffset": 0,
       "components": [
         {
-          "alias": "ui.positionReset.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.positionReset.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": -1
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 1
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Button/PositionResetArea/Labeled button element",
-      "components": [
-        {
           "alias": "ui.positionReset.rect",
           "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
           "members": {
@@ -40219,7 +40184,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Button/PositionResetArea/Labeled button element/Text",
+      "path": "UI/Vertical layout/Main Area/Button/PositionResetArea/Text",
       "components": [
         {
           "alias": "ui.positionReset.text",
@@ -40341,12 +40306,7 @@
               "value": -1
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Column Header/Visual/Text",
-      "components": [
+        },
         {
           "alias": "ui.columnHeader.visual.text",
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
@@ -40407,71 +40367,6 @@
     {
       "path": "UI/Vertical layout/Main Area/Row_000/Visual",
       "orderOffset": 10,
-      "components": [
-        {
-          "alias": "ui.row0.visual.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.row0.visual.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_000/Visual/Checkbox",
       "components": [
         {
           "alias": "ui.row0.visual.rect",
@@ -40623,7 +40518,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_000/Visual/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_000/Visual/Checkmark",
       "components": [
         {
           "alias": "ui.row0.visual.checkmark",
@@ -40678,71 +40573,6 @@
     {
       "path": "UI/Vertical layout/Main Area/Row_001/Visual",
       "orderOffset": 10,
-      "components": [
-        {
-          "alias": "ui.row1.visual.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.row1.visual.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_001/Visual/Checkbox",
       "components": [
         {
           "alias": "ui.row1.visual.rect",
@@ -40894,7 +40724,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_001/Visual/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_001/Visual/Checkmark",
       "components": [
         {
           "alias": "ui.row1.visual.checkmark",
@@ -40949,71 +40779,6 @@
     {
       "path": "UI/Vertical layout/Main Area/Row_002/Visual",
       "orderOffset": 10,
-      "components": [
-        {
-          "alias": "ui.row2.visual.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.row2.visual.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_002/Visual/Checkbox",
       "components": [
         {
           "alias": "ui.row2.visual.rect",
@@ -41165,7 +40930,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_002/Visual/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_002/Visual/Checkmark",
       "components": [
         {
           "alias": "ui.row2.visual.checkmark",
@@ -41220,71 +40985,6 @@
     {
       "path": "UI/Vertical layout/Main Area/Row_003/Visual",
       "orderOffset": 10,
-      "components": [
-        {
-          "alias": "ui.row3.visual.area.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            }
-          }
-        },
-        {
-          "alias": "ui.row3.visual.area.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleHeight": {
-              "type": "float",
-              "value": -1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_003/Visual/Checkbox",
       "components": [
         {
           "alias": "ui.row3.visual.rect",
@@ -41436,7 +41136,7 @@
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_003/Visual/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_003/Visual/Checkmark",
       "components": [
         {
           "alias": "ui.row3.visual.checkmark",
@@ -41487,21 +41187,6 @@
         }
       ],
       "isActive": false
-    },
-    {
-      "path": "Config/Version",
-      "components": [
-        {
-          "alias": "config.version",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": "v0.2.0"
-            }
-          }
-        }
-      ]
     },
     {
       "path": "UI/Background mask/Backing",
@@ -41568,66 +41253,6 @@
       ]
     },
     {
-      "path": "Config/Row_000SamplerEdit",
-      "components": [
-        {
-          "alias": "config.row0SamplerEdit",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_001SamplerEdit",
-      "components": [
-        {
-          "alias": "config.row1SamplerEdit",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_002SamplerEdit",
-      "components": [
-        {
-          "alias": "config.row2SamplerEdit",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_003SamplerEdit",
-      "components": [
-        {
-          "alias": "config.row3SamplerEdit",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
       "path": "Context Menu/Items/Panel Position Reset",
       "components": [
         {
@@ -41665,195 +41290,12 @@
       ]
     },
     {
-      "path": "Config/Row_000SamplerOffset",
-      "components": [
-        {
-          "alias": "config.row0SamplerOffset",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
-          "members": {
-            "Value": {
-              "type": "float3",
-              "value": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_001SamplerOffset",
-      "components": [
-        {
-          "alias": "config.row1SamplerOffset",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
-          "members": {
-            "Value": {
-              "type": "float3",
-              "value": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_002SamplerOffset",
-      "components": [
-        {
-          "alias": "config.row2SamplerOffset",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
-          "members": {
-            "Value": {
-              "type": "float3",
-              "value": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_003SamplerOffset",
-      "components": [
-        {
-          "alias": "config.row3SamplerOffset",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float3>",
-          "members": {
-            "Value": {
-              "type": "float3",
-              "value": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-              }
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_000SourceConfigured",
-      "components": [
-        { "alias": "config.row0SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
-      ]
-    },
-    {
-      "path": "Config/Row_000SourceValid",
-      "components": [
-        {
-          "alias": "config.row0SourceValid",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_001SourceConfigured",
-      "components": [
-        { "alias": "config.row1SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
-      ]
-    },
-    {
-      "path": "Config/Row_001SourceValid",
-      "components": [
-        {
-          "alias": "config.row1SourceValid",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_002SourceConfigured",
-      "components": [
-        { "alias": "config.row2SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
-      ]
-    },
-    {
-      "path": "Config/Row_002SourceValid",
-      "components": [
-        {
-          "alias": "config.row2SourceValid",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_003SourceConfigured",
-      "components": [
-        { "alias": "config.row3SourceConfigured", "type": "[FrooxEngine]FrooxEngine.ValueField<bool>", "members": { "Value": { "type": "bool", "value": true } } }
-      ]
-    },
-    {
-      "path": "Config/Row_003SourceValid",
-      "components": [
-        {
-          "alias": "config.row3SourceValid",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
       "path": "Outputs",
       "components": []
     },
     {
       "path": "Samplers",
-      "components": [
-        {
-          "alias": "samplers.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<bool>",
-          "members": {
-            "Default": {
-              "type": "bool",
-              "value": false
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
+      "components": []
     },
     {
       "path": "Outputs/PluginSocket",
@@ -41876,10 +41318,6 @@
     },
     {
       "path": "Outputs/PluginSocket/Bus",
-      "components": []
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Active",
       "components": [
         {
           "alias": "output.bus.active.variable",
@@ -41920,12 +41358,7 @@
               "value": true
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/SelectedPluginId",
-      "components": [
+        },
         {
           "alias": "output.bus.selectedPluginId.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<string>",
@@ -41965,12 +41398,7 @@
               "value": true
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Target0",
-      "components": [
+        },
         {
           "alias": "output.bus.target0.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<string>",
@@ -41992,12 +41420,7 @@
         {
           "alias": "output.bus.target0.copy",
           "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Target1",
-      "components": [
+        },
         {
           "alias": "output.bus.target1.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<string>",
@@ -42019,12 +41442,7 @@
         {
           "alias": "output.bus.target1.copy",
           "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Target2",
-      "components": [
+        },
         {
           "alias": "output.bus.target2.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<string>",
@@ -42046,12 +41464,7 @@
         {
           "alias": "output.bus.target2.copy",
           "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Target3",
-      "components": [
+        },
         {
           "alias": "output.bus.target3.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<string>",
@@ -42073,12 +41486,7 @@
         {
           "alias": "output.bus.target3.copy",
           "type": "[FrooxEngine]FrooxEngine.ValueCopy<string>"
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/ContractVersion",
-      "components": [
+        },
         {
           "alias": "output.bus.contractVersion.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<int>",
@@ -42096,12 +41504,7 @@
               "value": false
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Connected",
-      "components": [
+        },
         {
           "alias": "output.bus.connected.variable",
           "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<bool>",
@@ -42109,6 +41512,664 @@
             "VariableName": {
               "type": "string",
               "value": "BYOHaptics.Output.v1/Connected"
+            },
+            "Value": {
+              "type": "bool",
+              "value": false
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Force.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row0Force"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Force.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Vibration.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row0Vibration"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Vibration.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Pain.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row0Pain"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Pain.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Temperature.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row0Temperature"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row0Temperature.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Force.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row1Force"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Force.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Vibration.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row1Vibration"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Vibration.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Pain.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row1Pain"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Pain.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Temperature.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row1Temperature"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row1Temperature.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Force.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row2Force"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Force.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Vibration.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row2Vibration"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Vibration.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Pain.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row2Pain"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Pain.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Temperature.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row2Temperature"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row2Temperature.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Force.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row3Force"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Force.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Vibration.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row3Vibration"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Vibration.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Pain.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row3Pain"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Pain.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Temperature.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/Row3Temperature"
+            },
+            "Value": {
+              "type": "float",
+              "value": 0
+            },
+            "OverrideOnLink": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "output.bus.row3Temperature.userOverride",
+          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
+          "members": {
+            "Default": {
+              "type": "float",
+              "value": 0
+            },
+            "CreateOverrideOnWrite": {
+              "type": "bool",
+              "value": true
+            },
+            "PersistentOverrides": {
+              "type": "bool",
+              "value": false
+            },
+            "ClearOnUserLeave": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "output.bus.connectionStatusAvailable.variable",
+          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<bool>",
+          "members": {
+            "VariableName": {
+              "type": "string",
+              "value": "BYOHaptics.Output.v1/ConnectionStatusAvailable"
             },
             "Value": {
               "type": "bool",
@@ -42179,36 +42240,6 @@
       ]
     },
     {
-      "path": "Config/Row_000UseBodyNode",
-      "components": [
-        {
-          "alias": "config.row0UseBodyNode",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_000TargetAutoManaged",
-      "components": [
-        {
-          "alias": "config.row0TargetAutoManaged",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
       "path": "Samplers/Row_000/SelectedBodyNode",
       "components": [
         {
@@ -42219,36 +42250,6 @@
               "type": "enum",
               "value": "NONE",
               "enumType": "BodyNode"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_001UseBodyNode",
-      "components": [
-        {
-          "alias": "config.row1UseBodyNode",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_001TargetAutoManaged",
-      "components": [
-        {
-          "alias": "config.row1TargetAutoManaged",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
             }
           }
         }
@@ -42271,36 +42272,6 @@
       ]
     },
     {
-      "path": "Config/Row_002UseBodyNode",
-      "components": [
-        {
-          "alias": "config.row2UseBodyNode",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_002TargetAutoManaged",
-      "components": [
-        {
-          "alias": "config.row2TargetAutoManaged",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
       "path": "Samplers/Row_002/SelectedBodyNode",
       "components": [
         {
@@ -42311,36 +42282,6 @@
               "type": "enum",
               "value": "NONE",
               "enumType": "BodyNode"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_003UseBodyNode",
-      "components": [
-        {
-          "alias": "config.row3UseBodyNode",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_003TargetAutoManaged",
-      "components": [
-        {
-          "alias": "config.row3TargetAutoManaged",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
             }
           }
         }
@@ -44755,1469 +44696,6 @@
       ]
     },
     {
-      "path": "Config/Row_000LastAutoTarget",
-      "components": [
-        {
-          "alias": "config.row0LastAutoTarget",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_001LastAutoTarget",
-      "components": [
-        {
-          "alias": "config.row1LastAutoTarget",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_002LastAutoTarget",
-      "components": [
-        {
-          "alias": "config.row2LastAutoTarget",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Config/Row_003LastAutoTarget",
-      "components": [
-        {
-          "alias": "config.row3LastAutoTarget",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row0Force",
-      "components": [
-        {
-          "alias": "output.bus.row0Force.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row0Force"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row0Force.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row0Vibration",
-      "components": [
-        {
-          "alias": "output.bus.row0Vibration.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row0Vibration"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row0Vibration.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row0Pain",
-      "components": [
-        {
-          "alias": "output.bus.row0Pain.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row0Pain"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row0Pain.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row0Temperature",
-      "components": [
-        {
-          "alias": "output.bus.row0Temperature.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row0Temperature"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row0Temperature.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row1Force",
-      "components": [
-        {
-          "alias": "output.bus.row1Force.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row1Force"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row1Force.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row1Vibration",
-      "components": [
-        {
-          "alias": "output.bus.row1Vibration.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row1Vibration"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row1Vibration.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row1Pain",
-      "components": [
-        {
-          "alias": "output.bus.row1Pain.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row1Pain"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row1Pain.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row1Temperature",
-      "components": [
-        {
-          "alias": "output.bus.row1Temperature.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row1Temperature"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row1Temperature.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row2Force",
-      "components": [
-        {
-          "alias": "output.bus.row2Force.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row2Force"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row2Force.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row2Vibration",
-      "components": [
-        {
-          "alias": "output.bus.row2Vibration.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row2Vibration"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row2Vibration.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row2Pain",
-      "components": [
-        {
-          "alias": "output.bus.row2Pain.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row2Pain"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row2Pain.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row2Temperature",
-      "components": [
-        {
-          "alias": "output.bus.row2Temperature.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row2Temperature"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row2Temperature.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row3Force",
-      "components": [
-        {
-          "alias": "output.bus.row3Force.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row3Force"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row3Force.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row3Vibration",
-      "components": [
-        {
-          "alias": "output.bus.row3Vibration.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row3Vibration"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row3Vibration.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row3Pain",
-      "components": [
-        {
-          "alias": "output.bus.row3Pain.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row3Pain"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row3Pain.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/Row3Temperature",
-      "components": [
-        {
-          "alias": "output.bus.row3Temperature.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<float>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/Row3Temperature"
-            },
-            "Value": {
-              "type": "float",
-              "value": 0
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        },
-        {
-          "alias": "output.bus.row3Temperature.userOverride",
-          "type": "[FrooxEngine]FrooxEngine.ValueUserOverride<float>",
-          "members": {
-            "Default": {
-              "type": "float",
-              "value": 0
-            },
-            "CreateOverrideOnWrite": {
-              "type": "bool",
-              "value": true
-            },
-            "PersistentOverrides": {
-              "type": "bool",
-              "value": false
-            },
-            "ClearOnUserLeave": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Outputs/PluginSocket/Bus/ConnectionStatusAvailable",
-      "components": [
-        {
-          "alias": "output.bus.connectionStatusAvailable.variable",
-          "type": "[FrooxEngine]FrooxEngine.DynamicValueVariable<bool>",
-          "members": {
-            "VariableName": {
-              "type": "string",
-              "value": "BYOHaptics.Output.v1/ConnectionStatusAvailable"
-            },
-            "Value": {
-              "type": "bool",
-              "value": false
-            },
-            "OverrideOnLink": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Plugin/ConnectionStatusAvailable",
-      "components": [
-        {
-          "alias": "diagnostics.plugin.connectionStatusAvailable",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Plugin/Disconnected",
-      "components": [
-        {
-          "alias": "diagnostics.plugin.disconnected",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Lifecycle/Installed",
-      "components": [
-        {
-          "alias": "diagnostics.lifecycle.installed",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Lifecycle/PanelVisible",
-      "components": [
-        {
-          "alias": "diagnostics.lifecycle.panelVisible",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Plugin/Present",
-      "components": [
-        {
-          "alias": "diagnostics.plugin.present",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Plugin/Id",
-      "components": [
-        {
-          "alias": "diagnostics.plugin.id",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Plugin/Active",
-      "components": [
-        {
-          "alias": "diagnostics.plugin.active",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Plugin/Connected",
-      "components": [
-        {
-          "alias": "diagnostics.plugin.connected",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
-          "members": {
-            "Value": {
-              "type": "bool",
-              "value": false
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_000/RawForce",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row0.rawForce",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_000/Force",
-      "components": [
-        {
-          "alias": "diagnostics.output.row0.force",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_000/RawVibration",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row0.rawVibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_000/Vibration",
-      "components": [
-        {
-          "alias": "diagnostics.output.row0.vibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_000/RawPain",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row0.rawPain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_000/Pain",
-      "components": [
-        {
-          "alias": "diagnostics.output.row0.pain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_000/RawTemperature",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row0.rawTemperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_000/Temperature",
-      "components": [
-        {
-          "alias": "diagnostics.output.row0.temperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_000/Target",
-      "components": [
-        {
-          "alias": "diagnostics.output.row0.target",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_001/RawForce",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row1.rawForce",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_001/Force",
-      "components": [
-        {
-          "alias": "diagnostics.output.row1.force",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_001/RawVibration",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row1.rawVibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_001/Vibration",
-      "components": [
-        {
-          "alias": "diagnostics.output.row1.vibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_001/RawPain",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row1.rawPain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_001/Pain",
-      "components": [
-        {
-          "alias": "diagnostics.output.row1.pain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_001/RawTemperature",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row1.rawTemperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_001/Temperature",
-      "components": [
-        {
-          "alias": "diagnostics.output.row1.temperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_001/Target",
-      "components": [
-        {
-          "alias": "diagnostics.output.row1.target",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_002/RawForce",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row2.rawForce",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_002/Force",
-      "components": [
-        {
-          "alias": "diagnostics.output.row2.force",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_002/RawVibration",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row2.rawVibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_002/Vibration",
-      "components": [
-        {
-          "alias": "diagnostics.output.row2.vibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_002/RawPain",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row2.rawPain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_002/Pain",
-      "components": [
-        {
-          "alias": "diagnostics.output.row2.pain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_002/RawTemperature",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row2.rawTemperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_002/Temperature",
-      "components": [
-        {
-          "alias": "diagnostics.output.row2.temperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_002/Target",
-      "components": [
-        {
-          "alias": "diagnostics.output.row2.target",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_003/RawForce",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row3.rawForce",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_003/Force",
-      "components": [
-        {
-          "alias": "diagnostics.output.row3.force",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_003/RawVibration",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row3.rawVibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_003/Vibration",
-      "components": [
-        {
-          "alias": "diagnostics.output.row3.vibration",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_003/RawPain",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row3.rawPain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_003/Pain",
-      "components": [
-        {
-          "alias": "diagnostics.output.row3.pain",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Samplers/Row_003/RawTemperature",
-      "components": [
-        {
-          "alias": "diagnostics.samplers.row3.rawTemperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_003/Temperature",
-      "components": [
-        {
-          "alias": "diagnostics.output.row3.temperature",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
-          "members": {
-            "Value": {
-              "type": "float",
-              "value": 0
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "Diagnostics/Output/Row_003/Target",
-      "components": [
-        {
-          "alias": "diagnostics.output.row3.target",
-          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
-          "members": {
-            "Value": {
-              "type": "string",
-              "value": ""
-            }
-          }
-        }
-      ]
-    },
-    {
       "path": "UI/Vertical layout/Main Area/Output Plugin",
       "orderOffset": 10,
       "components": [
@@ -47579,12 +46057,7 @@
               "value": 36
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Column Header/Source/Node/Text",
-      "components": [
+        },
         {
           "alias": "ui.columnHeader.node.text",
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
@@ -47675,12 +46148,7 @@
               "value": 36
             }
           }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Column Header/Source/Value/Text",
-      "components": [
+        },
         {
           "alias": "ui.columnHeader.sourceValue.text",
           "type": "[FrooxEngine]FrooxEngine.UIX.Text",
@@ -47813,34 +46281,6 @@
           }
         },
         {
-          "alias": "ui.row0.mode.layout",
-          "type": "[FrooxEngine]FrooxEngine.UIX.HorizontalLayout",
-          "members": {
-            "Spacing": {
-              "type": "float",
-              "value": 4
-            },
-            "HorizontalAlign": {
-              "type": "enum",
-              "value": "Center",
-              "enumType": "LayoutHorizontalAlignment"
-            },
-            "VerticalAlign": {
-              "type": "enum",
-              "value": "Middle",
-              "enumType": "LayoutVerticalAlignment"
-            },
-            "ForceExpandWidth": {
-              "type": "bool",
-              "value": false
-            },
-            "ForceExpandHeight": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        },
-        {
           "alias": "ui.row0.mode.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
@@ -47859,46 +46299,6 @@
             "MinHeight": {
               "type": "float",
               "value": 60
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_000/SourceFieldArea/Mode/Checkbox",
-      "orderOffset": 0,
-      "components": [
-        {
-          "alias": "ui.row0.mode.checkbox.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
             }
           }
         },
@@ -47978,33 +46378,11 @@
               "enumType": "LayoutVerticalAlignment"
             }
           }
-        },
-        {
-          "alias": "ui.row0.mode.checkbox.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            }
-          }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_000/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_000/SourceFieldArea/Mode/Checkmark",
       "isActive": true,
       "components": [
         {
@@ -48095,34 +46473,6 @@
           }
         },
         {
-          "alias": "ui.row1.mode.layout",
-          "type": "[FrooxEngine]FrooxEngine.UIX.HorizontalLayout",
-          "members": {
-            "Spacing": {
-              "type": "float",
-              "value": 4
-            },
-            "HorizontalAlign": {
-              "type": "enum",
-              "value": "Center",
-              "enumType": "LayoutHorizontalAlignment"
-            },
-            "VerticalAlign": {
-              "type": "enum",
-              "value": "Middle",
-              "enumType": "LayoutVerticalAlignment"
-            },
-            "ForceExpandWidth": {
-              "type": "bool",
-              "value": false
-            },
-            "ForceExpandHeight": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        },
-        {
           "alias": "ui.row1.mode.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
@@ -48141,46 +46491,6 @@
             "MinHeight": {
               "type": "float",
               "value": 60
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_001/SourceFieldArea/Mode/Checkbox",
-      "orderOffset": 0,
-      "components": [
-        {
-          "alias": "ui.row1.mode.checkbox.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
             }
           }
         },
@@ -48260,33 +46570,11 @@
               "enumType": "LayoutVerticalAlignment"
             }
           }
-        },
-        {
-          "alias": "ui.row1.mode.checkbox.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            }
-          }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_001/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_001/SourceFieldArea/Mode/Checkmark",
       "isActive": true,
       "components": [
         {
@@ -48377,34 +46665,6 @@
           }
         },
         {
-          "alias": "ui.row2.mode.layout",
-          "type": "[FrooxEngine]FrooxEngine.UIX.HorizontalLayout",
-          "members": {
-            "Spacing": {
-              "type": "float",
-              "value": 4
-            },
-            "HorizontalAlign": {
-              "type": "enum",
-              "value": "Center",
-              "enumType": "LayoutHorizontalAlignment"
-            },
-            "VerticalAlign": {
-              "type": "enum",
-              "value": "Middle",
-              "enumType": "LayoutVerticalAlignment"
-            },
-            "ForceExpandWidth": {
-              "type": "bool",
-              "value": false
-            },
-            "ForceExpandHeight": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        },
-        {
           "alias": "ui.row2.mode.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
@@ -48423,46 +46683,6 @@
             "MinHeight": {
               "type": "float",
               "value": 60
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_002/SourceFieldArea/Mode/Checkbox",
-      "orderOffset": 0,
-      "components": [
-        {
-          "alias": "ui.row2.mode.checkbox.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
             }
           }
         },
@@ -48542,33 +46762,11 @@
               "enumType": "LayoutVerticalAlignment"
             }
           }
-        },
-        {
-          "alias": "ui.row2.mode.checkbox.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            }
-          }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_002/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_002/SourceFieldArea/Mode/Checkmark",
       "isActive": true,
       "components": [
         {
@@ -48659,34 +46857,6 @@
           }
         },
         {
-          "alias": "ui.row3.mode.layout",
-          "type": "[FrooxEngine]FrooxEngine.UIX.HorizontalLayout",
-          "members": {
-            "Spacing": {
-              "type": "float",
-              "value": 4
-            },
-            "HorizontalAlign": {
-              "type": "enum",
-              "value": "Center",
-              "enumType": "LayoutHorizontalAlignment"
-            },
-            "VerticalAlign": {
-              "type": "enum",
-              "value": "Middle",
-              "enumType": "LayoutVerticalAlignment"
-            },
-            "ForceExpandWidth": {
-              "type": "bool",
-              "value": false
-            },
-            "ForceExpandHeight": {
-              "type": "bool",
-              "value": true
-            }
-          }
-        },
-        {
           "alias": "ui.row3.mode.layoutElement",
           "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
           "members": {
@@ -48705,46 +46875,6 @@
             "MinHeight": {
               "type": "float",
               "value": 60
-            }
-          }
-        }
-      ]
-    },
-    {
-      "path": "UI/Vertical layout/Main Area/Row_003/SourceFieldArea/Mode/Checkbox",
-      "orderOffset": 0,
-      "components": [
-        {
-          "alias": "ui.row3.mode.checkbox.rect",
-          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
-          "members": {
-            "AnchorMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "AnchorMax": {
-              "type": "float2",
-              "value": {
-                "x": 1,
-                "y": 1
-              }
-            },
-            "OffsetMin": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "OffsetMax": {
-              "type": "float2",
-              "value": {
-                "x": 0,
-                "y": 0
-              }
             }
           }
         },
@@ -48824,33 +46954,11 @@
               "enumType": "LayoutVerticalAlignment"
             }
           }
-        },
-        {
-          "alias": "ui.row3.mode.checkbox.layoutElement",
-          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
-          "members": {
-            "MinWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "PreferredWidth": {
-              "type": "float",
-              "value": 60
-            },
-            "FlexibleWidth": {
-              "type": "float",
-              "value": 0
-            },
-            "MinHeight": {
-              "type": "float",
-              "value": 60
-            }
-          }
         }
       ]
     },
     {
-      "path": "UI/Vertical layout/Main Area/Row_003/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "path": "UI/Vertical layout/Main Area/Row_003/SourceFieldArea/Mode/Checkmark",
       "isActive": true,
       "components": [
         {
@@ -49113,18 +47221,6 @@
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
         },
         {
-          "alias": "context.row0SamplerEdit.active.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row0SamplerEdit.sourceEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row0SamplerEdit.buttonEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
           "alias": "context.row0SamplerEdit.color.driver",
           "type": "[FrooxEngine]FrooxEngine.BooleanValueDriver<colorX>",
           "members": {
@@ -49166,7 +47262,7 @@
           "members": {
             "Label": {
               "type": "string",
-          "value": "1"
+              "value": "1"
             },
             "Color": {
               "type": "colorX",
@@ -49195,18 +47291,6 @@
         {
           "alias": "context.row1SamplerEdit.toggle",
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
-        },
-        {
-          "alias": "context.row1SamplerEdit.active.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row1SamplerEdit.sourceEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row1SamplerEdit.buttonEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
         },
         {
           "alias": "context.row1SamplerEdit.color.driver",
@@ -49250,7 +47334,7 @@
           "members": {
             "Label": {
               "type": "string",
-          "value": "2"
+              "value": "2"
             },
             "Color": {
               "type": "colorX",
@@ -49279,18 +47363,6 @@
         {
           "alias": "context.row2SamplerEdit.toggle",
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
-        },
-        {
-          "alias": "context.row2SamplerEdit.active.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row2SamplerEdit.sourceEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row2SamplerEdit.buttonEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
         },
         {
           "alias": "context.row2SamplerEdit.color.driver",
@@ -49334,7 +47406,7 @@
           "members": {
             "Label": {
               "type": "string",
-          "value": "3"
+              "value": "3"
             },
             "Color": {
               "type": "colorX",
@@ -49365,18 +47437,6 @@
           "type": "[FrooxEngine]FrooxEngine.ButtonToggle"
         },
         {
-          "alias": "context.row3SamplerEdit.active.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row3SamplerEdit.sourceEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
-          "alias": "context.row3SamplerEdit.buttonEnabled.copy",
-          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
-        },
-        {
           "alias": "context.row3SamplerEdit.color.driver",
           "type": "[FrooxEngine]FrooxEngine.BooleanValueDriver<colorX>",
           "members": {
@@ -49405,6 +47465,41 @@
         {
           "alias": "context.row3SamplerEdit.color.state.copy",
           "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>"
+        }
+      ]
+    },
+    {
+      "path": "Diagnostics/Plugin",
+      "components": [
+        {
+          "alias": "diagnostics.plugin.present",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "diagnostics.plugin.connected",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "diagnostics.plugin.disconnected",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
         }
       ]
     }
@@ -49746,6 +47841,54 @@
       "member": "TargetValue",
       "fieldRef": "config.row0SamplerEdit.Value",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    },
+    {
+      "component": "ui.row0.clear.bodyNodeSet",
+      "member": "TargetValue",
+      "fieldRef": "row0.selectedBodyNode.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<[Renderite.Shared]Renderite.Shared.BodyNode>"
+    },
+    {
+      "component": "ui.row0.clear.manualSourceSet",
+      "member": "TargetReference",
+      "fieldRef": "row0.source.Reference",
+      "targetType": "[FrooxEngine]FrooxEngine.SyncRef<[FrooxEngine]FrooxEngine.Slot>"
+    },
+    {
+      "component": "ui.row1.clear.bodyNodeSet",
+      "member": "TargetValue",
+      "fieldRef": "row1.selectedBodyNode.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<[Renderite.Shared]Renderite.Shared.BodyNode>"
+    },
+    {
+      "component": "ui.row1.clear.manualSourceSet",
+      "member": "TargetReference",
+      "fieldRef": "row1.source.Reference",
+      "targetType": "[FrooxEngine]FrooxEngine.SyncRef<[FrooxEngine]FrooxEngine.Slot>"
+    },
+    {
+      "component": "ui.row2.clear.bodyNodeSet",
+      "member": "TargetValue",
+      "fieldRef": "row2.selectedBodyNode.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<[Renderite.Shared]Renderite.Shared.BodyNode>"
+    },
+    {
+      "component": "ui.row2.clear.manualSourceSet",
+      "member": "TargetReference",
+      "fieldRef": "row2.source.Reference",
+      "targetType": "[FrooxEngine]FrooxEngine.SyncRef<[FrooxEngine]FrooxEngine.Slot>"
+    },
+    {
+      "component": "ui.row3.clear.bodyNodeSet",
+      "member": "TargetValue",
+      "fieldRef": "row3.selectedBodyNode.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<[Renderite.Shared]Renderite.Shared.BodyNode>"
+    },
+    {
+      "component": "ui.row3.clear.manualSourceSet",
+      "member": "TargetReference",
+      "fieldRef": "row3.source.Reference",
+      "targetType": "[FrooxEngine]FrooxEngine.SyncRef<[FrooxEngine]FrooxEngine.Slot>"
     },
     {
       "component": "context.row1SamplerEdit.toggle",
@@ -50300,36 +48443,6 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<colorX>"
     },
     {
-      "component": "context.row0SamplerEdit.active.copy",
-      "member": "Source",
-      "fieldRef": "config.row0SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row0SamplerEdit.sourceEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row0SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row0SamplerEdit.sourceEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row0SamplerEdit.source.Enabled",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row0SamplerEdit.buttonEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row0SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row0SamplerEdit.buttonEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row0SamplerEdit.source.ButtonEnabled",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
       "component": "context.row0SamplerEdit.color.state.copy",
       "member": "Source",
       "fieldRef": "config.row0SamplerEdit.Value",
@@ -50351,36 +48464,6 @@
       "component": "ui.row0.mode.checkbox",
       "member": "TargetState",
       "fieldRef": "config.row0UseBodyNode.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row1SamplerEdit.active.copy",
-      "member": "Source",
-      "fieldRef": "config.row1SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row1SamplerEdit.sourceEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row1SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row1SamplerEdit.sourceEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row1SamplerEdit.source.Enabled",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row1SamplerEdit.buttonEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row1SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row1SamplerEdit.buttonEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row1SamplerEdit.source.ButtonEnabled",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -50408,36 +48491,6 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row2SamplerEdit.active.copy",
-      "member": "Source",
-      "fieldRef": "config.row2SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row2SamplerEdit.sourceEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row2SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row2SamplerEdit.sourceEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row2SamplerEdit.source.Enabled",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row2SamplerEdit.buttonEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row2SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row2SamplerEdit.buttonEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row2SamplerEdit.source.ButtonEnabled",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
       "component": "context.row2SamplerEdit.color.state.copy",
       "member": "Source",
       "fieldRef": "config.row2SamplerEdit.Value",
@@ -50459,36 +48512,6 @@
       "component": "ui.row2.mode.checkbox",
       "member": "TargetState",
       "fieldRef": "config.row2UseBodyNode.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row3SamplerEdit.active.copy",
-      "member": "Source",
-      "fieldRef": "config.row3SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row3SamplerEdit.sourceEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row3SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row3SamplerEdit.sourceEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row3SamplerEdit.source.Enabled",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row3SamplerEdit.buttonEnabled.copy",
-      "member": "Source",
-      "fieldRef": "config.row3SourceConfigured.Value",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
-      "component": "context.row3SamplerEdit.buttonEnabled.copy",
-      "member": "Target",
-      "fieldRef": "context.row3SamplerEdit.source.ButtonEnabled",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
@@ -51317,22 +49340,18 @@
     "MinimumPulseDuration": {
       "fieldRef": "config.minimumPulseDuration.Value"
     },
-    "Row0ForceHoldRemaining": { "fieldRef": "runtime.row0ForceHoldRemaining.Value" },
-    "Row0VibrationHoldRemaining": { "fieldRef": "runtime.row0VibrationHoldRemaining.Value" },
-    "Row0PainHoldRemaining": { "fieldRef": "runtime.row0PainHoldRemaining.Value" },
-    "Row0TemperatureHoldRemaining": { "fieldRef": "runtime.row0TemperatureHoldRemaining.Value" },
-    "Row1ForceHoldRemaining": { "fieldRef": "runtime.row1ForceHoldRemaining.Value" },
-    "Row1VibrationHoldRemaining": { "fieldRef": "runtime.row1VibrationHoldRemaining.Value" },
-    "Row1PainHoldRemaining": { "fieldRef": "runtime.row1PainHoldRemaining.Value" },
-    "Row1TemperatureHoldRemaining": { "fieldRef": "runtime.row1TemperatureHoldRemaining.Value" },
-    "Row2ForceHoldRemaining": { "fieldRef": "runtime.row2ForceHoldRemaining.Value" },
-    "Row2VibrationHoldRemaining": { "fieldRef": "runtime.row2VibrationHoldRemaining.Value" },
-    "Row2PainHoldRemaining": { "fieldRef": "runtime.row2PainHoldRemaining.Value" },
-    "Row2TemperatureHoldRemaining": { "fieldRef": "runtime.row2TemperatureHoldRemaining.Value" },
-    "Row3ForceHoldRemaining": { "fieldRef": "runtime.row3ForceHoldRemaining.Value" },
-    "Row3VibrationHoldRemaining": { "fieldRef": "runtime.row3VibrationHoldRemaining.Value" },
-    "Row3PainHoldRemaining": { "fieldRef": "runtime.row3PainHoldRemaining.Value" },
-    "Row3TemperatureHoldRemaining": { "fieldRef": "runtime.row3TemperatureHoldRemaining.Value" },
+    "Row0HoldRemaining": {
+      "fieldRef": "runtime.row0HoldRemaining.Value"
+    },
+    "Row1HoldRemaining": {
+      "fieldRef": "runtime.row1HoldRemaining.Value"
+    },
+    "Row2HoldRemaining": {
+      "fieldRef": "runtime.row2HoldRemaining.Value"
+    },
+    "Row3HoldRemaining": {
+      "fieldRef": "runtime.row3HoldRemaining.Value"
+    },
     "InstallButton": {
       "componentRef": "ui.install.button"
     },
@@ -51384,26 +49403,14 @@
     "Row0SourceValid": {
       "fieldRef": "config.row0SourceValid.Value"
     },
-    "Row0SourceConfigured": {
-      "fieldRef": "config.row0SourceConfigured.Value"
-    },
     "Row1SourceValid": {
       "fieldRef": "config.row1SourceValid.Value"
-    },
-    "Row1SourceConfigured": {
-      "fieldRef": "config.row1SourceConfigured.Value"
     },
     "Row2SourceValid": {
       "fieldRef": "config.row2SourceValid.Value"
     },
-    "Row2SourceConfigured": {
-      "fieldRef": "config.row2SourceConfigured.Value"
-    },
     "Row3SourceValid": {
       "fieldRef": "config.row3SourceValid.Value"
-    },
-    "Row3SourceConfigured": {
-      "fieldRef": "config.row3SourceConfigured.Value"
     },
     "SamplersActive": {
       "slotField": {
@@ -51446,18 +49453,6 @@
     },
     "OutputBusConnected": {
       "fieldRef": "output.bus.connected.variable.Value"
-    },
-    "OutputBusTarget0": {
-      "fieldRef": "output.bus.target0.variable.Value"
-    },
-    "OutputBusTarget1": {
-      "fieldRef": "output.bus.target1.variable.Value"
-    },
-    "OutputBusTarget2": {
-      "fieldRef": "output.bus.target2.variable.Value"
-    },
-    "OutputBusTarget3": {
-      "fieldRef": "output.bus.target3.variable.Value"
     },
     "PackageReference": {
       "fieldRef": "output.packageCandidate.Reference"
@@ -51515,30 +49510,6 @@
     },
     "Row3ManualSource": {
       "fieldRef": "row3.source.Reference"
-    },
-    "Row0TargetAutoManaged": {
-      "fieldRef": "config.row0TargetAutoManaged.Value"
-    },
-    "Row0LastAutoTarget": {
-      "fieldRef": "config.row0LastAutoTarget.Value"
-    },
-    "Row1TargetAutoManaged": {
-      "fieldRef": "config.row1TargetAutoManaged.Value"
-    },
-    "Row1LastAutoTarget": {
-      "fieldRef": "config.row1LastAutoTarget.Value"
-    },
-    "Row2TargetAutoManaged": {
-      "fieldRef": "config.row2TargetAutoManaged.Value"
-    },
-    "Row2LastAutoTarget": {
-      "fieldRef": "config.row2LastAutoTarget.Value"
-    },
-    "Row3TargetAutoManaged": {
-      "fieldRef": "config.row3TargetAutoManaged.Value"
-    },
-    "Row3LastAutoTarget": {
-      "fieldRef": "config.row3LastAutoTarget.Value"
     },
     "Row0SamplerGrabbable": {
       "componentRef": "row0.sampler.grabbable"
@@ -51653,6 +49624,15 @@
     },
     "Row3SamplerEnabled": {
       "fieldRef": "row3.sampler.Enabled"
+    },
+    "PluginPresentIndicator": {
+      "fieldRef": "diagnostics.plugin.present.Value"
+    },
+    "PluginConnectedIndicator": {
+      "fieldRef": "diagnostics.plugin.connected.Value"
+    },
+    "PluginDisconnectedIndicator": {
+      "fieldRef": "diagnostics.plugin.disconnected.Value"
     }
   },
   "fluxSlotPath": "Flux",
@@ -51697,23 +49677,16 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row0SamplerEdit.active.copy",
-      "member": "Target",
-      "slotPath": "Context Menu/Items/Sampler Edit/Items/Row_000",
-      "slotMember": "IsActive",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
       "component": "ui.row0.visual.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_000/Visual/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_000/Visual/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "ui.row0.mode.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_000/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_000/SourceFieldArea/Mode/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
@@ -51732,23 +49705,16 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row1SamplerEdit.active.copy",
-      "member": "Target",
-      "slotPath": "Context Menu/Items/Sampler Edit/Items/Row_001",
-      "slotMember": "IsActive",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
       "component": "ui.row1.visual.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_001/Visual/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_001/Visual/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "ui.row1.mode.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_001/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_001/SourceFieldArea/Mode/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
@@ -51767,23 +49733,16 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row2SamplerEdit.active.copy",
-      "member": "Target",
-      "slotPath": "Context Menu/Items/Sampler Edit/Items/Row_002",
-      "slotMember": "IsActive",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
       "component": "ui.row2.visual.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_002/Visual/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_002/Visual/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "ui.row2.mode.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_002/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_002/SourceFieldArea/Mode/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
@@ -51802,23 +49761,16 @@
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
-      "component": "context.row3SamplerEdit.active.copy",
-      "member": "Target",
-      "slotPath": "Context Menu/Items/Sampler Edit/Items/Row_003",
-      "slotMember": "IsActive",
-      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
-    },
-    {
       "component": "ui.row3.visual.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_003/Visual/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_003/Visual/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },
     {
       "component": "ui.row3.mode.checkbox",
       "member": "CheckVisual",
-      "slotPath": "UI/Vertical layout/Main Area/Row_003/SourceFieldArea/Mode/Checkbox/Checkmark",
+      "slotPath": "UI/Vertical layout/Main Area/Row_003/SourceFieldArea/Mode/Checkmark",
       "slotMember": "IsActive",
       "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
     },

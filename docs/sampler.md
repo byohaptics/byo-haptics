@@ -26,7 +26,7 @@ RowValid = ResolvedSource != null && Target != "" && RowEnabled
 
 Node mode is the default. Manual Source is never inferred from Target.
 
-Clearing Source sets manual Source null, disables output, resets sampler local transform, and clears stored offsets. Selecting a valid BodyNode after clearing starts from zero offset.
+Clearing Source sets both backing selections to their empty values (manual Source to null and BodyNode to `NONE`), disables output, resets sampler local transform, and clears stored offsets. Selecting a valid Source after clearing starts from zero offset. The clear button uses Resonite's native button set components; ProtoFlux does not synthesize null Slot or `BodyNode.NONE` constants for this action.
 
 ## Sampling
 
@@ -45,7 +45,7 @@ Each row and sensation independently retains its last positive output for at lea
 
 ## Local-user Isolation
 
-The `Samplers` slot is active only for the local client whose User Root contains the tool. Remote clients keep it inactive. This controls the sampler subtree as one unit instead of individually driving every sampler component.
+The `Samplers` slot is active only for the local client whose User Root contains the tool. Remote clients keep it inactive. This controls the sampler subtree as one unit instead of individually driving every sampler component. An always-active Host-root `ValueUserOverride<bool>` drives `Samplers.IsActive`; ProtoFlux writes that driven field to create the local user's override. The controller must not live on its target subtree.
 
 ## Edit Offset
 

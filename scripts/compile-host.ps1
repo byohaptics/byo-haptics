@@ -3,12 +3,10 @@ $ErrorActionPreference = 'Stop'
 $modules = @(
     'BYOHapticsLifecycle',
     'BYOHapticsPositioning',
-    'BYOHapticsSourceBinding',
     'BYOHapticsSampler',
     'BYOHapticsPluginDiscovery',
     'BYOHapticsPluginPackageManager',
-    'BYOHapticsOutputBus',
-    'BYOHapticsDiagnostics'
+    'BYOHapticsOutputBus'
 )
 
 foreach ($module in $modules) {

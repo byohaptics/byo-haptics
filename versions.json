@@ -5,7 +5,7 @@
   "plugins": {
     "joyconOsc": "0.1.1",
     "haptiraOsc": "0.1.1",
-    "demo": "0.1.5"
+    "demo": "0.1.6"
   },
   "bridges": {
     "joyconRumble": "0.1.0"

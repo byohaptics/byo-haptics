@@ -21,7 +21,7 @@ Each commit must leave generated inputs reproducible and static checks passing. 
 
 ## Host Commands
 
-- `npm run compile:host` compiles all eight host sheets without changing a scene.
+- `npm run compile:host` compiles all six host sheets without changing a scene.
 - `npm run deploy:host` builds the SlotSpec and deploys all host sheets. It requires a running ResoniteLink endpoint and refuses to deploy unless the wrapper sets the explicit deployment gate.
 - `npm run deploy:host -- -Recreate` removes an existing World Root host with the same tool name before rebuilding it.
 - `npm run compile:plugins` compiles all three public Plugin graphs without changing a scene.

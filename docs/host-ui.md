@@ -48,6 +48,8 @@ Each row is the same height and structure. The row-index and symbol columns have
 
 Each sampler row starts with its zero-based row index in inventory-list form: `0:`, `1:`, `2:`, or `3:`. It is the leftmost element, immediately before the `Node` checkbox, and uses font size `32`.
 
+Controls use one sizing Slot per visible column. A field, checkbox, or button does not add a second full-stretch area Slot when its control Slot already owns the same `RectTransform` and `LayoutElement`. Text-only labels live on their existing sizing Slot when no independent padding or overlay is required. This hierarchy reduction must not change the dimensions, column order, interaction targets, or visual appearance above.
+
 Default rows:
 
 | Row | Target | Node mode | BodyNode |
@@ -57,7 +59,7 @@ Default rows:
 | 2 | `head` | true | `NONE` |
 | 3 | `hips` | true | `NONE` |
 
-The default Target values are routing labels, not preselected BodyNodes. The user selects a BodyNode before the sampler becomes active. After selection, the host suggests a matching Target while preserving an explicitly edited Target.
+The default Target values are routing labels, not preselected BodyNodes. The user selects a BodyNode before the sampler becomes active. Target remains explicitly user-configured and is independent of BodyNode selection.
 
 ## Symbols And Fonts
 

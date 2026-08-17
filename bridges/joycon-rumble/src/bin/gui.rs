@@ -1,9 +1,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::fmt;
-use std::fs::File;
+use std::fs::{self, File};
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
+use std::time::Duration;
 
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
@@ -21,12 +22,14 @@ const ACTION_HOVER_COLOR: Color = Color::from_rgb(0.455, 0.227, 0.0);
 const DANGER_COLOR: Color = Color::from_rgb(0.702, 0.149, 0.118);
 const DANGER_HOVER_COLOR: Color = Color::from_rgb(0.510, 0.086, 0.067);
 const DISABLED_COLOR: Color = Color::from_rgb(0.357, 0.396, 0.451);
+const CONNECTED_COLOR: Color = Color::from_rgb(0.0, 0.420, 0.369);
 #[cfg(windows)]
 const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
 fn main() -> iced::Result {
     iced::application("Joy-Con Bridge - BYO Haptics", update, view)
         .theme(|_| universal_design_theme())
+        .subscription(|_| iced::time::every(Duration::from_millis(250)).map(|_| Message::Tick))
         .default_font(Font::with_name("Yu Gothic UI"))
         .window_size((720.0, 720.0))
         .run_with(|| (App::default(), Task::none()))
@@ -113,6 +116,9 @@ struct App {
     left_detected: bool,
     right_detected: bool,
     bridge: Option<Child>,
+    bridge_left_connected: bool,
+    bridge_right_connected: bool,
+    plugin_connected: bool,
     status: String,
     log: String,
 }
@@ -129,6 +135,9 @@ impl Default for App {
             left_detected: false,
             right_detected: false,
             bridge: None,
+            bridge_left_connected: false,
+            bridge_right_connected: false,
+            plugin_connected: false,
             status: "準備完了。Joy-Conを接続して、デバイスを検索してください。".into(),
             log: String::new(),
         }
@@ -155,6 +164,7 @@ enum Message {
     CommandFinished(CommandResult),
     StartBridge,
     StopBridge,
+    Tick,
 }
 
 #[derive(Debug, Clone)]
@@ -232,6 +242,9 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
             match start_bridge(&app.listen, &app.profile_path) {
                 Ok(child) => {
                     app.bridge = Some(child);
+                    app.bridge_left_connected = false;
+                    app.bridge_right_connected = false;
+                    app.plugin_connected = false;
                     app.status = format!("ブリッジを{}で実行しています。", app.listen);
                     app.log = "ブリッジログ: joycon-rumble-gui-bridge.log".into();
                 }
@@ -248,6 +261,24 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
                 app.status = "ブリッジを停止しました。".into();
             }
         }
+        Message::Tick => {
+            if let Some(child) = app.bridge.as_mut()
+                && let Ok(Some(exit)) = child.try_wait()
+            {
+                app.bridge = None;
+                app.plugin_connected = false;
+                app.status = format!("ブリッジサービスが停止しました（{exit}）。");
+                app.log = fs::read_to_string("joycon-rumble-gui-bridge.log")
+                    .unwrap_or_else(|error| error.to_string());
+            }
+            if app.bridge.is_some()
+                && let Ok(log) = fs::read_to_string("joycon-rumble-gui-bridge.log")
+            {
+                app.bridge_left_connected = last_status(&log, "joycon-left") == Some("connected");
+                app.bridge_right_connected = last_status(&log, "joycon-right") == Some("connected");
+                app.plugin_connected = last_status(&log, "plugin") == Some("connected");
+            }
+        }
         _ => {}
     }
     Task::none()
@@ -259,9 +290,9 @@ fn view(app: &App) -> Element<'_, Message> {
         Side::Right => app.right_detected,
     };
     let scan = (if app.busy {
-        button("デバイス検索")
+        button("接続状態を確認")
     } else {
-        button("デバイス検索").on_press(Message::Scan)
+        button("接続状態を確認").on_press(Message::Scan)
     })
     .width(Length::Fixed(ACTION_BUTTON_WIDTH))
     .height(Length::Fixed(ACTION_BUTTON_HEIGHT))
@@ -290,30 +321,37 @@ fn view(app: &App) -> Element<'_, Message> {
         action_button_style
     });
 
-    let left_status = if !app.scan_completed {
-        "Joy-Con (L)  未検索"
-    } else if app.left_detected {
-        "Joy-Con (L)  接続済み"
-    } else {
-        "Joy-Con (L)  未接続"
+    let joycon_status = |name, bridge_connected, detected| {
+        let (state, color) = if bridge_running && bridge_connected {
+            ("● 接続", CONNECTED_COLOR)
+        } else if bridge_running {
+            ("× 未接続", DANGER_COLOR)
+        } else if !app.scan_completed {
+            ("－ 未検索", DISABLED_COLOR)
+        } else if detected {
+            ("● 接続", CONNECTED_COLOR)
+        } else {
+            ("× 未接続", DANGER_COLOR)
+        };
+        (format!("{name}  {state}"), color)
     };
-    let right_status = if !app.scan_completed {
-        "Joy-Con (R)  未検索"
-    } else if app.right_detected {
-        "Joy-Con (R)  接続済み"
-    } else {
-        "Joy-Con (R)  未接続"
-    };
+    let (left_status, left_status_color) =
+        joycon_status("Joy-Con (L)", app.bridge_left_connected, app.left_detected);
+    let (right_status, right_status_color) = joycon_status(
+        "Joy-Con (R)",
+        app.bridge_right_connected,
+        app.right_detected,
+    );
 
     let device_section = container(
         column![
             text("1. Joy-Con接続").size(20),
             row![
-                container(text(left_status))
+                container(text(left_status).color(left_status_color))
                     .width(Length::Fixed(190.0))
                     .padding(10)
                     .style(iced::widget::container::bordered_box),
-                container(text(right_status))
+                container(text(right_status).color(right_status_color))
                     .width(Length::Fixed(190.0))
                     .padding(10)
                     .style(iced::widget::container::bordered_box),
@@ -331,7 +369,7 @@ fn view(app: &App) -> Element<'_, Message> {
 
     let calibration_section = container(
         column![
-            text("2. 振動の測定と最適化").size(20),
+            text("振動の測定と最適化").size(20),
             row![
                 text("測定対象").width(Length::Fixed(170.0)),
                 radio(
@@ -374,7 +412,30 @@ fn view(app: &App) -> Element<'_, Message> {
 
     let bridge_section = container(
         column![
-            text("3. OSCブリッジ").size(20),
+            text("2. OSCブリッジ").size(20),
+            row![
+                text(if bridge_running {
+                    "● Bridgeサービス: 稼働中"
+                } else {
+                    "× Bridgeサービス: 停止"
+                })
+                .color(if bridge_running {
+                    CONNECTED_COLOR
+                } else {
+                    DANGER_COLOR
+                }),
+                text(if app.plugin_connected {
+                    "● プラグイン: 接続"
+                } else {
+                    "× プラグイン: 未接続"
+                })
+                .color(if app.plugin_connected {
+                    CONNECTED_COLOR
+                } else {
+                    DANGER_COLOR
+                }),
+            ]
+            .spacing(28),
             row![
                 text("待受アドレス").width(Length::Fixed(170.0)),
                 text_input("0.0.0.0:9010", &app.listen)
@@ -415,8 +476,8 @@ fn view(app: &App) -> Element<'_, Message> {
             .spacing(10)
             .align_y(Alignment::Center),
         device_section,
-        calibration_section,
         bridge_section,
+        calibration_section,
         log_section,
     ]
     .spacing(12)
@@ -495,6 +556,17 @@ fn start_bridge(listen: &str, profile: &str) -> std::io::Result<Child> {
         .spawn()
 }
 
+fn last_status<'a>(log: &'a str, key: &str) -> Option<&'a str> {
+    log.lines()
+        .rev()
+        .filter(|line| line.starts_with("bridge-status "))
+        .flat_map(str::split_whitespace)
+        .find_map(|field| match field.split_once('=') {
+            Some((name, value)) if name == key => Some(value),
+            _ => None,
+        })
+}
+
 fn bridge_command() -> Command {
     let mut command = Command::new(bridge_executable());
     #[cfg(windows)]
@@ -528,6 +600,12 @@ mod tests {
         assert!(localized.contains("Joy-Con (L) 接続可能"));
         assert!(localized.contains("振幅=1.00 Low=90.0 High=180.0 サンプル数=100 RMS=1200.0"));
         assert!(localized.contains("最適化プロファイル保存先:"));
+    }
+
+    #[test]
+    fn reads_latest_bridge_status_value() {
+        let log = "bridge-status plugin=connected\nbridge-status plugin=disconnected\n";
+        assert_eq!(last_status(log, "plugin"), Some("disconnected"));
     }
 
     #[test]

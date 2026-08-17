@@ -31,6 +31,6 @@ Each channel owns an independent OSC value field. A row must not accidentally wr
 
 ## Timing
 
-Send changes immediately. Do not enable sender-wide periodic resend because it retransmits all 16 channels and can leave device output active longer than the sampled signal. Inactive state writes zero to every channel and stops the sender.
+Send changes immediately. While any channel is active and for `250 ms` after the last positive output, resend the current state of all 16 channels every `50 ms`. This bounded tail repeats the final zero state because the device protocol uses UDP without acknowledgement. Outside that window, disable periodic resend. Inactive state writes zero to every channel and stops the sender.
 
 Because the device protocol has no acknowledgement, `ConnectionStatusAvailable` remains false and the host must not present `Connected=false` as a confirmed disconnection.

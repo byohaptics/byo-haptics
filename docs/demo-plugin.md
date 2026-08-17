@@ -5,7 +5,7 @@ Document version: `0.1.9`
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.demo`
-- Plugin version: `0.1.5`
+- Plugin version: `0.1.6`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: direct scene fields
 - Connection reporting: available
@@ -32,7 +32,7 @@ For each row, combine Force, Vibration, Pain, and Temperature by maximum value. 
 
 ## Simulated Vibration
 
-Each device uses a `Wiggler` component targeting the dedicated child `Devices/<side>/Visual` Slot's `Rotation` field. The device root contains Grabbable and collider state and is not an animation target. Keeping the sole rotation writer on the visual child ensures the Canvas visibly moves without competing with root interaction or synchronization state.
+Each device uses a `Wiggler` component targeting the dedicated child `Devices/<side>/Visual` Slot's `Rotation` field. The device root contains its collider but is not independently grabbable or an animation target. Only the complete Plugin Package is grabbable, so releasing a simulated device cannot move it to World Root. Keeping the sole rotation writer on the visual child ensures the Canvas visibly moves without competing with root interaction or synchronization state.
 
 Wiggle speed is fixed. The normalized target intensity drives angular magnitude up to thirty degrees on each axis and enables the component only above zero. At zero intensity the device returns to its identity base rotation. The exaggerated range is intentional: these are visual indicators for a demo, not a physical vibration simulation.
 
@@ -44,3 +44,4 @@ The devices expose their current normalized intensity for inspection. The plugin
 2. Assign sources to two rows and set their Targets to `left` and `right`.
 3. Touch each sampler source to an item with `HapticVolume`.
 4. Confirm only the matching simulated device vibrates rotationally and returns to its base rotation when the sensation stops.
+5. Confirm the individual simulated devices cannot be grabbed away from the Plugin Package.
