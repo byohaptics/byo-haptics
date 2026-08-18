@@ -2,17 +2,12 @@
 name = "joycon-rumble-bridge"
 version = "0.1.0"
 edition = "2024"
-default-run = "joycon-rumble-bridge"
 
 [dependencies]
 hidapi = { version = "2.6.6", features = ["windows-native"] }
 serde = { version = "1", features = ["derive"] }
 toml = "0.8"
 iced = { version = "0.13.1", features = ["tokio"] }
-
-[[bin]]
-name = "joycon-rumble-bridge"
-path = "src/main.rs"
 
 [[bin]]
 name = "joycon-rumble-gui"

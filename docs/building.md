@@ -51,7 +51,7 @@ The GitHub repository must define the same value as the Actions repository varia
 npm run build:bridge
 ```
 
-This creates `build/joycon-rumble-bridge-v<version>-windows-x64.zip` containing the CLI, GUI, README, and an automatic-binding configuration example. A matching `.zip.sha256` file is generated beside it. The archive does not contain controller addresses or generated calibration data.
+This creates one self-contained Windows application at `build/BYO-Haptics-Joy-Con-Bridge-v<version>.exe` and a matching checksum for release verification. The same binary provides the visible GUI and launches its background Bridge mode. It contains no controller addresses, generated calibration data, private build paths, archive, or second executable.
 
 ## Scene Deployment
 

@@ -10,9 +10,7 @@ use std::time::Duration;
 use std::os::windows::process::CommandExt;
 
 use iced::theme::Palette;
-use iced::widget::{
-    button, column, container, horizontal_space, radio, row, scrollable, text, text_input,
-};
+use iced::widget::{button, column, container, horizontal_space, radio, row, scrollable, text};
 use iced::{Alignment, Color, Element, Font, Length, Task, Theme, border};
 
 const ACTION_BUTTON_WIDTH: f32 = 150.0;
@@ -23,16 +21,25 @@ const DANGER_COLOR: Color = Color::from_rgb(0.702, 0.149, 0.118);
 const DANGER_HOVER_COLOR: Color = Color::from_rgb(0.510, 0.086, 0.067);
 const DISABLED_COLOR: Color = Color::from_rgb(0.357, 0.396, 0.451);
 const CONNECTED_COLOR: Color = Color::from_rgb(0.0, 0.420, 0.369);
+const DEFAULT_LISTEN: &str = "0.0.0.0:9010";
+const LOG_FILE: &str = "bridge.log";
+const MEASUREMENT_FILE: &str = "measurement.csv";
+const PROFILE_FILE: &str = "optimized-profile.toml";
 #[cfg(windows)]
 const CREATE_NO_WINDOW: u32 = 0x0800_0000;
 
-fn main() -> iced::Result {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    if std::env::args_os().nth(1).is_some() {
+        joycon_rumble_bridge::run()?;
+        return Ok(());
+    }
     iced::application("Joy-Con Bridge - BYO Haptics", update, view)
         .theme(|_| universal_design_theme())
         .subscription(|_| iced::time::every(Duration::from_millis(250)).map(|_| Message::Tick))
         .default_font(Font::with_name("Yu Gothic UI"))
         .window_size((720.0, 720.0))
-        .run_with(|| (App::default(), Task::none()))
+        .run_with(|| (App::default(), Task::none()))?;
+    Ok(())
 }
 
 fn universal_design_theme() -> Theme {
@@ -106,11 +113,20 @@ impl fmt::Display for Side {
     }
 }
 
+fn data_directory() -> PathBuf {
+    std::env::var_os("LOCALAPPDATA")
+        .map(PathBuf::from)
+        .unwrap_or_else(std::env::temp_dir)
+        .join("BYO Haptics")
+        .join("Joy-Con Bridge")
+}
+
+fn data_path(name: &str) -> PathBuf {
+    data_directory().join(name)
+}
+
 struct App {
     side: Side,
-    csv_path: String,
-    profile_path: String,
-    listen: String,
     busy: bool,
     scan_completed: bool,
     left_detected: bool,
@@ -127,9 +143,6 @@ impl Default for App {
     fn default() -> Self {
         Self {
             side: Side::Right,
-            csv_path: "joycon-imu-sweep.csv".into(),
-            profile_path: "joycon-rumble-profiles.toml".into(),
-            listen: "0.0.0.0:9010".into(),
             busy: false,
             scan_completed: false,
             left_detected: false,
@@ -138,7 +151,7 @@ impl Default for App {
             bridge_left_connected: false,
             bridge_right_connected: false,
             plugin_connected: false,
-            status: "準備完了。Joy-Conを接続して、デバイスを検索してください。".into(),
+            status: "Joy-Conを接続して、接続状態を確認してください。".into(),
             log: String::new(),
         }
     }
@@ -156,9 +169,6 @@ impl Drop for App {
 #[derive(Debug, Clone)]
 enum Message {
     SideSelected(Side),
-    CsvChanged(String),
-    ProfileChanged(String),
-    ListenChanged(String),
     Scan,
     Measure,
     CommandFinished(CommandResult),
@@ -177,9 +187,6 @@ struct CommandResult {
 fn update(app: &mut App, message: Message) -> Task<Message> {
     match message {
         Message::SideSelected(side) => app.side = side,
-        Message::CsvChanged(value) => app.csv_path = value,
-        Message::ProfileChanged(value) => app.profile_path = value,
-        Message::ListenChanged(value) => app.listen = value,
         Message::Scan if !app.busy => {
             app.busy = true;
             app.status = "Joy-Conを検索しています…".into();
@@ -189,6 +196,11 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
             );
         }
         Message::Measure if !app.busy && app.bridge.is_none() => {
+            if let Err(error) = fs::create_dir_all(data_directory()) {
+                app.status = "測定を開始できませんでした。".into();
+                app.log = error.to_string();
+                return Task::none();
+            }
             app.busy = true;
             app.status = format!(
                 "{}を測定しています。約1分間、動かさないでください…",
@@ -199,14 +211,11 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
                 "--side".into(),
                 app.side.argument().into(),
                 "--output".into(),
-                app.csv_path.clone(),
+                data_path(MEASUREMENT_FILE).to_string_lossy().into_owned(),
                 "--profile".into(),
-                app.profile_path.clone(),
+                data_path(PROFILE_FILE).to_string_lossy().into_owned(),
             ];
-            return Task::perform(
-                run_cli("IMUキャリブレーション", args),
-                Message::CommandFinished,
-            );
+            return Task::perform(run_cli("振動の最適化", args), Message::CommandFinished);
         }
         Message::CommandFinished(result) => {
             app.busy = false;
@@ -222,7 +231,7 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
             }
             app.status = if result.title == "デバイス検索" {
                 if !result.success {
-                    "Joy-Conの検索に失敗しました。下のログを確認してください。".into()
+                    "Joy-Conの確認に失敗しました。下の詳しい情報を確認してください。".into()
                 } else if app.left_detected || app.right_detected {
                     "接続済みJoy-Conを更新しました。".into()
                 } else {
@@ -232,24 +241,37 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
                 format!("{}が正常に完了しました。", result.title)
             } else {
                 format!(
-                    "{}に失敗しました。下のログを確認してください。",
+                    "{}に失敗しました。下の詳しい情報を確認してください。",
                     result.title
                 )
             };
-            app.log = localize_cli_output(&result.output);
+            app.log = match (result.title, result.success) {
+                ("デバイス検索", true) if app.left_detected && app.right_detected => {
+                    "左右両方のJoy-Conが見つかりました。".into()
+                }
+                ("デバイス検索", true) if app.left_detected => {
+                    "Joy-Con (L)だけが見つかりました。Joy-Con (R)を接続してください。".into()
+                }
+                ("デバイス検索", true) if app.right_detected => {
+                    "Joy-Con (R)だけが見つかりました。Joy-Con (L)を接続してください。".into()
+                }
+                ("デバイス検索", true) => "Joy-Conが見つかりませんでした。".into(),
+                ("振動の最適化", true) => "振動の最適化が完了しました。".into(),
+                _ => localize_cli_output(&result.output),
+            };
         }
         Message::StartBridge if !app.busy && app.bridge.is_none() => {
             app.scan_completed = false;
             app.left_detected = false;
             app.right_detected = false;
-            match start_bridge(&app.listen, &app.profile_path) {
+            match start_bridge() {
                 Ok(child) => {
                     app.bridge = Some(child);
                     app.bridge_left_connected = false;
                     app.bridge_right_connected = false;
                     app.plugin_connected = false;
-                    app.status = format!("ブリッジを{}で実行しています。", app.listen);
-                    app.log = "ブリッジログ: joycon-rumble-gui-bridge.log".into();
+                    app.status = "振動を開始しました。".into();
+                    app.log = "Joy-ConとBYO Hapticsの接続を待っています。".into();
                 }
                 Err(error) => {
                     app.status = "ブリッジを起動できませんでした。".into();
@@ -261,22 +283,22 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
             if let Some(mut child) = app.bridge.take() {
                 let _ = child.kill();
                 let _ = child.wait();
-                app.status = "ブリッジを停止しました。".into();
+                app.status = "振動を停止しました。".into();
             }
         }
         Message::Tick => {
             if let Some(child) = app.bridge.as_mut()
-                && let Ok(Some(exit)) = child.try_wait()
+                && let Ok(Some(_)) = child.try_wait()
             {
                 app.bridge = None;
                 app.plugin_connected = false;
-                app.status = format!("ブリッジサービスが停止しました（{exit}）。");
-                app.log = fs::read_to_string("joycon-rumble-gui-bridge.log")
+                app.status = "振動が停止しました。下の詳しい情報を確認してください。".into();
+                app.log = fs::read_to_string(data_path(LOG_FILE))
                     .map(|log| localize_cli_output(&log))
                     .unwrap_or_else(|error| error.to_string());
             }
             if app.bridge.is_some()
-                && let Ok(log) = fs::read_to_string("joycon-rumble-gui-bridge.log")
+                && let Ok(log) = fs::read_to_string(data_path(LOG_FILE))
             {
                 app.bridge_left_connected = last_status(&log, "joycon-left") == Some("connected");
                 app.bridge_right_connected = last_status(&log, "joycon-right") == Some("connected");
@@ -332,11 +354,11 @@ fn view(app: &App) -> Element<'_, Message> {
     .style(action_button_style);
     let bridge_running = app.bridge.is_some();
     let bridge_button = (if bridge_running {
-        button("ブリッジ停止").on_press(Message::StopBridge)
+        button("振動を停止").on_press(Message::StopBridge)
     } else if app.busy {
-        button("ブリッジ起動")
+        button("振動を開始")
     } else {
-        button("ブリッジ起動").on_press(Message::StartBridge)
+        button("振動を開始").on_press(Message::StartBridge)
     })
     .width(Length::Fixed(ACTION_BUTTON_WIDTH))
     .height(Length::Fixed(ACTION_BUTTON_HEIGHT))
@@ -406,20 +428,6 @@ fn view(app: &App) -> Element<'_, Message> {
             .spacing(18)
             .align_y(Alignment::Center),
             text("Joy-Conを安定した場所に置き、測定中は動かさないでください。"),
-            row![
-                text("測定結果CSV").width(Length::Fixed(170.0)),
-                text_input("joycon-imu-sweep.csv", &app.csv_path)
-                    .on_input(Message::CsvChanged)
-                    .width(Length::Fixed(390.0)),
-            ]
-            .align_y(Alignment::Center),
-            row![
-                text("最適化プロファイル").width(Length::Fixed(170.0)),
-                text_input("joycon-rumble-profiles.toml", &app.profile_path)
-                    .on_input(Message::ProfileChanged)
-                    .width(Length::Fixed(390.0)),
-            ]
-            .align_y(Alignment::Center),
             row![horizontal_space(), measure,],
         ]
         .spacing(12),
@@ -430,12 +438,12 @@ fn view(app: &App) -> Element<'_, Message> {
 
     let bridge_section = container(
         column![
-            text("2. OSCブリッジ").size(20),
+            text("2. 振動").size(20),
             row![
                 text(if bridge_running {
-                    "● Bridgeサービス: 稼働中"
+                    "● 振動サービス: 稼働中"
                 } else {
-                    "× Bridgeサービス: 停止"
+                    "× 振動サービス: 停止"
                 })
                 .color(if bridge_running {
                     CONNECTED_COLOR
@@ -443,9 +451,9 @@ fn view(app: &App) -> Element<'_, Message> {
                     DANGER_COLOR
                 }),
                 text(if app.plugin_connected {
-                    "● プラグイン: 接続"
+                    "● BYO Haptics: 接続"
                 } else {
-                    "× プラグイン: 未接続"
+                    "× BYO Haptics: 未接続"
                 })
                 .color(if app.plugin_connected {
                     CONNECTED_COLOR
@@ -454,15 +462,7 @@ fn view(app: &App) -> Element<'_, Message> {
                 }),
             ]
             .spacing(28),
-            row![
-                text("待受アドレス").width(Length::Fixed(170.0)),
-                text_input("0.0.0.0:9010", &app.listen)
-                    .on_input(Message::ListenChanged)
-                    .width(Length::Fixed(220.0)),
-                horizontal_space(),
-                bridge_button,
-            ]
-            .align_y(Alignment::Center),
+            row![horizontal_space(), bridge_button,],
         ]
         .spacing(12),
     )
@@ -472,9 +472,9 @@ fn view(app: &App) -> Element<'_, Message> {
 
     let log_section = container(
         column![
-            text("詳細ログ（実行履歴）").size(20),
+            text("詳しい情報").size(20),
             scrollable(text(if app.log.is_empty() {
-                "ログはありません。"
+                "詳しい情報はありません。"
             } else {
                 &app.log
             }))
@@ -489,7 +489,7 @@ fn view(app: &App) -> Element<'_, Message> {
 
     let content = column![
         text("Joy-Con Bridge - BYO Haptics").size(30),
-        text("接続確認、振動の最適化、OSCブリッジの操作を順番に行います。"),
+        text("Joy-Conの接続を確認して、振動を開始します。"),
         row![text("現在の実行状況:").size(16), text(&app.status).size(16),]
             .spacing(10)
             .align_y(Alignment::Center),
@@ -568,11 +568,13 @@ fn localize_cli_output(output: &str) -> String {
         .replace("optimized profile saved:", "最適化プロファイル保存先:")
 }
 
-fn start_bridge(listen: &str, profile: &str) -> std::io::Result<Child> {
-    let log = File::create("joycon-rumble-gui-bridge.log")?;
+fn start_bridge() -> std::io::Result<Child> {
+    fs::create_dir_all(data_directory())?;
+    let log = File::create(data_path(LOG_FILE))?;
     let error_log = log.try_clone()?;
     bridge_command()
-        .args(["--listen", listen, "--imu-profile", profile])
+        .args(["--listen", DEFAULT_LISTEN, "--imu-profile"])
+        .arg(data_path(PROFILE_FILE))
         .stdout(Stdio::from(log))
         .stderr(Stdio::from(error_log))
         .spawn()
@@ -597,14 +599,7 @@ fn bridge_command() -> Command {
 }
 
 fn bridge_executable() -> PathBuf {
-    let mut path =
-        std::env::current_exe().unwrap_or_else(|_| PathBuf::from("joycon-rumble-gui.exe"));
-    path.set_file_name(if cfg!(windows) {
-        "joycon-rumble-bridge.exe"
-    } else {
-        "joycon-rumble-bridge"
-    });
-    path
+    std::env::current_exe().unwrap_or_else(|_| PathBuf::from("joycon-rumble-gui.exe"))
 }
 
 #[cfg(test)]
@@ -636,6 +631,11 @@ mod tests {
         let (live, _) = joycon_status("Joy-Con (R)", true, true, false, false);
         assert_eq!(detected, "Joy-Con (R)  ● 検出済み");
         assert_eq!(live, "Joy-Con (R)  ● 接続");
+    }
+
+    #[test]
+    fn bridge_runs_from_the_same_application() {
+        assert_eq!(bridge_executable(), std::env::current_exe().unwrap());
     }
 
     #[test]

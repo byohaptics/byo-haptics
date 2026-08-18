@@ -44,7 +44,7 @@ Document version: `0.1.9`
 - Rust unit tests pass for OSC parsing, routing, heartbeat timeout, scheduling, sensation mapping, HID encoding, and configuration precedence.
 - Public defaults and examples contain no real Bluetooth address.
 - `--dry-run` accepts the documented messages and stops state after heartbeat timeout.
-- The GUI and CLI compile from the same Bridge source and configuration contract.
+- The release package contains one self-contained GUI binary whose background mode uses the same Bridge library and configuration contract.
 - Hardware verification covers Force, Vibration, Pain, acknowledgement, disconnect, and reconnect.
 
 ## Multi-user Matrix

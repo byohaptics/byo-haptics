@@ -189,7 +189,7 @@ impl OscRuntime {
     }
 }
 
-fn main() -> io::Result<()> {
+pub fn run() -> io::Result<()> {
     if env::args().nth(1).as_deref() == Some("joycon-list") {
         return joycon::list_joycons();
     }

@@ -36,7 +36,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Add a validator for the host SlotSpec.
 - [x] Add validators for both Plugin Package specs.
 - [x] Configure Windows CI with pinned FluxSDK and Bridge linting.
-- [x] Add a sanitized Windows package build for the Joy-Con Bridge CLI and GUI.
+- [x] Add a sanitized single-application Windows package for the Joy-Con Bridge.
 
 ## Phase 3: Host Reconstruction
 
@@ -55,7 +55,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Verify each plugin compiles without host-specific IDs.
 - [x] Import the Joy-Con Bridge source without private history, logs, traces, or hardware identifiers.
 - [x] Reset the Joy-Con Bridge and Bridge API to `0.1.0`.
-- [x] Build and test the Joy-Con Bridge CLI and GUI.
+- [x] Build and test the self-contained Joy-Con Bridge application and its background mode from the shared Bridge library.
 - [x] Verify card direct drop and ejection use one Package Manager path.
 
 ## Phase 5: Static Review
@@ -64,7 +64,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Run the local publication policy check.
 - [x] Run `ponytail-review` and apply accepted reductions.
 - [x] Commit the reproducible static build.
-- [x] Verify the Bridge release archive contains no private build path or hardware identifier.
+- [x] Verify the single Bridge application contains no private build path or hardware identifier.
 - [x] Audit Host, both Plugin Packages, and Bridge sources against the current functional baseline.
 
 ## Phase 6: Live Verification
@@ -98,6 +98,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Apply the repository-wide Ponytail audit by removing unused Host deployment recovery paths and the Bridge's test-only random abstraction.
 - [x] Stop a nonfunctional Joy-Con Bridge after HID failure and expose controller, service, and Plugin connection states in its GUI.
 - [x] Prevent a stopped Joy-Con Bridge from presenting a stale manual detection snapshot as a live controller connection.
+- [x] Ship the Joy-Con Bridge as one self-contained user application and remove file-location, communication, and second-program management from its GUI.
 - [ ] Verify Joy-Con disconnect handling and all three Bridge GUI status indicators with live hardware.
 - [x] Repeat Haptira channel state every 50 ms while active and for a 250 ms zero tail to tolerate UDP loss.
 - [ ] Verify repeated GunRecoil samples no longer leave a Haptira motor running.
