@@ -97,6 +97,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Confirm in VR that a short collision remains perceptible for the configured minimum duration.
 - [x] Apply the repository-wide Ponytail audit by removing unused Host deployment recovery paths and the Bridge's test-only random abstraction.
 - [x] Stop a nonfunctional Joy-Con Bridge after HID failure and expose controller, service, and Plugin connection states in its GUI.
+- [x] Prevent a stopped Joy-Con Bridge from presenting a stale manual detection snapshot as a live controller connection.
 - [ ] Verify Joy-Con disconnect handling and all three Bridge GUI status indicators with live hardware.
 - [x] Repeat Haptira channel state every 50 ms while active and for a 250 ms zero tail to tolerate UDP loss.
 - [ ] Verify repeated GunRecoil samples no longer leave a Haptira motor running.

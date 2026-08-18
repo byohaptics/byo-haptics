@@ -239,6 +239,9 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
             app.log = localize_cli_output(&result.output);
         }
         Message::StartBridge if !app.busy && app.bridge.is_none() => {
+            app.scan_completed = false;
+            app.left_detected = false;
+            app.right_detected = false;
             match start_bridge(&app.listen, &app.profile_path) {
                 Ok(child) => {
                     app.bridge = Some(child);
@@ -269,6 +272,7 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
                 app.plugin_connected = false;
                 app.status = format!("ブリッジサービスが停止しました（{exit}）。");
                 app.log = fs::read_to_string("joycon-rumble-gui-bridge.log")
+                    .map(|log| localize_cli_output(&log))
                     .unwrap_or_else(|error| error.to_string());
             }
             if app.bridge.is_some()
@@ -282,6 +286,27 @@ fn update(app: &mut App, message: Message) -> Task<Message> {
         _ => {}
     }
     Task::none()
+}
+
+fn joycon_status(
+    name: &str,
+    bridge_running: bool,
+    bridge_connected: bool,
+    scan_completed: bool,
+    detected: bool,
+) -> (String, Color) {
+    let (state, color) = if bridge_running && bridge_connected {
+        ("● 接続", CONNECTED_COLOR)
+    } else if bridge_running {
+        ("× 未接続", DANGER_COLOR)
+    } else if !scan_completed {
+        ("－ 未確認", DISABLED_COLOR)
+    } else if detected {
+        ("● 検出済み", CONNECTED_COLOR)
+    } else {
+        ("× 未検出", DANGER_COLOR)
+    };
+    (format!("{name}  {state}"), color)
 }
 
 fn view(app: &App) -> Element<'_, Message> {
@@ -321,25 +346,18 @@ fn view(app: &App) -> Element<'_, Message> {
         action_button_style
     });
 
-    let joycon_status = |name, bridge_connected, detected| {
-        let (state, color) = if bridge_running && bridge_connected {
-            ("● 接続", CONNECTED_COLOR)
-        } else if bridge_running {
-            ("× 未接続", DANGER_COLOR)
-        } else if !app.scan_completed {
-            ("－ 未検索", DISABLED_COLOR)
-        } else if detected {
-            ("● 接続", CONNECTED_COLOR)
-        } else {
-            ("× 未接続", DANGER_COLOR)
-        };
-        (format!("{name}  {state}"), color)
-    };
-    let (left_status, left_status_color) =
-        joycon_status("Joy-Con (L)", app.bridge_left_connected, app.left_detected);
+    let (left_status, left_status_color) = joycon_status(
+        "Joy-Con (L)",
+        bridge_running,
+        app.bridge_left_connected,
+        app.scan_completed,
+        app.left_detected,
+    );
     let (right_status, right_status_color) = joycon_status(
         "Joy-Con (R)",
+        bridge_running,
         app.bridge_right_connected,
+        app.scan_completed,
         app.right_detected,
     );
 
@@ -517,6 +535,10 @@ fn localize_cli_output(output: &str) -> String {
             "Joy-Conが見つかりませんでした。",
         )
         .replace(
+            "both configured Joy-Cons must be connected",
+            "設定された左右両方のJoy-Conを接続してください",
+        )
+        .replace(
             "Expected Nintendo VID 057e with PID 2006 (L) or 2007 (R).",
             "Nintendo VID 057e、PID 2006（L）または2007（R）を検索しました。",
         )
@@ -606,6 +628,14 @@ mod tests {
     fn reads_latest_bridge_status_value() {
         let log = "bridge-status plugin=connected\nbridge-status plugin=disconnected\n";
         assert_eq!(last_status(log, "plugin"), Some("disconnected"));
+    }
+
+    #[test]
+    fn stopped_bridge_reports_detection_snapshot_not_connection() {
+        let (detected, _) = joycon_status("Joy-Con (R)", false, false, true, true);
+        let (live, _) = joycon_status("Joy-Con (R)", true, true, false, false);
+        assert_eq!(detected, "Joy-Con (R)  ● 検出済み");
+        assert_eq!(live, "Joy-Con (R)  ● 接続");
     }
 
     #[test]
