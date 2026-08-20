@@ -33,11 +33,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         joycon_rumble_bridge::run()?;
         return Ok(());
     }
+    let icon = iced::window::icon::from_rgba(
+        include_bytes!("../../assets/BYOHAPTICS.rgba").to_vec(),
+        64,
+        64,
+    )?;
     iced::application("Joy-Con Bridge - BYO Haptics", update, view)
         .theme(|_| universal_design_theme())
         .subscription(|_| iced::time::every(Duration::from_millis(250)).map(|_| Message::Tick))
         .default_font(Font::with_name("Yu Gothic UI"))
-        .window_size((720.0, 720.0))
+        .window(iced::window::Settings {
+            size: iced::Size::new(720.0, 720.0),
+            icon: Some(icon),
+            ..iced::window::Settings::default()
+        })
         .run_with(|| (App::default(), Task::none()))?;
     Ok(())
 }

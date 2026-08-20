@@ -37,6 +37,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Add validators for both Plugin Package specs.
 - [x] Configure Windows CI with pinned FluxSDK and Bridge linting.
 - [x] Add a sanitized single-application Windows package for the Joy-Con Bridge.
+- [x] Apply the BYO Haptics artwork to the Bridge window and Windows executable.
 
 ## Phase 3: Host Reconstruction
 

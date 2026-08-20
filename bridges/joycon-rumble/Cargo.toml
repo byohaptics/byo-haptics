@@ -9,6 +9,9 @@ serde = { version = "1", features = ["derive"] }
 toml = "0.8"
 iced = { version = "0.13.1", features = ["tokio"] }
 
+[build-dependencies]
+winres = "0.1"
+
 [[bin]]
 name = "joycon-rumble-gui"
 path = "src/bin/gui.rs"
