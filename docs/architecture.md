@@ -14,7 +14,7 @@ HapticVolume
 
 The host owns sampling, row validity, gain, lifecycle, source binding, and UI. A plugin owns Target interpretation, sensation mapping, transport, device configuration, and connection reporting.
 
-The Joy-Con OSC plugin sends normalized values and liveness messages to the Joy-Con Rumble Bridge. The Bridge owns controller discovery, optional Bluetooth address binding, sensation-to-rumble conversion, fixed-rate HID output, reconnection, and diagnostics. It is versioned independently from the Resonite Plugin Package.
+The Joy-Con OSC plugin sends normalized values and liveness messages to the separately maintained [Joy-Con Bridge](https://github.com/byohaptics/joycon-bridge) through the [Bridge API contract](joycon-bridge-contract.md). The Bridge owns controller discovery, optional Bluetooth address binding, sensation-to-rumble conversion, fixed-rate HID output, reconnection, and diagnostics. Its application version is independent from the Plugin Package and Bridge API versions.
 
 The Demo plugin contains its `left` and `right` simulated devices and drives their Slot fields directly. It adds no external transport or discovery path.
 

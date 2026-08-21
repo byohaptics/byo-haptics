@@ -21,4 +21,4 @@ Document version: `0.1.9`
 
 - Runtime IDs and ResoniteLink endpoints are session-specific and are regenerated during deployment.
 - Source builds do not produce an inventory item without a live Resonite deployment and save operation.
-- The Joy-Con Bridge is currently packaged for Windows x64.
+- The separately maintained [Joy-Con Bridge](https://github.com/byohaptics/joycon-bridge) is currently packaged for Windows x64.

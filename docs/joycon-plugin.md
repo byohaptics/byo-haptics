@@ -13,7 +13,7 @@ Document version: `0.1.9`
 - Default send port: `9010`
 - Default acknowledgement port: `9002`
 
-The normative Plugin-to-Bridge protocol is [Joy-Con Bridge API Contract](joycon-bridge-contract.md). This document defines the Plugin Package behavior that uses it.
+The normative Plugin-to-Bridge protocol is [Joy-Con Bridge API Contract](joycon-bridge-contract.md). The companion application is maintained in [byohaptics/joycon-bridge](https://github.com/byohaptics/joycon-bridge). This document defines the Plugin Package behavior that uses them.
 
 ## Configuration
 

@@ -10,7 +10,7 @@ Document version: `0.1.9`
 - [x] Host and both plugins rebuild from documented source.
 - [x] Static validation passes.
 - [x] `ponytail-review` has no accepted unresolved findings.
-- [x] Joy-Con Bridge release packaging rejects private build paths.
+- [x] Joy-Con Plugin and Bridge API versions are consistent.
 - [x] Live test plan passes under the `byohaptica` Resonite account.
 - [x] Multi-user limitations are documented.
 - [x] `versions.json`, UI title, package metadata, and release tag agree at `v0.1.0`.

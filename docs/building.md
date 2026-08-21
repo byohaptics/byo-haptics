@@ -9,7 +9,6 @@ Document version: `0.1.9`
 - Node.js 22
 - .NET SDK 10
 - `Papaltine.FluxSDK` `1.8.0`
-- Current stable Rust with `rustfmt` and `clippy`
 
 Install the FluxSDK tool globally:
 
@@ -29,12 +28,11 @@ The hook runs the publication policy and `npm test`. It requires `PUBLICATION_DE
 
 ```powershell
 npm test
-npm run lint:bridge
 npm run compile:host
 npm run compile:plugins
 ```
 
-`npm test` validates versions, documents, SlotSpecs including the authoring template, aliases, references, runtime-ID policy, deployment script type checking, and all Bridge tests. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
+`npm test` validates versions, documents, SlotSpecs including the authoring template, aliases, references, runtime-ID policy, and deployment script type checking. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
 
 The publication-policy check also requires `PUBLICATION_DENYLIST` to be supplied outside the repository:
 
@@ -45,13 +43,9 @@ node scripts/check-publication-policy.mjs
 
 The GitHub repository must define the same value as the Actions repository variable `PUBLICATION_DENYLIST` before CI is enabled.
 
-## Bridge Package
+## Joy-Con Bridge
 
-```powershell
-npm run build:bridge
-```
-
-This creates one self-contained Windows application at `build/BYO-Haptics-Joy-Con-Bridge-v<version>.exe` and a matching checksum for release verification. The same binary provides the visible GUI and launches its background Bridge mode. It contains no controller addresses, generated calibration data, private build paths, archive, or second executable.
+The Windows application is built and released from [byohaptics/joycon-bridge](https://github.com/byohaptics/joycon-bridge). This repository owns the [Bridge API contract](joycon-bridge-contract.md) and Joy-Con Output Plugin, not the Bridge executable.
 
 ## Scene Deployment
 

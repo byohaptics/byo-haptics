@@ -21,7 +21,6 @@ jobs:
       - name: Install build tools
         shell: pwsh
         run: |
-          rustup component add rustfmt clippy
           dotnet tool install --global Papaltine.FluxSDK --version 1.8.0
       - name: Require publication policy
         shell: pwsh
@@ -30,7 +29,6 @@ jobs:
             throw 'Configure the PUBLICATION_DENYLIST repository variable before enabling CI.'
           }
       - run: npm test
-      - run: npm run lint:bridge
       - run: npm run compile:host
       - run: npm run compile:plugins
       - run: node scripts/check-publication-policy.mjs

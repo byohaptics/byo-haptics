@@ -18,7 +18,7 @@ Build a portable Resonite avatar tool that samples four haptic sensation values 
 - Output plugin discovery, replacement, direct card drop, and ejection.
 - Joy-Con OSC and Haptira OSC output plugins.
 - A scene-local Demo output plugin with `left` and `right` simulated devices.
-- Joy-Con Rumble Bridge for OSC reception, liveness acknowledgement, sensation mapping, and Bluetooth HID output.
+- Integration with the externally maintained Joy-Con Bridge through a versioned API contract.
 - Reproducible SlotSpec and ProtoGraph build inputs.
 
 ## Excluded From The Initial Milestone

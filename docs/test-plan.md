@@ -39,13 +39,11 @@ Document version: `0.1.9`
 - Haptira Target values are strictly `00` through `15`.
 - Demo Target `left` and `right` independently vibrate only their matching package-owned device and return it to its base position at zero intensity.
 
-## Joy-Con Bridge Tests
+## Joy-Con Bridge Integration Tests
 
-- Rust unit tests pass for OSC parsing, routing, heartbeat timeout, scheduling, sensation mapping, HID encoding, and configuration precedence.
-- Public defaults and examples contain no real Bluetooth address.
-- `--dry-run` accepts the documented messages and stops state after heartbeat timeout.
-- The release package contains one self-contained GUI binary whose background mode uses the same Bridge library and configuration contract.
-- Hardware verification covers Force, Vibration, Pain, acknowledgement, disconnect, and reconnect.
+- The Joy-Con Plugin messages and connection behavior match Bridge API `0.1.0`.
+- Hardware verification covers Force, Vibration, Pain, acknowledgement, disconnect, and reconnect against a declared compatible Bridge release.
+- Bridge implementation and packaging tests run in [byohaptics/joycon-bridge](https://github.com/byohaptics/joycon-bridge).
 
 ## Multi-user Matrix
 

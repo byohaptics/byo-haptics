@@ -7,7 +7,6 @@ const paths = {
   "joycon-osc": ["plugins", "joyconOsc"],
   "haptira-osc": ["plugins", "haptiraOsc"],
   demo: ["plugins", "demo"],
-  "joycon-bridge": ["bridges", "joyconRumble"],
   "joycon-bridge-api": ["bridgeApis", "joyconOsc"],
 };
 if (!paths[target] || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version ?? "")) {
@@ -67,13 +66,7 @@ if (target === "product") {
   updatePluginSpec("specs/demo-output-plugin.resoslots.json");
 } else if (target === "joycon-bridge-api") {
   replace("docs/joycon-plugin.md", /^- Bridge API version: `[^`]+`$/m, `- Bridge API version: \`${version}\``);
-  replace("docs/joycon-bridge.md", /^- Bridge API version: `[^`]+`$/m, `- Bridge API version: \`${version}\``);
-} else if (target === "joycon-bridge") {
-  replace("docs/joycon-bridge.md", /^- Bridge version: `[^`]+`$/m, `- Bridge version: \`${version}\``);
-  replace("bridges/joycon-rumble/README.md", /^Version `[^`]+`$/m, `Version \`${version}\``);
-  const cargoPath = new URL("../bridges/joycon-rumble/Cargo.toml", import.meta.url);
-  const cargo = fs.readFileSync(cargoPath, "utf8");
-  fs.writeFileSync(cargoPath, cargo.replace(/^version = ".*"$/m, `version = "${version}"`));
+  replace("docs/joycon-bridge-contract.md", /^- Bridge API version: `[^`]+`$/m, `- Bridge API version: \`${version}\``);
 }
 
 console.log(`${target} version set to ${version}`);

@@ -29,14 +29,7 @@ Both graphs consume the same transport-neutral Output Bus. Row Targets remain op
 
 ## Joy-Con Bridge
 
-| Capability | Specification | Source | Static evidence | Hardware evidence |
-|---|---|---|---|---|
-| OSC parsing and Target routing | `joycon-bridge.md` | `osc.rs`, `signal.rs`, `transport.rs` | Unit tests | Pending public build |
-| Heartbeat acknowledgement and timeout stop | `joycon-bridge.md` | `lib.rs`, `signal.rs` | Unit tests | Pending public build |
-| Force, Vibration, and Pain mapping | `joycon-bridge.md` | `sensation.rs` | Unit tests | Pending public build |
-| Fixed-rate newest-state HID output | `joycon-bridge.md` | `lib.rs`, `joycon.rs` | Scheduler and coalescing tests | Pending public build |
-| Device configuration and reconnect | `joycon-bridge.md` | `config.rs`, `joycon.rs` | Configuration tests and Clippy | Pending public build |
-| Single user app, trace, and vibration optimization | `building.md`, Bridge README | `lib.rs`, `bin/gui.rs`, `trace.rs`, `joycon.rs` | All-target build and 35 tests | Single-binary GUI and background mode verified; live device regression pending |
+This repository owns `joycon-bridge-contract.md` and the Joy-Con Output Plugin. Bridge application source, tests, packaging, and hardware implementation are maintained in [byohaptics/joycon-bridge](https://github.com/byohaptics/joycon-bridge).
 
 ## Deliberate Public Differences
 

@@ -94,6 +94,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 
 ## Post-release Maintenance
 
+- [x] Define Bridge API `0.1.0`, then move the Joy-Con Bridge application into `byohaptics/joycon-bridge` while retaining the contract and Plugin here.
 - [x] Add the Host license policy to both Plugin Package SlotSpecs and static checks.
 - [x] Use stable row-index labels in Sampler Edit and the Host panel, and distinguish configured sources from currently resolvable sources.
 - [x] Retain each positive sampler sensation for a configurable minimum duration, defaulting to 80 ms.
