@@ -22,6 +22,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Define Joy-Con OSC plugin behavior.
 - [x] Define Haptira OSC plugin behavior.
 - [x] Define complete SlotSpec schema used by this repository.
+- [x] Add an Output Plugin authoring guide and a validated minimal template.
 - [x] Define host UI slot names, dimensions, controls, and references.
 - [x] Define host lifecycle and context menu state tables.
 - [x] Define sampler row state and offset equations.

@@ -129,4 +129,14 @@ for (const [path, id] of [
   }
 }
 
+const templatePath = "templates/output-plugin/minimal-output-plugin.resoslots.json";
+const templateSpec = JSON.parse(fs.readFileSync(new URL(`../${templatePath}`, import.meta.url), "utf8"));
+const templateComponents = new Map(templateSpec.slots.flatMap((slot) => (slot.components ?? []).map((component) => [component.alias, component])));
+const templateId = value(templateComponents, "manifest.pluginId");
+if (templateSpec.toolName !== templateId) throw new Error(`${templatePath}: toolName and PluginId differ`);
+if (templateSpec.tag !== "byo-haptics.output-plugin") throw new Error(`${templatePath}: plugin tag missing`);
+if (value(templateComponents, "manifest.contractVersion") !== versions.outputContract) throw new Error(`${templatePath}: contract version mismatch`);
+const templateGraph = fs.readFileSync(new URL("../templates/output-plugin/MinimalOutputPlugin.pg", import.meta.url), "utf8");
+if (!templateGraph.includes(`ThisPluginId = "${templateId}"`)) throw new Error("MinimalOutputPlugin.pg: PluginId mismatch");
+
 console.log("Plugin Package manifests and defaults are consistent");

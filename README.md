@@ -6,7 +6,7 @@ This repository contains the host tool, the public plugin contract, Joy-Con and 
 
 ## Status
 
-Version `0.1.0` is the initial public release.
+Version `0.2.0` is the current repository release.
 
 ## Documentation
 
@@ -14,6 +14,7 @@ Version `0.1.0` is the initial public release.
 - [Architecture](docs/architecture.md)
 - [Implementation map](docs/implementation-map.md)
 - [Output plugin contract](docs/output-plugin-contract.md)
+- [Output plugin authoring](docs/plugin-authoring.md)
 - [Joy-Con Bridge](docs/joycon-bridge.md)
 - [Building and verification](docs/building.md)
 - [Development loop](docs/development-loop.md)
@@ -28,6 +29,13 @@ Version `0.1.0` is the initial public release.
 - Resonite username: `byohaptica`
 - Contact: `byohaptics@gmail.com`
 - GitHub organization: [byohaptics](https://github.com/byohaptics)
+
+## Co-Authors
+
+```text
+Co-Authored-By: Codex <noreply@openai.com>
+Co-Authored-By: Claude Code <noreply@anthropic.com>
+```
 
 ## License
 

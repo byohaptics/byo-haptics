@@ -1,0 +1,224 @@
+{
+  "schema": "resonite-slotspec/v1",
+  "toolName": "io.github.example.output.minimal",
+  "tag": "byo-haptics.output-plugin",
+  "fluxSlotPath": "Flux",
+  "toolParent": {
+    "kind": "worldRoot"
+  },
+  "slots": [
+    {
+      "path": "",
+      "components": [
+        {
+          "alias": "package.grabbable",
+          "type": "[FrooxEngine]FrooxEngine.Grabbable",
+          "members": {
+            "ReparentOnRelease": { "type": "bool", "value": true },
+            "PreserveUserSpace": { "type": "bool", "value": true },
+            "DestroyOnRelease": { "type": "bool", "value": false },
+            "AllowSteal": { "type": "bool", "value": false },
+            "DropOnDisable": { "type": "bool", "value": true },
+            "Scalable": { "type": "bool", "value": true },
+            "Receivable": { "type": "bool", "value": true }
+          }
+        },
+        {
+          "alias": "package.objectRoot",
+          "type": "[FrooxEngine]FrooxEngine.ObjectRoot"
+        },
+        {
+          "alias": "package.license",
+          "type": "[FrooxEngine]FrooxEngine.License",
+          "members": {
+            "RequireCredit": { "type": "bool", "value": true },
+            "CreditString": { "type": "string", "value": "example-author" },
+            "CanExport": { "type": "bool", "value": true }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Manifest",
+      "components": [
+        {
+          "alias": "manifest.pluginId",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": { "Value": { "type": "string", "value": "io.github.example.output.minimal" } }
+        },
+        {
+          "alias": "manifest.displayName",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": { "Value": { "type": "string", "value": "Minimal Output" } }
+        },
+        {
+          "alias": "manifest.contractVersion",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": { "Value": { "type": "int", "value": 1 } }
+        },
+        {
+          "alias": "manifest.canReportConnection",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": false } }
+        },
+        {
+          "alias": "manifest.transport",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": { "Value": { "type": "string", "value": "scene" } }
+        },
+        {
+          "alias": "manifest.pluginVersion",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": { "Value": { "type": "string", "value": "v0.1.0" } }
+        },
+        {
+          "alias": "manifest.author",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": { "Value": { "type": "string", "value": "example-author" } }
+        }
+      ]
+    },
+    { "path": "Config" },
+    { "path": "Runtime" },
+    {
+      "path": "Diagnostics",
+      "components": [
+        {
+          "alias": "diagnostics.active",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": false } }
+        },
+        {
+          "alias": "diagnostics.connected",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": false } }
+        },
+        {
+          "alias": "diagnostics.lastForce",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": { "Value": { "type": "float", "value": 0.0 } }
+        }
+      ]
+    },
+    { "path": "Flux" },
+    {
+      "path": "Package/DropReference",
+      "components": [
+        {
+          "alias": "package.dropReference",
+          "type": "[FrooxEngine]FrooxEngine.ReferenceField<[FrooxEngine]FrooxEngine.Slot>"
+        }
+      ]
+    },
+    {
+      "path": "Package/State",
+      "components": [
+        {
+          "alias": "package.installed",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": false } }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual",
+      "scale": { "x": 0.001, "y": 0.001, "z": 0.001 },
+      "components": [
+        {
+          "alias": "package.canvas",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Canvas",
+          "members": {
+            "Size": { "type": "float2", "value": { "x": 420, "y": 170 } },
+            "UnitScale": { "type": "float", "value": 1.0 },
+            "PixelScale": { "type": "float", "value": 1.0 },
+            "DefaultCulling": { "type": "enum", "value": "Off", "enumType": "Culling" },
+            "IgnoreTouchesFromBehind": { "type": "bool", "value": true }
+          }
+        },
+        {
+          "alias": "package.collider",
+          "type": "[FrooxEngine]FrooxEngine.BoxCollider",
+          "members": {
+            "UpdateOrder": { "type": "int", "value": 1000000 },
+            "Type": { "type": "enum", "value": "Static", "enumType": "ColliderType" },
+            "IgnoreRaycasts": { "type": "bool", "value": false },
+            "Size": { "type": "float3", "value": { "x": 420, "y": 170, "z": 8 } }
+          }
+        },
+        {
+          "alias": "package.mainFont",
+          "type": "[FrooxEngine]FrooxEngine.StaticFont",
+          "members": {
+            "URL": { "type": "uri", "value": "resdb:///fcff04f4bec2b3636f05ed894dc1f9a752c4cb587ee49857ec7a82abaf6ca016.ttf" },
+            "Padding": { "type": "int", "value": 1 },
+            "PixelRange": { "type": "int", "value": 4 },
+            "GlyphEmSize": { "type": "int", "value": 32 },
+            "MipMaps": { "type": "bool", "value": true }
+          }
+        },
+        {
+          "alias": "package.fontChain",
+          "type": "[FrooxEngine]FrooxEngine.FontChain"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Label",
+      "components": [
+        {
+          "alias": "package.label.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": { "type": "float2", "value": { "x": 0, "y": 0 } },
+            "AnchorMax": { "type": "float2", "value": { "x": 1, "y": 1 } },
+            "OffsetMin": { "type": "float2", "value": { "x": 24, "y": 18 } },
+            "OffsetMax": { "type": "float2", "value": { "x": -24, "y": -18 } }
+          }
+        },
+        {
+          "alias": "package.label.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": { "type": "string", "value": "Minimal Output\nv0.1.0\nContract: BYOHaptics.Output.v1\nTransport: scene" },
+            "ParseRichText": { "type": "bool", "value": false },
+            "Size": { "type": "float", "value": 24 },
+            "Color": { "type": "colorX", "value": { "r": 0.93, "g": 0.94, "b": 0.96, "a": 1, "profile": "sRGB" } },
+            "HorizontalAlign": { "type": "enum", "value": "Left", "enumType": "TextHorizontalAlignment" },
+            "VerticalAlign": { "type": "enum", "value": "Middle", "enumType": "TextVerticalAlignment" },
+            "AlignmentMode": { "type": "enum", "value": "LineBased", "enumType": "AlignmentMode" }
+          }
+        }
+      ]
+    }
+  ],
+  "componentReferences": [
+    {
+      "component": "package.fontChain",
+      "member": "MainFont",
+      "componentRef": "package.mainFont",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Font>"
+    },
+    {
+      "component": "package.label.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    }
+  ],
+  "localSlotReferences": [
+    {
+      "component": "package.dropReference",
+      "member": "Reference",
+      "slotPath": "",
+      "targetType": "[FrooxEngine]FrooxEngine.Slot"
+    }
+  ],
+  "fluxInputs": {
+    "PluginRoot": { "slotPath": "" },
+    "DiagnosticsActive": { "fieldRef": "diagnostics.active.Value" },
+    "LastForce": { "fieldRef": "diagnostics.lastForce.Value" },
+    "PackageVisualActive": { "slotField": { "slotPath": "Package/Visual", "slotMember": "IsActive" } },
+    "PackageGrabbableEnabled": { "fieldRef": "package.grabbable.Enabled" },
+    "PackageInstalled": { "fieldRef": "package.installed.Value" }
+  }
+}

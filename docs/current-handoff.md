@@ -1,10 +1,12 @@
 # Current Handoff
 
-Updated: 2026-08-18
+Updated: 2026-08-21
 
 ## Current State
 
 The history-free public repository foundation exists locally with BYO Haptics at version `0.2.0`. Public architecture, Output Plugin contract, package lifecycle, device plugin behavior, SlotSpec schema, host UI, lifecycle, sampler behavior, development loop, tasks, implementation map, test plan, known limitations, and live-result ledger have initial specifications. `versions.json` records product, document, contract, plugin, Bridge, and Bridge API versions. The SlotSpec builder requires generated IDs and has no runtime-ID fallback. All six host sheets, both Plugin Package sheets, and shared transform helpers compile with no unresolved modules. Deployment scripts pass F# type checking and require generated IDs plus an explicit deployment gate. Joy-Con and Haptira packages use public IDs, contract v1, version 0.1.1, and validated defaults. The self-contained Joy-Con Bridge application compiles at version `0.1.0`; all Bridge tests and strict Clippy checks pass. Windows CI installs the pinned FluxSDK and runs the complete static suite. User packaging produces one application with build paths remapped and rejects remaining private paths; its background Bridge mode runs from that same binary. Private history, runtime logs, traces, generated scene artifacts, local paths, and real Bluetooth addresses were not migrated. The publication-policy scan and Git history scan are clean.
+
+Third-party plugin authoring is documented in `docs/plugin-authoring.md`. The tracked 10-slot, 21-component minimal template provides a contract-v1 package card and a ProtoGraph that routes Target `default` Force from all four rows to an inspectable field, clears output while inactive, and reports connection state as unknown. Its SlotSpec passes the standard validator as part of `npm test`, and its graph compiles with zero module-discovery errors as part of `npm run compile:plugins`. Third-party License values and versions remain author-owned rather than inheriting the built-in `byohaptics` policy.
 
 The public build was redeployed to `byohaptics World` under Resonite user `byohaptics` on 2026-08-13 after local Resonite data loss. World Root contains one public `BYOHaptics` Host, one Joy-Con OSC Plugin Package, and one Haptira OSC Plugin Package. The Host deployed eight sheets and each plugin deployed one sheet with zero module-discovery errors. Install, uninstall, panel grab, both close behaviors, context-menu and UI panel reset, sampler offset editing, and Reset All Positions passed live tests.
 

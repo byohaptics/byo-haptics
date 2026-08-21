@@ -1,0 +1,50 @@
+/// Minimal BYO Haptics Output Plugin template. Replace LastForce with device output.
+module MinimalOutputPlugin
+
+in PluginRoot: Slot element
+in DiagnosticsActive: bool mutable
+in LastForce: float mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+
+where {
+    ThisPluginId = "io.github.example.output.minimal";
+    BusActive = ~input<bool>("BYOHaptics.Output.v1/Active");
+    BusContractVersion = ~input<int>("BYOHaptics.Output.v1/ContractVersion");
+    BusPluginId = ~input<string>("BYOHaptics.Output.v1/SelectedPluginId");
+    BusRow0Force = ~input<float>("BYOHaptics.Output.v1/Row0Force");
+    BusRow1Force = ~input<float>("BYOHaptics.Output.v1/Row1Force");
+    BusRow2Force = ~input<float>("BYOHaptics.Output.v1/Row2Force");
+    BusRow3Force = ~input<float>("BYOHaptics.Output.v1/Row3Force");
+    BusTarget0 = ~input<string>("BYOHaptics.Output.v1/Target0");
+    BusTarget1 = ~input<string>("BYOHaptics.Output.v1/Target1");
+    BusTarget2 = ~input<string>("BYOHaptics.Output.v1/Target2");
+    BusTarget3 = ~input<string>("BYOHaptics.Output.v1/Target3");
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    InstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    Selected = if BusPluginId.HasValue then BusPluginId.Value == ThisPluginId else false;
+    ActiveState =
+        if BusContractVersion.HasValue then
+            (if BusContractVersion.Value == 1 then
+                (if BusActive.HasValue then (if BusActive.Value then Selected else false) else false)
+            else false)
+        else false;
+    Row0 = if BusTarget0.HasValue then (if BusTarget0.Value == "default" then BusRow0Force.Value else 0.0) else 0.0;
+    Row1 = if BusTarget1.HasValue then (if BusTarget1.Value == "default" then BusRow1Force.Value else 0.0) else 0.0;
+    Row2 = if BusTarget2.HasValue then (if BusTarget2.Value == "default" then BusRow2Force.Value else 0.0) else 0.0;
+    Row3 = if BusTarget3.HasValue then (if BusTarget3.Value == "default" then BusRow3Force.Value else 0.0) else 0.0;
+    Output01 = ValueMax(A=Row0, B=Row1);
+    Output23 = ValueMax(A=Row2, B=Row3);
+    Output = if ActiveState then ValueMax(A=Output01, B=Output23)->Clamp01_Float else 0.0;
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        PackageInstalled <- InstalledState;
+        PackageVisualActive <- not InstalledState;
+        PackageGrabbableEnabled <- not InstalledState;
+        DiagnosticsActive <- ActiveState;
+        LastForce <- Output;
+    };
+}

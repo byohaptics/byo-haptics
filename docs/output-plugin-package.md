@@ -6,7 +6,7 @@ Document version: `0.1.9`
 
 A plugin root is its own inventory package. In World Root it presents a grabbable card. Under the host socket its card, collider, and grabbable are inactive.
 
-Each plugin root has a `License` component with credit required, credit string `byohaptics`, and export disabled, matching the Host license policy.
+Each plugin root should carry a `License` component that reflects its author's work and included assets. The built-in BYO Haptics plugins require `byohaptics` credit and disable export; third-party plugins choose their own credit and export policy. License values are package metadata and do not affect contract compatibility.
 
 Card appearance is not part of the contract. A card must visibly provide:
 

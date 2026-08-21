@@ -10,6 +10,7 @@ const required = [
   "docs/building.md",
   "docs/output-plugin-contract.md",
   "docs/output-plugin-package.md",
+  "docs/plugin-authoring.md",
   "docs/joycon-plugin.md",
   "docs/joycon-bridge.md",
   "docs/haptira-plugin.md",

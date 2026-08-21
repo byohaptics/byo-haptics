@@ -34,7 +34,7 @@ npm run compile:host
 npm run compile:plugins
 ```
 
-`npm test` validates versions, documents, SlotSpecs, aliases, references, runtime-ID policy, deployment script type checking, and all Bridge tests. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
+`npm test` validates versions, documents, SlotSpecs including the authoring template, aliases, references, runtime-ID policy, deployment script type checking, and all Bridge tests. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
 
 The publication-policy check also requires `PUBLICATION_DENYLIST` to be supplied outside the repository:
 
@@ -63,6 +63,8 @@ npm run deploy:joycon
 npm run deploy:haptira
 npm run deploy:demo
 ```
+
+See [Output Plugin Authoring](plugin-authoring.md) for validating and deploying an arbitrary plugin outside the three built-in wrappers.
 
 To replace an existing Plugin Package on Windows, call the wrapper directly so the switch is preserved:
 
