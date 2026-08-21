@@ -10,7 +10,7 @@ Document version: `0.1.9`
 - `plugins.joyconOsc`: Joy-Con OSC Plugin Package
 - `plugins.haptiraOsc`: Haptira OSC Plugin Package
 - `bridges.joyconRumble`: Joy-Con Rumble Bridge executable
-- `bridgeApis.joyconOsc`: Joy-Con bridge API
+- `bridgeApis.joyconOsc`: Joy-Con Bridge API defined by `docs/joycon-bridge-contract.md`
 
 Product, documents, plugins, and bridge APIs use semantic versioning and may advance independently. An incompatible runtime contract increments `outputContract` and changes the Output Bus namespace.
 

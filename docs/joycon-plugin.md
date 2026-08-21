@@ -13,6 +13,8 @@ Document version: `0.1.9`
 - Default send port: `9010`
 - Default acknowledgement port: `9002`
 
+The normative Plugin-to-Bridge protocol is [Joy-Con Bridge API Contract](joycon-bridge-contract.md). This document defines the Plugin Package behavior that uses it.
+
 ## Configuration
 
 The Plugin Package card exposes Bridge Address and Port fields. It derives the OSC sender endpoint from these values and remains inactive when either value is invalid. The Bridge listen port must match the plugin Port. The acknowledgement receiver remains on the separate acknowledgement port.
@@ -28,27 +30,13 @@ Target is the configured controller address name. Defaults are:
 
 Unknown Target values are not sent. Row number is not a device address.
 
-## Sensation Messages
+## Sensation Output
 
-For each valid row and supported sensation, send:
-
-```text
-/avatar/parameters/joyconrumble/channel/<target>/<sensation> <float 0..1>
-```
-
-Supported sensation path names are `force`, `vibration`, and `pain`. Temperature is reserved and is not sent in version `0.1.0`.
+For each valid row, the Plugin sends normalized Force, Vibration, and Pain through the contract's sensation messages. Temperature is reserved and is not sent in Bridge API `0.1.0`.
 
 ## Registration And Acknowledgement
 
 When the host becomes locally active, the plugin registers its acknowledgement port with the bridge once per second until a heartbeat is received. It sends sensation values only while heartbeat is current. If heartbeat expires, it stops output, reports disconnected, and resumes registration attempts.
-
-Registration, heartbeat, and acknowledgement use:
-
-```text
-/avatar/parameters/joyconrumble/status/port <int32 port>
-/avatar/parameters/joyconrumble/heartbeat <int32 sequence>
-/avatar/parameters/joyconrumble/status/heartbeat <int32 echoed-sequence>
-```
 
 When the host becomes inactive, the plugin stops its receiver and releases the acknowledgement port.
 

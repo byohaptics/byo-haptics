@@ -20,6 +20,7 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Define Output Plugin contract version 1.
 - [x] Define Plugin Package lifecycle and direct drop behavior.
 - [x] Define Joy-Con OSC plugin behavior.
+- [x] Define the versioned Joy-Con Plugin-to-Bridge API contract before repository separation.
 - [x] Define Haptira OSC plugin behavior.
 - [x] Define complete SlotSpec schema used by this repository.
 - [x] Add an Output Plugin authoring guide and a validated minimal template.

@@ -15,6 +15,7 @@ Version `0.2.0` is the current repository release.
 - [Implementation map](docs/implementation-map.md)
 - [Output plugin contract](docs/output-plugin-contract.md)
 - [Output plugin authoring](docs/plugin-authoring.md)
+- [Joy-Con Bridge API contract](docs/joycon-bridge-contract.md)
 - [Joy-Con Bridge](docs/joycon-bridge.md)
 - [Building and verification](docs/building.md)
 - [Development loop](docs/development-loop.md)

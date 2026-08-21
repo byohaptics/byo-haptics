@@ -9,24 +9,11 @@ Document version: `0.1.9`
 - Transport: OSC over UDP to Bluetooth HID
 - Supported host plugin: `io.github.byohaptics.output.joycon.osc`
 
-## Wire Protocol
+## Bridge API
 
-The Bridge listens on `127.0.0.1:9010` by default. Ports `9000` and `9001` are avoided because they are commonly used by face-tracking applications. `<target>` must exactly match a configured `devices[].osc_address`.
+[Joy-Con Bridge API Contract](joycon-bridge-contract.md) is the source of truth for OSC paths, argument types, registration, liveness, timeout behavior, and compatibility. This document covers the Bridge application itself.
 
-```text
-/avatar/parameters/<namespace>/status/port                  int32
-/avatar/parameters/<namespace>/heartbeat                    int32
-/avatar/parameters/<namespace>/channel/<target>/force       float32
-/avatar/parameters/<namespace>/channel/<target>/vibration   float32
-/avatar/parameters/<namespace>/channel/<target>/pain        float32
-/avatar/parameters/<namespace>/status/heartbeat             int32
-```
-
-The first five messages travel from Plugin to Bridge. The final acknowledgement travels from Bridge to the sender IP and registered status port. Sensation values are finite `float32` values clamped to `0..1`.
-
-## Liveness
-
-The sender registers its acknowledgement port and emits a heartbeat about every `500 ms`. The Bridge echoes each valid heartbeat sequence. If no heartbeat arrives for `2000 ms`, the Bridge clears all sensation state and sends stop reports to both controllers.
+## Status And Operation
 
 The GUI shows the left and right Joy-Con connection, Bridge process, and Plugin heartbeat as separate states. Status is conveyed by both shape and color: a filled green `●`, red `×`, and gray `－` encode positive, negative, and not checked states. While the Bridge runs, Joy-Con labels report live `接続` or `未接続` state from the service. While it is stopped, a manual check reports only the snapshot `検出済み` or `未検出`; starting the Bridge invalidates that snapshot so a failed start cannot leave a stale `接続` indication. Its workflow is Joy-Con connection check, Bridge operation, then vibration measurement and optimization. Measurement and optimization are not required before normal Bridge use. Normal action buttons share one color and size; only the stop action uses the danger color. Both configured Joy-Cons must be available when the service starts. A HID read or write failure stops the service instead of leaving a nonfunctional process running; reconnect the controller and start the service again.
 

@@ -24,13 +24,14 @@ const joycon = readDoc("joycon-plugin.md");
 const haptira = readDoc("haptira-plugin.md");
 const demo = readDoc("demo-plugin.md");
 const bridge = readDoc("joycon-bridge.md");
+const bridgeContract = readDoc("joycon-bridge-contract.md");
 for (const [name, actual, expected] of [
   ["Output contract", contract, String(versions.outputContract)],
   ["Joy-Con plugin", joycon.match(/^- Plugin version: `([^`]+)`$/m)?.[1], versions.plugins.joyconOsc],
   ["Joy-Con bridge API", joycon.match(/^- Bridge API version: `([^`]+)`$/m)?.[1], versions.bridgeApis.joyconOsc],
   ["Joy-Con bridge", bridge.match(/^- Bridge version: `([^`]+)`$/m)?.[1], versions.bridges.joyconRumble],
   ["Joy-Con bridge Cargo", bridgeCargo.match(/^version = "([^"]+)"$/m)?.[1], versions.bridges.joyconRumble],
-  ["Joy-Con bridge API document", bridge.match(/^- Bridge API version: `([^`]+)`$/m)?.[1], versions.bridgeApis.joyconOsc],
+  ["Joy-Con bridge API contract", bridgeContract.match(/^- Bridge API version: `([^`]+)`$/m)?.[1], versions.bridgeApis.joyconOsc],
   ["Haptira plugin", haptira.match(/^- Plugin version: `([^`]+)`$/m)?.[1], versions.plugins.haptiraOsc],
   ["Demo plugin", demo.match(/^- Plugin version: `([^`]+)`$/m)?.[1], versions.plugins.demo],
 ]) {
