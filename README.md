@@ -27,14 +27,11 @@ Version `0.2.0` is the current repository release.
 ## Accounts
 
 - Resonite username: `byohaptica`
-- Contact: `byohaptics@gmail.com`
-- GitHub organization: [byohaptics](https://github.com/byohaptics)
 
 ## Assistance
 
 ```text
-Assisted-by: OpenAI Codex
-Assisted-by: Anthropic Claude Code
+Assisted-by: OpenAI Codex, Claude Code
 ```
 
 ## License
