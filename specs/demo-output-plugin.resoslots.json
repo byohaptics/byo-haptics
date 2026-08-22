@@ -131,7 +131,7 @@
           "members": {
             "Value": {
               "type": "string",
-              "value": "v0.1.6"
+              "value": "v0.1.7"
             }
           }
         },
@@ -206,7 +206,7 @@
     {
       "path": "Devices/Left",
       "position": {
-        "x": -0.55,
+        "x": -0.34,
         "y": 0,
         "z": 0
       },
@@ -384,7 +384,7 @@
     {
       "path": "Devices/Right",
       "position": {
-        "x": 0.55,
+        "x": 0.34,
         "y": 0,
         "z": 0
       },
@@ -1152,7 +1152,7 @@
           "members": {
             "Content": {
               "type": "string",
-              "value": "v0.1.6"
+              "value": "v0.1.7"
             },
             "ParseRichText": {
               "type": "bool",

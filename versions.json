@@ -5,7 +5,7 @@
   "plugins": {
     "joyconOsc": "0.1.1",
     "haptiraOsc": "0.1.1",
-    "demo": "0.1.6"
+    "demo": "0.1.7"
   },
   "bridgeApis": {
     "joyconOsc": "0.1.0"

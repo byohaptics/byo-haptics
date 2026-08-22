@@ -5,7 +5,7 @@ Document version: `0.1.9`
 ## Identity
 
 - Plugin ID: `io.github.byohaptics.output.demo`
-- Plugin version: `0.1.6`
+- Plugin version: `0.1.7`
 - Contract: `BYOHaptics.Output.v1`
 - Transport: direct scene fields
 - Connection reporting: available
@@ -20,7 +20,7 @@ Keeping the devices inside the package prevents one copied demo plugin from driv
 
 The package card follows the Joy-Con Plugin visual language without copying its configuration-sized height. It uses a `420 × 186` rounded panel, opaque backing, an 18-pixel accent stripe, and the same typography. Its four metadata rows total 150 pixels with 24 pixels of top padding and 12 pixels of bottom padding, so no flexible vertical gap remains. The accent stripe is purple so it is distinct from the Joy-Con blue and Haptira orange stripes.
 
-The simulated devices use base positions `(-0.55, 0, 0)` and `(0.55, 0, 0)` relative to the plugin root. When the plugin is dropped into the Host socket, they sit outside the Host UI panel instead of overlapping it.
+The simulated devices use base positions `(-0.34, 0, 0)` and `(0.34, 0, 0)` relative to the plugin root. This places them close to the Host UI panel while retaining clearance during their exaggerated rotation.
 
 ## Target Routing
 

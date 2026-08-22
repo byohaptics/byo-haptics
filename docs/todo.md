@@ -124,5 +124,5 @@ Tasks are executed from top to bottom. A checked task must have a verification r
 - [x] Build and compile the Demo Plugin Package and both simulated devices.
 - [x] Validate direct drop, independent `left` and `right` routing, and vibration live.
 - [x] Match the Joy-Con card style with a distinct accent, increase vibration visibility, and keep installed devices clear of the Host panel.
-- [ ] Visually accept the compact card spacing, stronger vibration, and device placement in `byohaptics World`.
+- [ ] Rebuild and redeploy Demo v0.1.7, then visually accept the compact card spacing, stronger vibration, and closer non-overlapping device placement in `byohaptics World`.
 - [x] Rebuild and redeploy Demo v0.1.6, then verify individual devices cannot be grabbed away from the Plugin Package.

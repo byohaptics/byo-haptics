@@ -1,6 +1,6 @@
 # Current Handoff
 
-Updated: 2026-08-21
+Updated: 2026-08-22
 
 ## Current State
 
@@ -26,7 +26,7 @@ Node source mode passed with Row 3 following BodyNode `RightFoot` and driving Ha
 
 Both Plugin Package SlotSpecs now include the same `License` policy as the Host: credit required, credit string `byohaptics`, and export disabled. The source change requires rebuilding and redeploying both Plugin Packages before the live objects contain these components.
 
-The Demo Output Plugin is implemented at version `0.1.6`. The user passed direct drop, two-row `left`/`right` routing, HapticVolume response, and visible motion in `byohaptics World`. The Wiggler targets the dedicated `Devices/<side>/Visual.Rotation` child field, eliminating the display-writer conflict while retaining the thirty-degree maximum. Its card remains content-sized at 420 by 186 pixels, and the device roots remain at x = -0.55 m and +0.55 m. The individual device `Grabbable` components were removed after the Right device was accidentally released to World Root; only the complete package remains grabbable, preserving package-owned direct references. The corrected 26-slot, 56-component package was rebuilt and most recently redeployed to `byohaptics World` on 2026-08-18 with a 408-response graph and zero module-discovery errors. Live readback confirmed both devices remain under the package Root, the package is grabbable and licensed, neither device is independently grabbable, and the output graph is active; the user also previously confirmed by direct interaction that Right cannot be grabbed.
+The Demo Output Plugin is implemented at version `0.1.7`. The user passed direct drop, two-row `left`/`right` routing, HapticVolume response, and visible motion in `byohaptics World`. The Wiggler targets the dedicated `Devices/<side>/Visual.Rotation` child field, eliminating the display-writer conflict while retaining the thirty-degree maximum. Its card remains content-sized at 420 by 186 pixels, and the device roots use x = -0.34 m and +0.34 m to move closer to the Host panel while retaining rotation clearance. The individual device `Grabbable` components were removed after the Right device was accidentally released to World Root; only the complete package remains grabbable, preserving package-owned direct references. Version 0.1.7 was rebuilt and redeployed to `byohaptics World` on 2026-08-22 as a 26-slot, 56-component package with a 408-response graph, zero input-reference corrections, and zero module-discovery errors. Visual confirmation of the closer non-overlapping placement remains pending.
 
 Sampler Edit uses stable labels `0` through `3`, always exposes all four rows, and each Host UI row starts with `0:` through `3:`. The user confirmed the row-index position, all four Sampler Edit items, and Row 0 selection behavior. The row-index font is now 32 px in a fixed 60 px column, and the header has a matching blank 60 px column so Node and later headers align with their controls. The updated Host was rebuilt and redeployed to `byohaptics World`; live inspection confirmed the new width and font values. Visual acceptance of the enlarged index and checkbox clearance is pending.
 
