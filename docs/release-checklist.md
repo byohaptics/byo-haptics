@@ -13,4 +13,4 @@ Document version: `0.1.9`
 - [x] Joy-Con Plugin and Bridge API versions are consistent.
 - [x] Live test plan passes under the `byohaptica` Resonite account.
 - [x] Multi-user limitations are documented.
-- [x] `versions.json`, UI title, package metadata, and release tag agree at `v0.1.0`.
+- [x] `versions.json`, UI title, package metadata, and release tag agree at `v0.2.0`.
