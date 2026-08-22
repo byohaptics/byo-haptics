@@ -30,11 +30,11 @@ Version `0.2.0` is the current repository release.
 - Contact: `byohaptics@gmail.com`
 - GitHub organization: [byohaptics](https://github.com/byohaptics)
 
-## Co-Authors
+## Assistance
 
 ```text
-Co-Authored-By: Codex <noreply@openai.com>
-Co-Authored-By: Claude Code <noreply@anthropic.com>
+Assisted-by: OpenAI Codex
+Assisted-by: Anthropic Claude Code
 ```
 
 ## License
