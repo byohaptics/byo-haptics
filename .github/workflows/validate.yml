@@ -1,0 +1,55 @@
+name: validate
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    env:
+      PUBLICATION_DENYLIST: ${{ secrets.PUBLICATION_DENYLIST }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Install build tools
+        shell: pwsh
+        run: |
+          choco install ripgrep --no-progress --yes
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet tool install --global Papaltine.FluxSDK --version 1.9.0
+      - name: Require publication policy
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:PUBLICATION_DENYLIST)) {
+            throw 'Configure the PUBLICATION_DENYLIST repository secret before enabling CI.'
+          }
+      - run: npm test
+      - run: node scripts/check-publication-policy.mjs
+
+  compile:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: [self-hosted, Windows, X64, resonite]
+    env:
+      RESONITE_DIR: ${{ vars.RESONITE_DIR }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Install build tools
+        shell: pwsh
+        run: dotnet tool update --global Papaltine.FluxSDK --version 1.9.0
+      - run: npm run compile:host
+      - run: npm run compile:plugins

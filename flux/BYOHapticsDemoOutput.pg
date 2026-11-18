@@ -1,0 +1,94 @@
+/// Scene-local demo output plugin with package-owned left and right devices.
+module BYOHapticsDemoOutput
+
+in PluginRoot: Slot element
+in CanReportConnection: bool
+in DiagnosticsActive: bool mutable
+in DiagnosticsConnected: bool mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+in LeftWigglerEnabled: bool mutable
+in RightWigglerEnabled: bool mutable
+in LeftWigglerMagnitude: float3 mutable
+in RightWigglerMagnitude: float3 mutable
+in LeftIntensity: float mutable
+in RightIntensity: float mutable
+
+where {
+    ConnectionUnknown = 0;
+    ConnectionConnected = 1;
+
+    User = LocalUser;
+    UserRoot = UserRootSlot(User=User);
+    IsUnderLocalUser = IsChildOf(Instance=PluginRoot, Other=UserRoot, IncludeSelf=true);
+    ThisPluginId = "io.github.byohaptics.output.demo";
+
+    BusPluginId = ~input<string>("BYOHaptics.Output.v2/ActivePluginId");
+    BusRows = ~input<SyncFieldList<float4>>("BYOHaptics.Output.v2/Rows");
+    // Element writes keep the reference stable; force fresh collection reads.
+    RowList = ContinuouslyChangingObjectRelay<SyncFieldList<float4>>(Input=BusRows.Value);
+    RowsPresent = if BusRows.HasValue then NotNull(BusRows.Value) else false;
+    RowCount = if RowsPresent then ReadOnlyCount<_,float4>(Collection=RowList) else 0;
+
+    BusTargets = ~input<SyncFieldList<string>>("BYOHaptics.Output.v2/Targets");
+    TargetList = ContinuouslyChangingObjectRelay<SyncFieldList<string>>(Input=BusTargets.Value);
+    TargetsPresent = if BusTargets.HasValue then NotNull(BusTargets.Value) else false;
+    TargetCount = if TargetsPresent then ReadOnlyCount<_,string>(Collection=TargetList) else 0;
+    ListsValid = if RowsPresent then (if TargetsPresent then (if RowCount > 0 then RowCount == TargetCount else false) else false) else false;
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    CanManageRuntime = if PackageInstalledState then IsUnderLocalUser else true;
+    Selected = if ListsValid then (if BusPluginId.HasValue then BusPluginId.Value == ThisPluginId else false) else false;
+    ActiveState = if IsUnderLocalUser then Selected else false;
+
+    local LeftOutput: float;
+    local RightOutput: float;
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        // Presentation depends on the socket, not the client's runtime ownership.
+        PackageInstalled <- PackageInstalledState;
+        PackageVisualActive <- not PackageInstalledState;
+        PackageGrabbableEnabled <- not PackageInstalledState;
+        If(Condition=CanManageRuntime, OnTrue=impulse {
+            WriteDynamicValueVariable(Target=PluginRoot, Path="BYOHaptics.Output.v2/ConnectionState", Value=if ActiveState then (if CanReportConnection then ConnectionConnected else ConnectionUnknown) else ConnectionUnknown);
+            DiagnosticsActive <- ActiveState;
+            DiagnosticsConnected <- ActiveState;
+            LeftOutput <- 0.0;
+            RightOutput <- 0.0;
+            If(
+                Condition=ActiveState,
+                OnTrue=impulse {
+                    switch ReadOnlyForEachWithIndexValue<_,float4>(Collection=RowList, Reverse=false)
+                    | LoopIteration Loop |> impulse {
+                        Target = ReadOnlyGetAtObject<_,string>(Collection=TargetList, Index=Loop.Index);
+                        Force, Vibration, Pain, Temperature = Loop.Element->unpack;
+                        FV = ValueMax(A=Force, B=Vibration);
+                        PT = ValueMax(A=Pain, B=Temperature);
+                        Intensity = ValueMax(A=FV, B=PT)->Clamp01_Float;
+                        LeftOutput <- if Target == "left" then ValueMax(A=LeftOutput, B=Intensity) else LeftOutput;
+                        RightOutput <- if Target == "right" then ValueMax(A=RightOutput, B=Intensity) else RightOutput;
+                    }
+                    | LoopEnd |> impulse {
+                        LeftIntensity <- LeftOutput;
+                        RightIntensity <- RightOutput;
+                        LeftWigglerEnabled <- LeftOutput > 0.0;
+                        RightWigglerEnabled <- RightOutput > 0.0;
+                        LeftWigglerMagnitude <- Pack_Float3(X=LeftOutput * 30.0, Y=LeftOutput * 30.0, Z=LeftOutput * 30.0);
+                        RightWigglerMagnitude <- Pack_Float3(X=RightOutput * 30.0, Y=RightOutput * 30.0, Z=RightOutput * 30.0);
+                    };
+                },
+                OnFalse=impulse {
+                    LeftIntensity <- 0.0;
+                    RightIntensity <- 0.0;
+                    LeftWigglerEnabled <- false;
+                    RightWigglerEnabled <- false;
+                    LeftWigglerMagnitude <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+                    RightWigglerMagnitude <- Pack_Float3(X=0.0, Y=0.0, Z=0.0);
+                });
+        });
+    };
+
+}

@@ -1,0 +1,1536 @@
+{
+  "schema": "resonite-slotspec/v1",
+  "toolName": "io.github.byohaptics.output.demo",
+  "tag": "byo-haptics.output-plugin",
+  "fluxSlotPath": "Flux",
+  "toolParent": {
+    "kind": "worldRoot"
+  },
+  "slots": [
+    {
+      "path": "",
+      "components": [
+        {
+          "alias": "package.grabbable",
+          "type": "[FrooxEngine]FrooxEngine.Grabbable",
+          "members": {
+            "ReparentOnRelease": {
+              "type": "bool",
+              "value": true
+            },
+            "PreserveUserSpace": {
+              "type": "bool",
+              "value": true
+            },
+            "DestroyOnRelease": {
+              "type": "bool",
+              "value": false
+            },
+            "EditModeOnly": {
+              "type": "bool",
+              "value": false
+            },
+            "AllowSteal": {
+              "type": "bool",
+              "value": false
+            },
+            "DropOnDisable": {
+              "type": "bool",
+              "value": true
+            },
+            "Scalable": {
+              "type": "bool",
+              "value": true
+            },
+            "Receivable": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.objectRoot",
+          "type": "[FrooxEngine]FrooxEngine.ObjectRoot"
+        },
+        {
+          "alias": "package.license",
+          "type": "[FrooxEngine]FrooxEngine.License",
+          "members": {
+            "RequireCredit": {
+              "type": "bool",
+              "value": true
+            },
+            "CreditString": {
+              "type": "string",
+              "value": "byohaptics"
+            },
+            "CanExport": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Manifest",
+      "components": [
+        {
+          "alias": "manifest.pluginId",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "io.github.byohaptics.output.demo"
+            }
+          }
+        },
+        {
+          "alias": "manifest.displayName",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "Demo"
+            }
+          }
+        },
+        {
+          "alias": "manifest.contractVersion",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<int>",
+          "members": {
+            "Value": {
+              "type": "int",
+              "value": 2
+            }
+          }
+        },
+        {
+          "alias": "manifest.canReportConnection",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "manifest.transport",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "scene"
+            }
+          }
+        },
+        {
+          "alias": "manifest.pluginVersion",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "v0.2.0"
+            }
+          }
+        },
+        {
+          "alias": "manifest.author",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<string>",
+          "members": {
+            "Value": {
+              "type": "string",
+              "value": "byohaptics"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Config",
+      "components": []
+    },
+    {
+      "path": "Runtime",
+      "components": []
+    },
+    {
+      "path": "Diagnostics",
+      "components": [
+        {
+          "alias": "diagnostics.active",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        },
+        {
+          "alias": "diagnostics.connected",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Flux",
+      "components": []
+    },
+    {
+      "path": "Package",
+      "components": []
+    },
+    {
+      "path": "Package/State",
+      "components": [
+        {
+          "alias": "package.installed",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": {
+            "Value": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Left",
+      "position": {
+        "x": -0.34,
+        "y": 0,
+        "z": 0
+      },
+      "components": [
+        {
+          "alias": "device.left.intensity",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "device.left.wiggler",
+          "type": "[FrooxEngine]FrooxEngine.Wiggler",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": false
+            },
+            "_offset": {
+              "type": "floatQ",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            "_speed": {
+              "type": "float3",
+              "value": {
+                "x": 45,
+                "y": 57,
+                "z": 69
+              }
+            },
+            "_magnitude": {
+              "type": "float3",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "_seed": {
+              "type": "float3",
+              "value": {
+                "x": 1,
+                "y": 2,
+                "z": 3
+              }
+            }
+          }
+        },
+        {
+          "alias": "device.left.collider",
+          "type": "[FrooxEngine]FrooxEngine.BoxCollider",
+          "members": {
+            "Type": {
+              "type": "enum",
+              "value": "Static",
+              "enumType": "ColliderType"
+            },
+            "Size": {
+              "type": "float3",
+              "value": {
+                "x": 0.18,
+                "y": 0.1,
+                "z": 0.03
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Left/Visual",
+      "scale": {
+        "x": 0.001,
+        "y": 0.001,
+        "z": 0.001
+      },
+      "components": [
+        {
+          "alias": "device.left.canvas",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Canvas",
+          "members": {
+            "Size": {
+              "type": "float2",
+              "value": {
+                "x": 180,
+                "y": 100
+              }
+            },
+            "DefaultCulling": {
+              "type": "enum",
+              "value": "Off",
+              "enumType": "Culling"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Left/Visual/Background",
+      "components": [
+        {
+          "alias": "device.left.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
+        },
+        {
+          "alias": "device.left.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.15,
+                "g": 0.45,
+                "b": 0.95,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Left/Visual/Label",
+      "components": [
+        {
+          "alias": "device.left.label.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
+        },
+        {
+          "alias": "device.left.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "LEFT"
+            },
+            "Size": {
+              "type": "float",
+              "value": 36
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 1,
+                "g": 1,
+                "b": 1,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Center",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Right",
+      "position": {
+        "x": 0.34,
+        "y": 0,
+        "z": 0
+      },
+      "components": [
+        {
+          "alias": "device.right.intensity",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<float>",
+          "members": {
+            "Value": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        },
+        {
+          "alias": "device.right.wiggler",
+          "type": "[FrooxEngine]FrooxEngine.Wiggler",
+          "members": {
+            "Enabled": {
+              "type": "bool",
+              "value": false
+            },
+            "_offset": {
+              "type": "floatQ",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              }
+            },
+            "_speed": {
+              "type": "float3",
+              "value": {
+                "x": 51,
+                "y": 63,
+                "z": 75
+              }
+            },
+            "_magnitude": {
+              "type": "float3",
+              "value": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            },
+            "_seed": {
+              "type": "float3",
+              "value": {
+                "x": 4,
+                "y": 5,
+                "z": 6
+              }
+            }
+          }
+        },
+        {
+          "alias": "device.right.collider",
+          "type": "[FrooxEngine]FrooxEngine.BoxCollider",
+          "members": {
+            "Type": {
+              "type": "enum",
+              "value": "Static",
+              "enumType": "ColliderType"
+            },
+            "Size": {
+              "type": "float3",
+              "value": {
+                "x": 0.18,
+                "y": 0.1,
+                "z": 0.03
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Right/Visual",
+      "scale": {
+        "x": 0.001,
+        "y": 0.001,
+        "z": 0.001
+      },
+      "components": [
+        {
+          "alias": "device.right.canvas",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Canvas",
+          "members": {
+            "Size": {
+              "type": "float2",
+              "value": {
+                "x": 180,
+                "y": 100
+              }
+            },
+            "DefaultCulling": {
+              "type": "enum",
+              "value": "Off",
+              "enumType": "Culling"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Right/Visual/Background",
+      "components": [
+        {
+          "alias": "device.right.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
+        },
+        {
+          "alias": "device.right.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.95,
+                "g": 0.25,
+                "b": 0.25,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Devices/Right/Visual/Label",
+      "components": [
+        {
+          "alias": "device.right.label.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform"
+        },
+        {
+          "alias": "device.right.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "RIGHT"
+            },
+            "Size": {
+              "type": "float",
+              "value": 36
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 1,
+                "g": 1,
+                "b": 1,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Center",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual",
+      "scale": {
+        "x": 0.001,
+        "y": 0.001,
+        "z": 0.001
+      },
+      "components": [
+        {
+          "alias": "package.canvas",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Canvas",
+          "members": {
+            "Size": {
+              "type": "float2",
+              "value": {
+                "x": 420,
+                "y": 186
+              }
+            },
+            "UnitScale": {
+              "type": "float",
+              "value": 1
+            },
+            "PixelScale": {
+              "type": "float",
+              "value": 1
+            },
+            "DefaultCulling": {
+              "type": "enum",
+              "value": "Off",
+              "enumType": "Culling"
+            },
+            "IgnoreTouchesFromBehind": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.collider",
+          "type": "[FrooxEngine]FrooxEngine.BoxCollider",
+          "members": {
+            "UpdateOrder": {
+              "type": "int",
+              "value": 1000000
+            },
+            "Type": {
+              "type": "enum",
+              "value": "Static",
+              "enumType": "ColliderType"
+            },
+            "IgnoreRaycasts": {
+              "type": "bool",
+              "value": false
+            },
+            "Size": {
+              "type": "float3",
+              "value": {
+                "x": 420,
+                "y": 186,
+                "z": 8
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.roundedTexture",
+          "type": "[FrooxEngine]FrooxEngine.StaticTexture2D",
+          "members": {
+            "URL": {
+              "type": "uri",
+              "value": "resdb:///cb7ba11c8a391d6c8b4b5c5122684888a6a719179996e88c954a49b6b031a845.png"
+            }
+          }
+        },
+        {
+          "alias": "package.panelSprite",
+          "type": "[FrooxEngine]FrooxEngine.SpriteProvider",
+          "members": {
+            "Borders": {
+              "type": "float4",
+              "value": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5,
+                "w": 0.5
+              }
+            },
+            "Scale": {
+              "type": "float",
+              "value": 1
+            },
+            "FixedSize": {
+              "type": "float",
+              "value": 32
+            }
+          }
+        },
+        {
+          "alias": "package.panelMaterial",
+          "type": "[FrooxEngine]FrooxEngine.UI_UnlitMaterial",
+          "members": {
+            "AlphaCutoff": {
+              "type": "float",
+              "value": 0.5
+            },
+            "AlphaClip": {
+              "type": "bool",
+              "value": true
+            },
+            "TextureMode": {
+              "type": "enum",
+              "value": "DirectColor",
+              "enumType": "UnlitTextureMode"
+            },
+            "BlendMode": {
+              "type": "enum",
+              "value": "Alpha",
+              "enumType": "BlendMode"
+            },
+            "Sidedness": {
+              "type": "enum",
+              "value": "Double",
+              "enumType": "Sidedness"
+            },
+            "ZWrite": {
+              "type": "enum",
+              "value": "On",
+              "enumType": "ZWrite"
+            },
+            "ZTest": {
+              "type": "enum",
+              "value": "LessOrEqual",
+              "enumType": "ZTest"
+            },
+            "OffsetFactor": {
+              "type": "float",
+              "value": 1
+            },
+            "OffsetUnits": {
+              "type": "float",
+              "value": 100
+            }
+          }
+        },
+        {
+          "alias": "package.backingMaterial",
+          "type": "[FrooxEngine]FrooxEngine.UI_UnlitMaterial",
+          "members": {
+            "AlphaCutoff": {
+              "type": "float",
+              "value": 0.5
+            },
+            "AlphaClip": {
+              "type": "bool",
+              "value": true
+            },
+            "TextureMode": {
+              "type": "enum",
+              "value": "DirectColor",
+              "enumType": "UnlitTextureMode"
+            },
+            "BlendMode": {
+              "type": "enum",
+              "value": "Alpha",
+              "enumType": "BlendMode"
+            },
+            "Sidedness": {
+              "type": "enum",
+              "value": "Back",
+              "enumType": "Sidedness"
+            },
+            "ZWrite": {
+              "type": "enum",
+              "value": "On",
+              "enumType": "ZWrite"
+            },
+            "ZTest": {
+              "type": "enum",
+              "value": "LessOrEqual",
+              "enumType": "ZTest"
+            },
+            "OffsetFactor": {
+              "type": "float",
+              "value": -1
+            },
+            "OffsetUnits": {
+              "type": "float",
+              "value": 100
+            }
+          }
+        },
+        {
+          "alias": "package.mainFont",
+          "type": "[FrooxEngine]FrooxEngine.StaticFont",
+          "members": {
+            "URL": {
+              "type": "uri",
+              "value": "resdb:///fcff04f4bec2b3636f05ed894dc1f9a752c4cb587ee49857ec7a82abaf6ca016.ttf"
+            },
+            "Padding": {
+              "type": "int",
+              "value": 1
+            },
+            "PixelRange": {
+              "type": "int",
+              "value": 4
+            },
+            "GlyphEmSize": {
+              "type": "int",
+              "value": 32
+            },
+            "MipMaps": {
+              "type": "bool",
+              "value": true
+            },
+            "MipMapFiltering": {
+              "type": "enum",
+              "value": "Box",
+              "enumType": "Filtering"
+            },
+            "LODBias": {
+              "type": "float",
+              "value": -1
+            }
+          }
+        },
+        {
+          "alias": "package.fontChain",
+          "type": "[FrooxEngine]FrooxEngine.FontChain"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Background",
+      "components": [
+        {
+          "alias": "package.background.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.background.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.045,
+                "g": 0.055,
+                "b": 0.075,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.background.mask",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Mask",
+          "members": {
+            "ShowMaskGraphic": {
+              "type": "bool",
+              "value": true
+            }
+          }
+        },
+        {
+          "alias": "package.background.ignoreLayout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.IgnoreLayout"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Background/Backing",
+      "components": [
+        {
+          "alias": "package.backing.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.backing.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "PreserveAspect": {
+              "type": "bool",
+              "value": true
+            },
+            "NineSliceSizing": {
+              "type": "enum",
+              "value": "FixedSize",
+              "enumType": "NineSliceSizing"
+            },
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.045,
+                "g": 0.055,
+                "b": 0.075,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Background/Accent",
+      "orderOffset": 5,
+      "components": [
+        {
+          "alias": "package.accent.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0.9032258064516129
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.accent.image",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Image",
+          "members": {
+            "Tint": {
+              "type": "colorX",
+              "value": {
+                "r": 0.62,
+                "g": 0.28,
+                "b": 0.88,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.accent.ignoreLayout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.IgnoreLayout"
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content",
+      "orderOffset": 10,
+      "components": [
+        {
+          "alias": "package.content.rect",
+          "type": "[FrooxEngine]FrooxEngine.UIX.RectTransform",
+          "members": {
+            "AnchorMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "AnchorMax": {
+              "type": "float2",
+              "value": {
+                "x": 1,
+                "y": 1
+              }
+            },
+            "OffsetMin": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "OffsetMax": {
+              "type": "float2",
+              "value": {
+                "x": 0,
+                "y": 0
+              }
+            }
+          }
+        },
+        {
+          "alias": "package.content.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.VerticalLayout",
+          "members": {
+            "PaddingTop": {
+              "type": "float",
+              "value": 24
+            },
+            "PaddingRight": {
+              "type": "float",
+              "value": 28
+            },
+            "PaddingBottom": {
+              "type": "float",
+              "value": 12
+            },
+            "PaddingLeft": {
+              "type": "float",
+              "value": 28
+            },
+            "Spacing": {
+              "type": "float",
+              "value": 4
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "LayoutHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "LayoutVerticalAlignment"
+            },
+            "ForceExpandWidth": {
+              "type": "bool",
+              "value": true
+            },
+            "ForceExpandHeight": {
+              "type": "bool",
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Package/Visual/Content/Display Name",
+      "components": [
+        {
+          "alias": "package.displayName.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Demo"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 34
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.93,
+                "g": 0.94,
+                "b": 0.96,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.displayName.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 51
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 10
+    },
+    {
+      "path": "Package/Visual/Content/Version",
+      "components": [
+        {
+          "alias": "package.version.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "v0.2.0"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.65,
+                "g": 0.7,
+                "b": 0.78,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.version.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 30
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 20
+    },
+    {
+      "path": "Package/Visual/Content/Transport",
+      "components": [
+        {
+          "alias": "package.transport.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Transport: Direct Scene"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 20
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.65,
+                "g": 0.7,
+                "b": 0.78,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.transport.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 30
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 40
+    },
+    {
+      "path": "Package/Visual/Content/Contract",
+      "components": [
+        {
+          "alias": "package.contract.text",
+          "type": "[FrooxEngine]FrooxEngine.UIX.Text",
+          "members": {
+            "Content": {
+              "type": "string",
+              "value": "Contract: BYOHaptics.Output.v2"
+            },
+            "ParseRichText": {
+              "type": "bool",
+              "value": true
+            },
+            "Size": {
+              "type": "float",
+              "value": 18
+            },
+            "Color": {
+              "type": "colorX",
+              "value": {
+                "r": 0.65,
+                "g": 0.7,
+                "b": 0.78,
+                "a": 1,
+                "profile": "sRGB"
+              }
+            },
+            "HorizontalAlign": {
+              "type": "enum",
+              "value": "Left",
+              "enumType": "TextHorizontalAlignment"
+            },
+            "VerticalAlign": {
+              "type": "enum",
+              "value": "Middle",
+              "enumType": "TextVerticalAlignment"
+            },
+            "AlignmentMode": {
+              "type": "enum",
+              "value": "LineBased",
+              "enumType": "AlignmentMode"
+            },
+            "LineHeight": {
+              "type": "float",
+              "value": 0.9
+            },
+            "AutoSizeMin": {
+              "type": "float",
+              "value": 8
+            },
+            "AutoSizeMax": {
+              "type": "float",
+              "value": 48
+            }
+          }
+        },
+        {
+          "alias": "package.contract.text.layout",
+          "type": "[FrooxEngine]FrooxEngine.UIX.LayoutElement",
+          "members": {
+            "MinHeight": {
+              "type": "float",
+              "value": 27
+            },
+            "FlexibleHeight": {
+              "type": "float",
+              "value": 0
+            }
+          }
+        }
+      ],
+      "orderOffset": 30
+    },
+    {
+      "path": "Package/DropReference",
+      "components": [
+        {
+          "alias": "package.dropReference",
+          "type": "[FrooxEngine]FrooxEngine.ReferenceField<[FrooxEngine]FrooxEngine.Slot>"
+        }
+      ]
+    }
+  ],
+  "fieldReferences": [],
+  "componentReferences": [
+    {
+      "component": "device.left.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "device.right.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.panelSprite",
+      "member": "Texture",
+      "componentRef": "package.roundedTexture",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.ITexture2D>"
+    },
+    {
+      "component": "package.background.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.background.image",
+      "member": "Material",
+      "componentRef": "package.panelMaterial",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Material>"
+    },
+    {
+      "component": "package.fontChain",
+      "member": "MainFont",
+      "componentRef": "package.mainFont",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Font>"
+    },
+    {
+      "component": "package.displayName.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.version.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.transport.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.contract.text",
+      "member": "Font",
+      "componentRef": "package.fontChain",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.FontSet>"
+    },
+    {
+      "component": "package.backing.image",
+      "member": "Sprite",
+      "componentRef": "package.panelSprite",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Sprite>"
+    },
+    {
+      "component": "package.backing.image",
+      "member": "Material",
+      "componentRef": "package.backingMaterial",
+      "targetType": "[FrooxEngine]FrooxEngine.IAssetProvider<[FrooxEngine]FrooxEngine.Material>"
+    }
+  ],
+  "localSlotReferences": [
+    {
+      "component": "package.dropReference",
+      "member": "Reference",
+      "slotPath": "",
+      "targetType": "[FrooxEngine]FrooxEngine.Slot"
+    }
+  ],
+  "slotFieldReferences": [
+    {
+      "component": "device.left.wiggler",
+      "member": "_target",
+      "slotPath": "Devices/Left/Visual",
+      "slotMember": "Rotation",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<[BaseX]BaseX.floatQ>"
+    },
+    {
+      "component": "device.right.wiggler",
+      "member": "_target",
+      "slotPath": "Devices/Right/Visual",
+      "slotMember": "Rotation",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<[BaseX]BaseX.floatQ>"
+    }
+  ],
+  "sceneSlotReferences": [],
+  "sceneComponentReferences": [],
+  "fluxInputs": {
+    "PluginRoot": {
+      "slotPath": ""
+    },
+    "CanReportConnection": {
+      "fieldRef": "manifest.canReportConnection.Value"
+    },
+    "DiagnosticsActive": {
+      "fieldRef": "diagnostics.active.Value"
+    },
+    "DiagnosticsConnected": {
+      "fieldRef": "diagnostics.connected.Value"
+    },
+    "PackageVisualActive": {
+      "slotField": {
+        "slotPath": "Package/Visual",
+        "slotMember": "IsActive"
+      }
+    },
+    "PackageGrabbableEnabled": {
+      "fieldRef": "package.grabbable.Enabled"
+    },
+    "PackageInstalled": {
+      "fieldRef": "package.installed.Value"
+    },
+    "LeftWigglerEnabled": {
+      "fieldRef": "device.left.wiggler.Enabled"
+    },
+    "RightWigglerEnabled": {
+      "fieldRef": "device.right.wiggler.Enabled"
+    },
+    "LeftWigglerMagnitude": {
+      "fieldRef": "device.left.wiggler._magnitude"
+    },
+    "RightWigglerMagnitude": {
+      "fieldRef": "device.right.wiggler._magnitude"
+    },
+    "LeftIntensity": {
+      "fieldRef": "device.left.intensity.Value"
+    },
+    "RightIntensity": {
+      "fieldRef": "device.right.intensity.Value"
+    }
+  }
+}

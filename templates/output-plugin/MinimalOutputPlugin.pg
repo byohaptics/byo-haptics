@@ -1,0 +1,61 @@
+/// Minimal BYO Haptics Output Plugin template. Replace LastForce with device output.
+module MinimalOutputPlugin
+
+in PluginRoot: Slot element
+in DiagnosticsActive: bool mutable
+in LastForce: float mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+
+where {
+    ConnectionUnknown = 0;
+
+    UserRoot = UserRootSlot(User=LocalUser);
+    IsUnderLocalUser = IsChildOf(Instance=PluginRoot, Other=UserRoot, IncludeSelf=true);
+    ThisPluginId = "io.github.example.output.minimal";
+    BusPluginId = ~input<string>("BYOHaptics.Output.v2/ActivePluginId");
+    BusRows = ~input<SyncFieldList<float4>>("BYOHaptics.Output.v2/Rows");
+    // Element writes keep the reference stable; force fresh collection reads.
+    RowList = ContinuouslyChangingObjectRelay<SyncFieldList<float4>>(Input=BusRows.Value);
+    RowsPresent = if BusRows.HasValue then NotNull(BusRows.Value) else false;
+    RowCount = if RowsPresent then ReadOnlyCount<_,float4>(Collection=RowList) else 0;
+
+    BusTargets = ~input<SyncFieldList<string>>("BYOHaptics.Output.v2/Targets");
+    TargetList = ContinuouslyChangingObjectRelay<SyncFieldList<string>>(Input=BusTargets.Value);
+    TargetsPresent = if BusTargets.HasValue then NotNull(BusTargets.Value) else false;
+    TargetCount = if TargetsPresent then ReadOnlyCount<_,string>(Collection=TargetList) else 0;
+    ListsValid = if RowsPresent then (if TargetsPresent then (if RowCount > 0 then RowCount == TargetCount else false) else false) else false;
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    InstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    CanManageRuntime = if InstalledState then IsUnderLocalUser else true;
+    Selected = if ListsValid then (if BusPluginId.HasValue then BusPluginId.Value == ThisPluginId else false) else false;
+    ActiveState = if IsUnderLocalUser then Selected else false;
+    local Output: float;
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        // Presentation depends on the socket, not the client's runtime ownership.
+        PackageInstalled <- InstalledState;
+        PackageVisualActive <- not InstalledState;
+        PackageGrabbableEnabled <- not InstalledState;
+        If(Condition=CanManageRuntime, OnTrue=impulse {
+            WriteDynamicValueVariable(Target=PluginRoot, Path="BYOHaptics.Output.v2/ConnectionState", Value=ConnectionUnknown);
+            DiagnosticsActive <- ActiveState;
+            Output <- 0.0;
+            If(
+                Condition=ActiveState,
+                OnTrue=impulse {
+                    switch ReadOnlyForEachWithIndexValue<_,float4>(Collection=RowList, Reverse=false)
+                    | LoopIteration Loop |> impulse {
+                        Target = ReadOnlyGetAtObject<_,string>(Collection=TargetList, Index=Loop.Index);
+                        Force, Vibration, Pain, Temperature = Loop.Element->unpack;
+                        Output <- if Target == "default" then ValueMax(A=Output, B=Force) else Output;
+                    }
+                    | LoopEnd |> LastForce <- Output->Clamp01_Float;
+                },
+                OnFalse=LastForce <- 0.0);
+        });
+    };
+}

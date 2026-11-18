@@ -1,0 +1,239 @@
+﻿/// Drop-in Joy-Con OSC output plugin for Joy_Con_Rumble.
+module BYOHapticsJoyConOSCOutput
+
+in PluginRoot: Slot element
+in CanReportConnection: bool
+in ConfigBridgeAddress: string
+in ConfigBridgePort: int
+in ConfigEndpoint: Uri mutable
+in ConfigHeartbeatAddress: string
+in ConfigStatusPort: int
+in ConfigStatusPortAddress: string
+in ConfigStatusHeartbeatAddress: string
+in ConfigChannelPrefix: string
+in HandlingUser: User mutable
+in ReceiverHandlingUser: User mutable
+in ReceiverPort: int mutable
+in ReceiverIsListening: bool
+in SenderURL: Uri mutable
+in SenderEnabled: bool mutable
+in SenderAutoResendInterval: float mutable
+in HeartbeatValue: int mutable
+in StatusPortValue: int mutable
+in AckValue: int
+in AckMisses: int mutable
+in StatusPortPath: string mutable
+in HeartbeatPath: string mutable
+in StatusHeartbeatPath: string mutable
+in Row0ForcePath: string mutable
+in Row0VibrationPath: string mutable
+in Row0PainPath: string mutable
+in Row1ForcePath: string mutable
+in Row1VibrationPath: string mutable
+in Row1PainPath: string mutable
+in Row0ForceValue: float mutable
+in Row0VibrationValue: float mutable
+in Row0PainValue: float mutable
+in Row1ForceValue: float mutable
+in Row1VibrationValue: float mutable
+in Row1PainValue: float mutable
+in DiagnosticsActive: bool mutable
+in DiagnosticsConnected: bool mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+
+where {
+    ConnectionUnknown = 0;
+    ConnectionConnected = 1;
+    ConnectionDisconnected = 2;
+
+    User = LocalUser;
+    UserRoot = UserRootSlot(User=User);
+    IsUnderLocalUser = IsChildOf(Instance=PluginRoot, Other=UserRoot, IncludeSelf=true);
+    ThisPluginId = "io.github.byohaptics.output.joycon.osc";
+
+    BusPluginId = ~input<string>("BYOHaptics.Output.v2/ActivePluginId");
+    BusRows = ~input<SyncFieldList<float4>>("BYOHaptics.Output.v2/Rows");
+    // Element writes keep the reference stable; force fresh collection reads.
+    RowList = ContinuouslyChangingObjectRelay<SyncFieldList<float4>>(Input=BusRows.Value);
+    RowsPresent = if BusRows.HasValue then NotNull(BusRows.Value) else false;
+    RowCount = if RowsPresent then ReadOnlyCount<_,float4>(Collection=RowList) else 0;
+
+    EndpointScheme = ConcatenateString(A="osc://", B=ConfigBridgeAddress);
+    EndpointHost = ConcatenateString(A=EndpointScheme, B=":");
+    EndpointPort = ToString_Int(V=ConfigBridgePort);
+    EndpointText = ConcatenateString(A=EndpointHost, B=EndpointPort);
+    EndpointCandidate = uri(EndpointText);
+    EscapedBridgeAddress = EscapeUriDataString(String=ConfigBridgeAddress);
+    AddressPresent = StringLength(A=ConfigBridgeAddress) > 0;
+    AddressValid = if AddressPresent then EscapedBridgeAddress == ConfigBridgeAddress else false;
+    PortValid = if ConfigBridgePort > 0 then ConfigBridgePort < 65536 else false;
+    ConfigurationValid = if AddressValid then (if PortValid then not IsNull(Instance=EndpointCandidate) else false) else false;
+
+    BusTargets = ~input<SyncFieldList<string>>("BYOHaptics.Output.v2/Targets");
+    TargetList = ContinuouslyChangingObjectRelay<SyncFieldList<string>>(Input=BusTargets.Value);
+    TargetsPresent = if BusTargets.HasValue then NotNull(BusTargets.Value) else false;
+    TargetCount = if TargetsPresent then ReadOnlyCount<_,string>(Collection=TargetList) else 0;
+    ListsValid = if RowsPresent then (if TargetsPresent then (if RowCount > 0 then RowCount == TargetCount else false) else false) else false;
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    CanManageRuntime = if PackageInstalledState then IsUnderLocalUser else true;
+    Selected = if ListsValid then (if BusPluginId.HasValue then BusPluginId.Value == ThisPluginId else false) else false;
+    ActiveState = if IsUnderLocalUser then (if Selected then ConfigurationValid else false) else false;
+    ConnectedState =
+        if ActiveState then
+            (if ReceiverIsListening then AckMisses < 4 else false)
+        else false;
+
+    LeftBasePath = ConcatenateString(A=ConfigChannelPrefix, B="left");
+    RightBasePath = ConcatenateString(A=ConfigChannelPrefix, B="right");
+    LeftForcePathValue = ConcatenateString(A=LeftBasePath, B="/force");
+    LeftVibrationPathValue = ConcatenateString(A=LeftBasePath, B="/vibration");
+    LeftPainPathValue = ConcatenateString(A=LeftBasePath, B="/pain");
+    RightForcePathValue = ConcatenateString(A=RightBasePath, B="/force");
+    RightVibrationPathValue = ConcatenateString(A=RightBasePath, B="/vibration");
+    RightPainPathValue = ConcatenateString(A=RightBasePath, B="/pain");
+
+    local LeftForceOutput: float;
+    local LeftVibrationOutput: float;
+    local LeftPainOutput: float;
+    local RightForceOutput: float;
+    local RightVibrationOutput: float;
+    local RightPainOutput: float;
+    store StopTailRemaining: float;
+
+    OnLoaded(Trigger=If(Condition=CanManageRuntime, OnTrue=impulse {
+        ConfigEndpoint <- EndpointCandidate;
+        SenderURL <- EndpointCandidate;
+        StatusPortValue <- if ActiveState then ConfigStatusPort else 0;
+        StatusPortPath <- ConfigStatusPortAddress;
+        HeartbeatPath <- ConfigHeartbeatAddress;
+        StatusHeartbeatPath <- ConfigStatusHeartbeatAddress;
+        Row0ForcePath <- LeftForcePathValue;
+        Row0VibrationPath <- LeftVibrationPathValue;
+        Row0PainPath <- LeftPainPathValue;
+        Row1ForcePath <- RightForcePathValue;
+        Row1VibrationPath <- RightVibrationPathValue;
+        Row1PainPath <- RightPainPathValue;
+        SenderEnabled <- ActiveState;
+        StopTailRemaining <- 0.0;
+        Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+        Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+        If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HandlingUser <- User;
+                ReceiverHandlingUser <- User;
+                ReceiverPort <- ConfigStatusPort;
+            },
+            OnFalse=ReceiverPort <- 0);
+    }));
+
+    FireOnValueChange(
+        Value=ActiveState,
+        OnlyForUser=User,
+        OnChanged=If(
+            Condition=CanManageRuntime,
+            OnTrue=If(
+                Condition=ActiveState,
+                OnTrue=impulse {
+                    HandlingUser <- User;
+                    ReceiverHandlingUser <- User;
+                    ReceiverPort <- ConfigStatusPort;
+                    StatusPortValue <- ConfigStatusPort;
+                    SenderEnabled <- true;
+                },
+                OnFalse=impulse {
+                    ReceiverPort <- 0;
+                    StatusPortValue <- 0;
+                    // Connected requires AckMisses < 4. Use an out-of-range value
+                    // to invalidate any ACK state retained from the previous run.
+                    AckMisses <- 100;
+                    Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+                    Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+                    WriteDynamicValueVariable(Target=PluginRoot, Path="BYOHaptics.Output.v2/ConnectionState", Value=ConnectionUnknown);
+                })));
+
+    FireOnValueChange(
+        Value=AckValue,
+        OnlyForUser=User,
+        OnChanged=If(Condition=if CanManageRuntime then AckValue >= 0 else false, OnTrue=AckMisses <- 0));
+
+    SecondsTimer(
+        Interval=0.5,
+        UpdatingUser=User->asDrivenGlobal,
+        SkipIfNull=true,
+        OnUpdate=If(
+            Condition=ActiveState,
+            OnTrue=impulse {
+                HeartbeatValue <- HeartbeatValue + 1;
+                AckMisses <- AckMisses + 1;
+                If(
+                    Condition=not ConnectedState,
+                    OnTrue=StatusPortValue <- if StatusPortValue == ConfigStatusPort then 0 else ConfigStatusPort);
+            }));
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        // Presentation depends on the socket, not the client's runtime ownership.
+        PackageInstalled <- PackageInstalledState;
+        PackageVisualActive <- not PackageInstalledState;
+        PackageGrabbableEnabled <- not PackageInstalledState;
+        If(Condition=CanManageRuntime, OnTrue=impulse {
+            WriteDynamicValueVariable(Target=PluginRoot, Path="BYOHaptics.Output.v2/ConnectionState", Value=if ActiveState then (if CanReportConnection then (if ConnectedState then ConnectionConnected else ConnectionDisconnected) else ConnectionUnknown) else ConnectionUnknown);
+            ConfigEndpoint <- EndpointCandidate;
+            SenderURL <- EndpointCandidate;
+            StatusPortPath <- ConfigStatusPortAddress;
+            HeartbeatPath <- ConfigHeartbeatAddress;
+            StatusHeartbeatPath <- ConfigStatusHeartbeatAddress;
+            Row0ForcePath <- LeftForcePathValue; Row0VibrationPath <- LeftVibrationPathValue; Row0PainPath <- LeftPainPathValue;
+            Row1ForcePath <- RightForcePathValue; Row1VibrationPath <- RightVibrationPathValue; Row1PainPath <- RightPainPathValue;
+            DiagnosticsActive <- ActiveState;
+            DiagnosticsConnected <- ConnectedState;
+            ReceiverPort <- if ActiveState then ConfigStatusPort else 0;
+            LeftForceOutput <- 0.0;
+            LeftVibrationOutput <- 0.0;
+            LeftPainOutput <- 0.0;
+            RightForceOutput <- 0.0;
+            RightVibrationOutput <- 0.0;
+            RightPainOutput <- 0.0;
+            If(
+                Condition=ActiveState,
+                OnTrue=impulse {
+                    HandlingUser <- User;
+                    ReceiverHandlingUser <- User;
+                    switch ReadOnlyForEachWithIndexValue<_,float4>(Collection=RowList, Reverse=false)
+                    | LoopIteration Loop |> impulse {
+                        Target = ReadOnlyGetAtObject<_,string>(Collection=TargetList, Index=Loop.Index);
+                        Force, Vibration, Pain, Temperature = Loop.Element->unpack;
+                        LeftForceOutput <- if Target == "left" then ValueMax(A=LeftForceOutput, B=Force) else LeftForceOutput;
+                        LeftVibrationOutput <- if Target == "left" then ValueMax(A=LeftVibrationOutput, B=Vibration) else LeftVibrationOutput;
+                        LeftPainOutput <- if Target == "left" then ValueMax(A=LeftPainOutput, B=Pain) else LeftPainOutput;
+                        RightForceOutput <- if Target == "right" then ValueMax(A=RightForceOutput, B=Force) else RightForceOutput;
+                        RightVibrationOutput <- if Target == "right" then ValueMax(A=RightVibrationOutput, B=Vibration) else RightVibrationOutput;
+                        RightPainOutput <- if Target == "right" then ValueMax(A=RightPainOutput, B=Pain) else RightPainOutput;
+                    }
+                    | LoopEnd |> impulse {
+                        Row0ForceValue <- if ConnectedState then LeftForceOutput->Clamp01_Float else 0.0;
+                        Row0VibrationValue <- if ConnectedState then LeftVibrationOutput->Clamp01_Float else 0.0;
+                        Row0PainValue <- if ConnectedState then LeftPainOutput->Clamp01_Float else 0.0;
+                        Row1ForceValue <- if ConnectedState then RightForceOutput->Clamp01_Float else 0.0;
+                        Row1VibrationValue <- if ConnectedState then RightVibrationOutput->Clamp01_Float else 0.0;
+                        Row1PainValue <- if ConnectedState then RightPainOutput->Clamp01_Float else 0.0;
+                    };
+                },
+                OnFalse=impulse {
+                    StatusPortValue <- 0;
+                    Row0ForceValue <- 0.0; Row0VibrationValue <- 0.0; Row0PainValue <- 0.0;
+                    Row1ForceValue <- 0.0; Row1VibrationValue <- 0.0; Row1PainValue <- 0.0;
+                });
+            // Only the formerly active client keeps a zero-only shutdown tail.
+            SenderAutoResendInterval <- if ActiveState then 0.5 else 0.05;
+            SenderEnabled <- if ActiveState then true else StopTailRemaining > 0.0;
+            StopTailRemaining <- if ActiveState then 0.25 else ValueMax(A=0.0, B=StopTailRemaining - DeltaTime);
+        });
+    };
+
+}

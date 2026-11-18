@@ -1,0 +1,50 @@
+﻿/// Detects the single direct-child output plugin and publishes its lifecycle state.
+module BYOHapticsPluginDiscovery
+
+in ToolRoot: Slot element
+in PluginSocket: Slot element
+
+in OutputBusActivePluginId: string mutable
+in OutputBusConnectionState: int mutable
+in PluginPresentIndicator: bool mutable
+in PluginConnectedIndicator: bool mutable
+in PluginDisconnectedIndicator: bool mutable
+
+out PluginPresent: bool
+out PluginId: string
+
+where {
+    ConnectionUnknown = 0;
+    ConnectionConnected = 1;
+    ConnectionDisconnected = 2;
+    User = LocalUser;
+    UserRoot = UserRootSlot(User=User);
+    IsUnderLocalUser = IsChildOf(
+        Instance=ToolRoot,
+        Other=UserRoot,
+        IncludeSelf=true);
+    ToolAtWorldRoot = GetParentSlot(Instance=ToolRoot) == RootSlot;
+    CanManageRuntime = if IsUnderLocalUser then true else ToolAtWorldRoot;
+
+    // Direct-child lookup avoids descendant tag inheritance and expensive scans.
+    DetectedPluginSlot = FindChildByTag(
+        Instance=PluginSocket,
+        Tag="byo-haptics.output-plugin",
+        SearchDepth=0);
+    DetectedPluginPresent = NotNull(DetectedPluginSlot);
+    DetectedPluginId = if DetectedPluginPresent then GetSlotName(Instance=DetectedPluginSlot) else "";
+    PluginActiveState = if IsUnderLocalUser then DetectedPluginPresent else false;
+    PluginPresent = DetectedPluginPresent;
+    PluginId = DetectedPluginId;
+
+    // Clear stale receiver state before selecting a replacement plugin.
+    switch LocalUpdate
+    | OnUpdate |> If(Condition=CanManageRuntime, OnTrue=impulse {
+        If(Condition=if PluginActiveState then not (OutputBusActivePluginId == DetectedPluginId) else true,
+            OnTrue=OutputBusConnectionState <- ConnectionUnknown);
+        OutputBusActivePluginId <- if PluginActiveState then DetectedPluginId else "";
+        PluginPresentIndicator <- DetectedPluginPresent;
+        PluginConnectedIndicator <- if PluginActiveState then OutputBusConnectionState == ConnectionConnected else false;
+        PluginDisconnectedIndicator <- if PluginActiveState then OutputBusConnectionState == ConnectionDisconnected else false;
+    });
+}

@@ -1,0 +1,13 @@
+{
+  "product": "0.4.0",
+  "documents": "0.2.0",
+  "outputContract": 2,
+  "plugins": {
+    "joyconOsc": "0.2.0",
+    "haptiraOsc": "0.2.0",
+    "demo": "0.2.0"
+  },
+  "bridgeApis": {
+    "joyconOsc": "0.1.0"
+  }
+}

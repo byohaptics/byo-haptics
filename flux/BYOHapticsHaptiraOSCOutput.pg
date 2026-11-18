@@ -1,0 +1,266 @@
+﻿/// Drop-in Haptira OSC output plugin.
+module BYOHapticsHaptiraOSCOutput
+
+in PluginRoot: Slot element
+in CanReportConnection: bool
+in ConfigDeviceAddress: string
+in ConfigDevicePort: int
+in ConfigEndpoint: Uri mutable
+in ConfigConfigured: bool mutable
+in ConfigChannelPrefix: string
+in ConfigChannelSuffix: string
+in HandlingUser: User mutable
+in SenderURL: Uri mutable
+in SenderEnabled: bool mutable
+in SenderAutoResendInterval: float mutable
+in Channel00Path: string mutable
+in Channel01Path: string mutable
+in Channel02Path: string mutable
+in Channel03Path: string mutable
+in Channel04Path: string mutable
+in Channel05Path: string mutable
+in Channel06Path: string mutable
+in Channel07Path: string mutable
+in Channel08Path: string mutable
+in Channel09Path: string mutable
+in Channel10Path: string mutable
+in Channel11Path: string mutable
+in Channel12Path: string mutable
+in Channel13Path: string mutable
+in Channel14Path: string mutable
+in Channel15Path: string mutable
+in Channel00Value: float mutable
+in Channel01Value: float mutable
+in Channel02Value: float mutable
+in Channel03Value: float mutable
+in Channel04Value: float mutable
+in Channel05Value: float mutable
+in Channel06Value: float mutable
+in Channel07Value: float mutable
+in Channel08Value: float mutable
+in Channel09Value: float mutable
+in Channel10Value: float mutable
+in Channel11Value: float mutable
+in Channel12Value: float mutable
+in Channel13Value: float mutable
+in Channel14Value: float mutable
+in Channel15Value: float mutable
+in DiagnosticsActive: bool mutable
+in DiagnosticsConnected: bool mutable
+in PackageVisualActive: bool mutable
+in PackageGrabbableEnabled: bool mutable
+in PackageInstalled: bool mutable
+
+where {
+    ConnectionUnknown = 0;
+    ConnectionDisconnected = 2;
+
+    User = LocalUser;
+    UserRoot = UserRootSlot(User=User);
+    IsUnderLocalUser = IsChildOf(Instance=PluginRoot, Other=UserRoot, IncludeSelf=true);
+    ThisPluginId = "io.github.byohaptics.output.haptira.osc";
+
+    BusPluginId = ~input<string>("BYOHaptics.Output.v2/ActivePluginId");
+    BusRows = ~input<SyncFieldList<float4>>("BYOHaptics.Output.v2/Rows");
+    // Element writes keep the reference stable; force fresh collection reads.
+    RowList = ContinuouslyChangingObjectRelay<SyncFieldList<float4>>(Input=BusRows.Value);
+    RowsPresent = if BusRows.HasValue then NotNull(BusRows.Value) else false;
+    RowCount = if RowsPresent then ReadOnlyCount<_,float4>(Collection=RowList) else 0;
+
+    EndpointScheme = ConcatenateString(A="osc://", B=ConfigDeviceAddress);
+    EndpointHost = ConcatenateString(A=EndpointScheme, B=":");
+    EndpointPort = ToString_Int(V=ConfigDevicePort);
+    EndpointText = ConcatenateString(A=EndpointHost, B=EndpointPort);
+    EndpointCandidate = uri(EndpointText);
+    EscapedDeviceAddress = EscapeUriDataString(String=ConfigDeviceAddress);
+    AddressPresent = StringLength(A=ConfigDeviceAddress) > 0;
+    AddressValid = if AddressPresent then EscapedDeviceAddress == ConfigDeviceAddress else false;
+    PortValid = if ConfigDevicePort > 0 then ConfigDevicePort < 65536 else false;
+    ConfigurationValid = if AddressValid then (if PortValid then not IsNull(Instance=EndpointCandidate) else false) else false;
+
+    BusTargets = ~input<SyncFieldList<string>>("BYOHaptics.Output.v2/Targets");
+    TargetList = ContinuouslyChangingObjectRelay<SyncFieldList<string>>(Input=BusTargets.Value);
+    TargetsPresent = if BusTargets.HasValue then NotNull(BusTargets.Value) else false;
+    TargetCount = if TargetsPresent then ReadOnlyCount<_,string>(Collection=TargetList) else 0;
+    ListsValid = if RowsPresent then (if TargetsPresent then (if RowCount > 0 then RowCount == TargetCount else false) else false) else false;
+
+    PluginParent = GetParentSlot(Instance=PluginRoot);
+    PackageInstalledState = GetSlotName(Instance=PluginParent) == "PluginSocket";
+    CanManageRuntime = if PackageInstalledState then IsUnderLocalUser else true;
+    Selected = if ListsValid then (if BusPluginId.HasValue then BusPluginId.Value == ThisPluginId else false) else false;
+    store AppliedEndpoint: string;
+    store AppliedPrefix: string;
+    store AppliedSuffix: string;
+    RouteMatches = if AppliedEndpoint == EndpointText then (if AppliedPrefix == ConfigChannelPrefix then AppliedSuffix == ConfigChannelSuffix else false) else false;
+    ActiveState = if IsUnderLocalUser then (if Selected then (if ConfigurationValid then RouteMatches else false) else false) else false;
+
+    Channel00BasePath = ConcatenateString(A=ConfigChannelPrefix, B="00");
+    Channel00PathValue = ConcatenateString(A=Channel00BasePath, B=ConfigChannelSuffix);
+    Channel01BasePath = ConcatenateString(A=ConfigChannelPrefix, B="01");
+    Channel01PathValue = ConcatenateString(A=Channel01BasePath, B=ConfigChannelSuffix);
+    Channel02BasePath = ConcatenateString(A=ConfigChannelPrefix, B="02");
+    Channel02PathValue = ConcatenateString(A=Channel02BasePath, B=ConfigChannelSuffix);
+    Channel03BasePath = ConcatenateString(A=ConfigChannelPrefix, B="03");
+    Channel03PathValue = ConcatenateString(A=Channel03BasePath, B=ConfigChannelSuffix);
+    Channel04BasePath = ConcatenateString(A=ConfigChannelPrefix, B="04");
+    Channel04PathValue = ConcatenateString(A=Channel04BasePath, B=ConfigChannelSuffix);
+    Channel05BasePath = ConcatenateString(A=ConfigChannelPrefix, B="05");
+    Channel05PathValue = ConcatenateString(A=Channel05BasePath, B=ConfigChannelSuffix);
+    Channel06BasePath = ConcatenateString(A=ConfigChannelPrefix, B="06");
+    Channel06PathValue = ConcatenateString(A=Channel06BasePath, B=ConfigChannelSuffix);
+    Channel07BasePath = ConcatenateString(A=ConfigChannelPrefix, B="07");
+    Channel07PathValue = ConcatenateString(A=Channel07BasePath, B=ConfigChannelSuffix);
+    Channel08BasePath = ConcatenateString(A=ConfigChannelPrefix, B="08");
+    Channel08PathValue = ConcatenateString(A=Channel08BasePath, B=ConfigChannelSuffix);
+    Channel09BasePath = ConcatenateString(A=ConfigChannelPrefix, B="09");
+    Channel09PathValue = ConcatenateString(A=Channel09BasePath, B=ConfigChannelSuffix);
+    Channel10BasePath = ConcatenateString(A=ConfigChannelPrefix, B="10");
+    Channel10PathValue = ConcatenateString(A=Channel10BasePath, B=ConfigChannelSuffix);
+    Channel11BasePath = ConcatenateString(A=ConfigChannelPrefix, B="11");
+    Channel11PathValue = ConcatenateString(A=Channel11BasePath, B=ConfigChannelSuffix);
+    Channel12BasePath = ConcatenateString(A=ConfigChannelPrefix, B="12");
+    Channel12PathValue = ConcatenateString(A=Channel12BasePath, B=ConfigChannelSuffix);
+    Channel13BasePath = ConcatenateString(A=ConfigChannelPrefix, B="13");
+    Channel13PathValue = ConcatenateString(A=Channel13BasePath, B=ConfigChannelSuffix);
+    Channel14BasePath = ConcatenateString(A=ConfigChannelPrefix, B="14");
+    Channel14PathValue = ConcatenateString(A=Channel14BasePath, B=ConfigChannelSuffix);
+    Channel15BasePath = ConcatenateString(A=ConfigChannelPrefix, B="15");
+    Channel15PathValue = ConcatenateString(A=Channel15BasePath, B=ConfigChannelSuffix);
+    local Channel00Output: float;
+    local Channel01Output: float;
+    local Channel02Output: float;
+    local Channel03Output: float;
+    local Channel04Output: float;
+    local Channel05Output: float;
+    local Channel06Output: float;
+    local Channel07Output: float;
+    local Channel08Output: float;
+    local Channel09Output: float;
+    local Channel10Output: float;
+    local Channel11Output: float;
+    local Channel12Output: float;
+    local Channel13Output: float;
+    local Channel14Output: float;
+    local Channel15Output: float;
+    InactiveResendInterval = 1000000000.0;
+    store StopTailRemaining: float;
+    store ResendTailRemaining: float;
+
+    OnLoaded(Trigger=If(Condition=CanManageRuntime, OnTrue=impulse {
+        Channel00Value <- 0.0; Channel01Value <- 0.0; Channel02Value <- 0.0; Channel03Value <- 0.0; Channel04Value <- 0.0; Channel05Value <- 0.0; Channel06Value <- 0.0; Channel07Value <- 0.0; Channel08Value <- 0.0; Channel09Value <- 0.0; Channel10Value <- 0.0; Channel11Value <- 0.0; Channel12Value <- 0.0; Channel13Value <- 0.0; Channel14Value <- 0.0; Channel15Value <- 0.0;
+        SenderEnabled <- false;
+        StopTailRemaining <- 0.0;
+        ResendTailRemaining <- 0.0;
+    }));
+
+    switch LocalUpdate
+    | OnUpdate |> impulse {
+        // Presentation depends on the socket, not the client's runtime ownership.
+        PackageInstalled <- PackageInstalledState;
+        PackageVisualActive <- not PackageInstalledState;
+        PackageGrabbableEnabled <- not PackageInstalledState;
+        If(Condition=CanManageRuntime, OnTrue=impulse {
+            WriteDynamicValueVariable(Target=PluginRoot, Path="BYOHaptics.Output.v2/ConnectionState", Value=if ActiveState then (if CanReportConnection then ConnectionDisconnected else ConnectionUnknown) else ConnectionUnknown);
+            ConfigConfigured <- ConfigurationValid;
+            // Preserve the old route until its zero-only shutdown tail has finished.
+            If(Condition=if ConfigurationValid then StopTailRemaining <= 0.0 else false, OnTrue=impulse {
+                ConfigEndpoint <- EndpointCandidate;
+                SenderURL <- EndpointCandidate;
+                Channel00Path <- Channel00PathValue; Channel01Path <- Channel01PathValue; Channel02Path <- Channel02PathValue; Channel03Path <- Channel03PathValue; Channel04Path <- Channel04PathValue; Channel05Path <- Channel05PathValue; Channel06Path <- Channel06PathValue; Channel07Path <- Channel07PathValue; Channel08Path <- Channel08PathValue; Channel09Path <- Channel09PathValue; Channel10Path <- Channel10PathValue; Channel11Path <- Channel11PathValue; Channel12Path <- Channel12PathValue; Channel13Path <- Channel13PathValue; Channel14Path <- Channel14PathValue; Channel15Path <- Channel15PathValue;
+                AppliedEndpoint <- EndpointText;
+                AppliedPrefix <- ConfigChannelPrefix;
+                AppliedSuffix <- ConfigChannelSuffix;
+            });
+            DiagnosticsActive <- ActiveState;
+            DiagnosticsConnected <- false;
+            Channel00Output <- 0.0;
+            Channel01Output <- 0.0;
+            Channel02Output <- 0.0;
+            Channel03Output <- 0.0;
+            Channel04Output <- 0.0;
+            Channel05Output <- 0.0;
+            Channel06Output <- 0.0;
+            Channel07Output <- 0.0;
+            Channel08Output <- 0.0;
+            Channel09Output <- 0.0;
+            Channel10Output <- 0.0;
+            Channel11Output <- 0.0;
+            Channel12Output <- 0.0;
+            Channel13Output <- 0.0;
+            Channel14Output <- 0.0;
+            Channel15Output <- 0.0;
+            If(
+                Condition=ActiveState,
+                OnTrue=impulse {
+                    HandlingUser <- User;
+                    switch ReadOnlyForEachWithIndexValue<_,float4>(Collection=RowList, Reverse=false)
+                    | LoopIteration Loop |> impulse {
+                        Target = ReadOnlyGetAtObject<_,string>(Collection=TargetList, Index=Loop.Index);
+                        Force, Vibration, Pain, Temperature = Loop.Element->unpack;
+                        FV = ValueMax(A=Force, B=Vibration);
+                        PT = ValueMax(A=Pain, B=Temperature);
+                        Intensity = ValueMax(A=FV, B=PT)->Clamp01_Float;
+                        Channel00Output <- if Target == "00" then ValueMax(A=Channel00Output, B=Intensity) else Channel00Output;
+                        Channel01Output <- if Target == "01" then ValueMax(A=Channel01Output, B=Intensity) else Channel01Output;
+                        Channel02Output <- if Target == "02" then ValueMax(A=Channel02Output, B=Intensity) else Channel02Output;
+                        Channel03Output <- if Target == "03" then ValueMax(A=Channel03Output, B=Intensity) else Channel03Output;
+                        Channel04Output <- if Target == "04" then ValueMax(A=Channel04Output, B=Intensity) else Channel04Output;
+                        Channel05Output <- if Target == "05" then ValueMax(A=Channel05Output, B=Intensity) else Channel05Output;
+                        Channel06Output <- if Target == "06" then ValueMax(A=Channel06Output, B=Intensity) else Channel06Output;
+                        Channel07Output <- if Target == "07" then ValueMax(A=Channel07Output, B=Intensity) else Channel07Output;
+                        Channel08Output <- if Target == "08" then ValueMax(A=Channel08Output, B=Intensity) else Channel08Output;
+                        Channel09Output <- if Target == "09" then ValueMax(A=Channel09Output, B=Intensity) else Channel09Output;
+                        Channel10Output <- if Target == "10" then ValueMax(A=Channel10Output, B=Intensity) else Channel10Output;
+                        Channel11Output <- if Target == "11" then ValueMax(A=Channel11Output, B=Intensity) else Channel11Output;
+                        Channel12Output <- if Target == "12" then ValueMax(A=Channel12Output, B=Intensity) else Channel12Output;
+                        Channel13Output <- if Target == "13" then ValueMax(A=Channel13Output, B=Intensity) else Channel13Output;
+                        Channel14Output <- if Target == "14" then ValueMax(A=Channel14Output, B=Intensity) else Channel14Output;
+                        Channel15Output <- if Target == "15" then ValueMax(A=Channel15Output, B=Intensity) else Channel15Output;
+                    }
+                    | LoopEnd |> impulse {
+                        Channel00Value <- Channel00Output;
+                        Channel01Value <- Channel01Output;
+                        Channel02Value <- Channel02Output;
+                        Channel03Value <- Channel03Output;
+                        Channel04Value <- Channel04Output;
+                        Channel05Value <- Channel05Output;
+                        Channel06Value <- Channel06Output;
+                        Channel07Value <- Channel07Output;
+                        Channel08Value <- Channel08Output;
+                        Channel09Value <- Channel09Output;
+                        Channel10Value <- Channel10Output;
+                        Channel11Value <- Channel11Output;
+                        Channel12Value <- Channel12Output;
+                        Channel13Value <- Channel13Output;
+                        Channel14Value <- Channel14Output;
+                        Channel15Value <- Channel15Output;
+                        AnyChannelOutput1 = ValueMax(A=Channel00Output, B=Channel01Output);
+                        AnyChannelOutput2 = ValueMax(A=AnyChannelOutput1, B=Channel02Output);
+                        AnyChannelOutput3 = ValueMax(A=AnyChannelOutput2, B=Channel03Output);
+                        AnyChannelOutput4 = ValueMax(A=AnyChannelOutput3, B=Channel04Output);
+                        AnyChannelOutput5 = ValueMax(A=AnyChannelOutput4, B=Channel05Output);
+                        AnyChannelOutput6 = ValueMax(A=AnyChannelOutput5, B=Channel06Output);
+                        AnyChannelOutput7 = ValueMax(A=AnyChannelOutput6, B=Channel07Output);
+                        AnyChannelOutput8 = ValueMax(A=AnyChannelOutput7, B=Channel08Output);
+                        AnyChannelOutput9 = ValueMax(A=AnyChannelOutput8, B=Channel09Output);
+                        AnyChannelOutput10 = ValueMax(A=AnyChannelOutput9, B=Channel10Output);
+                        AnyChannelOutput11 = ValueMax(A=AnyChannelOutput10, B=Channel11Output);
+                        AnyChannelOutput12 = ValueMax(A=AnyChannelOutput11, B=Channel12Output);
+                        AnyChannelOutput13 = ValueMax(A=AnyChannelOutput12, B=Channel13Output);
+                        AnyChannelOutput14 = ValueMax(A=AnyChannelOutput13, B=Channel14Output);
+                        AnyChannelOutput15 = ValueMax(A=AnyChannelOutput14, B=Channel15Output);
+                        SenderAutoResendInterval <- if AnyChannelOutput15 > 0.0 then 0.05 else (if ResendTailRemaining > 0.0 then 0.05 else InactiveResendInterval);
+                        ResendTailRemaining <- if AnyChannelOutput15 > 0.0 then 0.25 else ValueMax(A=0.0, B=ResendTailRemaining - DeltaTime);
+                    };
+                },
+                OnFalse=impulse {
+                    Channel00Value <- 0.0; Channel01Value <- 0.0; Channel02Value <- 0.0; Channel03Value <- 0.0; Channel04Value <- 0.0; Channel05Value <- 0.0; Channel06Value <- 0.0; Channel07Value <- 0.0; Channel08Value <- 0.0; Channel09Value <- 0.0; Channel10Value <- 0.0; Channel11Value <- 0.0; Channel12Value <- 0.0; Channel13Value <- 0.0; Channel14Value <- 0.0; Channel15Value <- 0.0;
+                    SenderAutoResendInterval <- 0.05;
+                });
+            // Never route new Bus values during the zero-only shutdown tail.
+            SenderEnabled <- if ActiveState then true else StopTailRemaining > 0.0;
+            StopTailRemaining <- if ActiveState then 0.25 else ValueMax(A=0.0, B=StopTailRemaining - DeltaTime);
+        });
+    };
+
+}

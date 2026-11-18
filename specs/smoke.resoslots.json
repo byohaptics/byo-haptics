@@ -1,0 +1,81 @@
+{
+  "schema": "resonite-slotspec/v1",
+  "toolName": "SlotSpecSmoke",
+  "toolParent": { "kind": "worldRoot" },
+  "slots": [
+    {
+      "path": "",
+      "components": [
+        {
+          "alias": "smoke.enabled",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": true } }
+        },
+        {
+          "alias": "smoke.targetA",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": false } }
+        },
+        {
+          "alias": "smoke.targetB",
+          "type": "[FrooxEngine]FrooxEngine.ValueField<bool>",
+          "members": { "Value": { "type": "bool", "value": false } }
+        },
+        {
+          "alias": "smoke.rows",
+          "type": "[FrooxEngine]FrooxEngine.ValueList<float4>",
+          "members": {
+            "Values": { "type": "float4List", "value": [
+              { "x": 0.1, "y": 0.2, "z": 0.3, "w": 0.4 },
+              { "x": 0, "y": 0, "z": 0, "w": 0 }
+            ] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "Child",
+      "components": [
+        {
+          "alias": "smoke.copy",
+          "type": "[FrooxEngine]FrooxEngine.ValueCopy<bool>",
+          "members": { "WriteBack": { "type": "bool", "value": false } }
+        },
+        {
+          "alias": "smoke.multi",
+          "type": "[FrooxEngine]FrooxEngine.ValueMultiDriver<bool>",
+          "members": { "Value": { "type": "bool", "value": true } }
+        }
+      ]
+    }
+  ],
+  "fieldReferences": [
+    {
+      "component": "smoke.copy",
+      "member": "Source",
+      "fieldRef": "smoke.enabled.Value",
+      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    },
+    {
+      "component": "smoke.multi",
+      "member": "Drives",
+      "fieldRefList": [
+        "smoke.targetA.Value",
+        "smoke.targetB.Value"
+      ],
+      "targetType": "[FrooxEngine]FrooxEngine.IField<bool>"
+    }
+  ],
+  "localSlotReferences": [],
+  "componentReferences": [],
+  "slotFieldReferences": [],
+  "sceneSlotReferences": [],
+  "sceneComponentReferences": [],
+  "fluxSlotPath": "Child",
+  "fluxInputs": {
+    "ToolRoot": { "slotPath": "" },
+    "Enabled": { "fieldRef": "smoke.enabled.Value" },
+    "Row0": { "fieldRef": "smoke.rows.Values.0" },
+    "Row1": { "fieldRef": "smoke.rows.Values.1" }
+  }
+}
