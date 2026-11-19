@@ -31,12 +31,12 @@ open FluxSDK.Incremental.StepCE
 
 let projectDir = Environment.CurrentDirectory
 let allModulePaths =
-    [ "flux/BYOHapticsLifecycle"
-      "flux/BYOHapticsPositioning"
-      "flux/BYOHapticsSampler"
-      "flux/BYOHapticsPluginDiscovery"
-      "flux/BYOHapticsPluginPackageManager"
-      "flux/BYOHapticsOutputBus" ]
+    [ "Flux/BYOHapticsLifecycle"
+      "Flux/BYOHapticsPositioning"
+      "Flux/BYOHapticsSampler"
+      "Flux/BYOHapticsPluginDiscovery"
+      "Flux/BYOHapticsPluginPackageManager"
+      "Flux/BYOHapticsOutputBus" ]
 
 let resoniteLinkUrl =
     match Environment.GetEnvironmentVariable "RESONITELINK_URL" with

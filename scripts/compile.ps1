@@ -7,17 +7,17 @@ param(
 $ErrorActionPreference = 'Stop'
 $modules = @{
     host = @(
-        'flux/BYOHapticsLifecycle',
-        'flux/BYOHapticsPositioning',
-        'flux/BYOHapticsSampler',
-        'flux/BYOHapticsPluginDiscovery',
-        'flux/BYOHapticsPluginPackageManager',
-        'flux/BYOHapticsOutputBus'
+        'Flux/BYOHapticsLifecycle',
+        'Flux/BYOHapticsPositioning',
+        'Flux/BYOHapticsSampler',
+        'Flux/BYOHapticsPluginDiscovery',
+        'Flux/BYOHapticsPluginPackageManager',
+        'Flux/BYOHapticsOutputBus'
     )
     plugins = @(
-        'flux/BYOHapticsJoyConOSCOutput',
-        'flux/BYOHapticsHaptiraOSCOutput',
-        'flux/BYOHapticsDemoOutput',
+        'Flux/BYOHapticsJoyConOSCOutput',
+        'Flux/BYOHapticsHaptiraOSCOutput',
+        'Flux/BYOHapticsDemoOutput',
         'templates/output-plugin/MinimalOutputPlugin'
     )
 }

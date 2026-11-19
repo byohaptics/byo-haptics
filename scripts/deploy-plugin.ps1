@@ -8,9 +8,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $runner = "$PSScriptRoot/run-fluxsdk-script.ps1"
 $settings = @{
-    joycon = @('specs/joycon-osc-plugin.resoslots.json', 'flux/BYOHapticsJoyConOSCOutput', 'build/joycon-osc-plugin.generated-ids.json')
-    haptira = @('specs/haptira-osc-plugin.resoslots.json', 'flux/BYOHapticsHaptiraOSCOutput', 'build/haptira-osc-plugin.generated-ids.json')
-    demo = @('specs/demo-output-plugin.resoslots.json', 'flux/BYOHapticsDemoOutput', 'build/demo-output-plugin.generated-ids.json')
+    joycon = @('specs/joycon-osc-plugin.resoslots.json', 'Flux/BYOHapticsJoyConOSCOutput', 'build/joycon-osc-plugin.generated-ids.json')
+    haptira = @('specs/haptira-osc-plugin.resoslots.json', 'Flux/BYOHapticsHaptiraOSCOutput', 'build/haptira-osc-plugin.generated-ids.json')
+    demo = @('specs/demo-output-plugin.resoslots.json', 'Flux/BYOHapticsDemoOutput', 'build/demo-output-plugin.generated-ids.json')
 }[$Plugin]
 
 $env:RESONITE_SLOTSPEC_PATH = $settings[0]

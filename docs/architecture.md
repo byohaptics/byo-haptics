@@ -29,9 +29,9 @@ The host ProtoGraph is divided into six operational sheets:
 5. `BYOHapticsPluginPackageManager`
 6. `BYOHapticsOutputBus`
 
-Reusable avatar-root and panel-reset modules live in `Common/`. The deployment
-sheets import them through project-relative paths such as
-`use Common/PanelResetFromUser`.
+Runtime sheets and reusable avatar-root and panel-reset modules live together
+in `Flux/`. Shared helpers are imported through project-relative paths such as
+`use Flux/PanelResetFromUser`.
 
 Read-only diagnostic mirror fields are omitted. Inspect the authoritative sampler and Output Bus fields directly when debugging.
 

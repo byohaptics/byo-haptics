@@ -1,10 +1,10 @@
 import fs from "node:fs";
 
 const spec = JSON.parse(fs.readFileSync(new URL("../specs/byo-haptics.resoslots.json", import.meta.url), "utf8"));
-const samplerGraph = fs.readFileSync(new URL("../flux/BYOHapticsSampler.pg", import.meta.url), "utf8");
-const outputBusGraph = fs.readFileSync(new URL("../flux/BYOHapticsOutputBus.pg", import.meta.url), "utf8");
-const pluginDiscoveryGraph = fs.readFileSync(new URL("../flux/BYOHapticsPluginDiscovery.pg", import.meta.url), "utf8");
-const packageManagerGraph = fs.readFileSync(new URL("../flux/BYOHapticsPluginPackageManager.pg", import.meta.url), "utf8");
+const samplerGraph = fs.readFileSync(new URL("../Flux/BYOHapticsSampler.pg", import.meta.url), "utf8");
+const outputBusGraph = fs.readFileSync(new URL("../Flux/BYOHapticsOutputBus.pg", import.meta.url), "utf8");
+const pluginDiscoveryGraph = fs.readFileSync(new URL("../Flux/BYOHapticsPluginDiscovery.pg", import.meta.url), "utf8");
+const packageManagerGraph = fs.readFileSync(new URL("../Flux/BYOHapticsPluginPackageManager.pg", import.meta.url), "utf8");
 const versions = JSON.parse(fs.readFileSync(new URL("../versions.json", import.meta.url), "utf8"));
 const version = versions.product;
 const components = new Map(

@@ -51,12 +51,12 @@ try {
   const host = compile("host");
   assert.equal(host.status, 0);
   assert.equal(host.modules.length, 6);
-  assert.equal(host.modules[0], "flux/BYOHapticsLifecycle");
-  assert.equal(host.modules.at(-1), "flux/BYOHapticsOutputBus");
+  assert.equal(host.modules[0], "Flux/BYOHapticsLifecycle");
+  assert.equal(host.modules.at(-1), "Flux/BYOHapticsOutputBus");
   const plugins = compile("plugins");
   assert.equal(plugins.status, 0);
   assert.equal(plugins.modules.length, 4);
-  assert.equal(plugins.modules[0], "flux/BYOHapticsJoyConOSCOutput");
+  assert.equal(plugins.modules[0], "Flux/BYOHapticsJoyConOSCOutput");
   assert.equal(plugins.modules.at(-1), "templates/output-plugin/MinimalOutputPlugin");
   for (const [target, module] of [["host", host.modules[0]], ["plugins", plugins.modules[0]]]) {
     assert.deepEqual(compile(target, module), { status: 23, modules: [module] }, "Compiler failure must stop the group and preserve its exit code");

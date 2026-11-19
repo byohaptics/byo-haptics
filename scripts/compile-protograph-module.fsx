@@ -18,7 +18,7 @@ open FluxSDK.ResoniteLink
 
 let modulePath =
     match Environment.GetEnvironmentVariable "PROTOGRAPH_MODULE" with
-    | null | "" -> failwith "Set PROTOGRAPH_MODULE, e.g. flux/BYOHapticsLifecycle."
+    | null | "" -> failwith "Set PROTOGRAPH_MODULE, e.g. Flux/BYOHapticsLifecycle."
     | value -> value
 let resoniteDllDir =
     match Environment.GetEnvironmentVariable "RESONITE_DIR" with

@@ -5,7 +5,7 @@ in PositionResetButton: IButton global
 in ContextPositionResetButton: IButton global
 in ToolRoot: Slot element
 
-use Common/PanelResetFromUser
+use Flux/PanelResetFromUser
 
 where {
     switch ButtonEvents(Button=PositionResetButton)

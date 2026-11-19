@@ -160,9 +160,9 @@ for (const [side, path] of [["left", "Devices/Left/Visual"], ["right", "Devices/
 }
 
 for (const [path, id] of [
-  ["flux/BYOHapticsJoyConOSCOutput.pg", "io.github.byohaptics.output.joycon.osc"],
-  ["flux/BYOHapticsHaptiraOSCOutput.pg", "io.github.byohaptics.output.haptira.osc"],
-  ["flux/BYOHapticsDemoOutput.pg", "io.github.byohaptics.output.demo"],
+  ["Flux/BYOHapticsJoyConOSCOutput.pg", "io.github.byohaptics.output.joycon.osc"],
+  ["Flux/BYOHapticsHaptiraOSCOutput.pg", "io.github.byohaptics.output.haptira.osc"],
+  ["Flux/BYOHapticsDemoOutput.pg", "io.github.byohaptics.output.demo"],
 ]) {
   const graph = fs.readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
   checkRows(path, graph);

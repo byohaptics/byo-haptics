@@ -29,7 +29,7 @@ function assignment(graph, name, marker) {
 }
 
 for (const plugin of ["JoyCon", "Haptira"]) {
-  const graph = fs.readFileSync(new URL(`../flux/BYOHaptics${plugin}OSCOutput.pg`, import.meta.url), "utf8");
+  const graph = fs.readFileSync(new URL(`../Flux/BYOHaptics${plugin}OSCOutput.pg`, import.meta.url), "utf8");
   assert(graph.includes("store StopTailRemaining: float;"));
   const countdown = assignment(graph, "StopTailRemaining", "DeltaTime");
   const enabled = assignment(graph, "SenderEnabled", "StopTailRemaining");
@@ -47,7 +47,7 @@ for (const plugin of ["JoyCon", "Haptira"]) {
   assert.equal(state.StopTailRemaining, 0.25);
 }
 
-const graph = fs.readFileSync(new URL("../flux/BYOHapticsHaptiraOSCOutput.pg", import.meta.url), "utf8");
+const graph = fs.readFileSync(new URL("../Flux/BYOHapticsHaptiraOSCOutput.pg", import.meta.url), "utf8");
 assert(graph.includes("store ResendTailRemaining: float;"));
 assert(!graph.includes("DelayValue("));
 const resend = assignment(graph, "SenderAutoResendInterval", "ResendTailRemaining");
