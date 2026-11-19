@@ -5,12 +5,12 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "compile:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile-host.ps1",
-    "compile:plugins": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile-plugins.ps1",
+    "compile:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile.ps1 -Target host",
+    "compile:plugins": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/compile.ps1 -Target plugins",
     "deploy:host": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-host.ps1",
     "deploy:joycon": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-plugin.ps1 -Plugin joycon",
     "deploy:haptira": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-plugin.ps1 -Plugin haptira",
     "deploy:demo": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-plugin.ps1 -Plugin demo",
-    "test": "node scripts/check-version.mjs && node scripts/check-docs.mjs && node scripts/test-validate-slotspec.mjs && node scripts/validate-slotspec.mjs specs/byo-haptics.resoslots.json && node scripts/validate-slotspec.mjs specs/joycon-osc-plugin.resoslots.json && node scripts/validate-slotspec.mjs specs/haptira-osc-plugin.resoslots.json && node scripts/validate-slotspec.mjs specs/demo-output-plugin.resoslots.json && node scripts/validate-slotspec.mjs templates/output-plugin/minimal-output-plugin.resoslots.json && node scripts/check-host-spec.mjs && node scripts/check-plugin-specs.mjs && node scripts/test-osc-timing.mjs && node scripts/check-runtime-ids.mjs && node scripts/test-runtime-id-check.mjs && node scripts/test-publication-policy.mjs && node scripts/check-builder.mjs && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-fluxsdk-script.ps1 -ScriptPath scripts/deploy-byo-haptics.fsx -TypeCheckOnly && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-fluxsdk-script.ps1 -ScriptPath scripts/deploy-output-plugin.fsx -TypeCheckOnly"
+    "test": "node scripts/check-project.mjs && node scripts/test-validate-slotspec.mjs && node scripts/validate-slotspec.mjs specs/byo-haptics.resoslots.json && node scripts/validate-slotspec.mjs specs/joycon-osc-plugin.resoslots.json && node scripts/validate-slotspec.mjs specs/haptira-osc-plugin.resoslots.json && node scripts/validate-slotspec.mjs specs/demo-output-plugin.resoslots.json && node scripts/validate-slotspec.mjs templates/output-plugin/minimal-output-plugin.resoslots.json && node scripts/check-host-spec.mjs && node scripts/check-plugin-specs.mjs && node scripts/test-osc-timing.mjs && node scripts/check-runtime-ids.mjs && node scripts/test-source-policies.mjs && node scripts/check-builder.mjs && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-fluxsdk-script.ps1 -ScriptPath scripts/deploy-byo-haptics.fsx -TypeCheckOnly && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run-fluxsdk-script.ps1 -ScriptPath scripts/deploy-output-plugin.fsx -TypeCheckOnly"
   }
 }

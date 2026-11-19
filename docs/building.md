@@ -46,6 +46,10 @@ npm run compile:host
 npm run compile:plugins
 ```
 
+The compile commands share `scripts/compile.ps1`, selecting `host` or `plugins`
+with `-Target`. External plugins continue to use `compile-protograph-module.fsx`
+through the common FluxSDK runner.
+
 `npm test` validates versions, documents, SlotSpecs including the authoring template, aliases, references, runtime-ID policy, and deployment script type checking. Type checks do not execute the deployment scripts. Use the SDK selected by `global.json`; the F# compiler in SDK `10.0.404` has shown type-check stalls with FluxSDK `1.9.0`. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
 
 To run the local publication check separately:
@@ -98,7 +102,7 @@ and contained plugins before replacement.
 
 ## External BYO Haptic Actuator plugin
 
-The BHA plugin's sources and workflow are under `plugin/` in the separate
+The BHA plugin's sources and workflow are under `byo-haptics-output-plugin/` in the separate
 `byo-haptic-actuator` checkout. Run its commands there; its README describes
 `BYO_HAPTICS_ROOT` for locating this repository's generic build tools.
 The Host's test/version/compile commands do not depend on that checkout.

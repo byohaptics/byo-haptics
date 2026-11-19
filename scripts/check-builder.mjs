@@ -1,6 +1,8 @@
 import { spawnSync } from "node:child_process";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 
 const builder = fs.readFileSync(new URL("./build-from-resonite-slotspec.fsx", import.meta.url), "utf8");
 assert(!builder.includes("RemoveSlot"), "Construction must never delete the previous item");
@@ -15,7 +17,7 @@ for (const file of ["deploy-byo-haptics.fsx", "deploy-output-plugin.fsx"]) {
 }
 for (const name of ["host", "plugin"]) {
   const wrapper = fs.readFileSync(new URL(`./deploy-${name}.ps1`, import.meta.url), "utf8");
-  const ordered = ["validate-slotspec.mjs", name === "host" ? "compile-host.ps1" : "compile-protograph-module.fsx", "build-from-resonite-slotspec.fsx", name === "host" ? "deploy-byo-haptics.fsx" : "deploy-output-plugin.fsx", "finalize-slotspec-build.fsx"];
+  const ordered = ["validate-slotspec.mjs", name === "host" ? "compile.ps1" : "compile-protograph-module.fsx", "build-from-resonite-slotspec.fsx", name === "host" ? "deploy-byo-haptics.fsx" : "deploy-output-plugin.fsx", "finalize-slotspec-build.fsx"];
   let previous = -1;
   for (const step of ordered) {
     const index = wrapper.indexOf(step);
@@ -24,6 +26,45 @@ for (const name of ["host", "plugin"]) {
   }
   assert(wrapper.includes(".pending.json"));
   assert.equal((wrapper.match(/if \(\$LASTEXITCODE -ne 0\)/g) ?? []).length, 4);
+}
+
+const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "byo-compile-"));
+assert.equal(path.dirname(fixture), path.resolve(os.tmpdir()));
+const calls = path.join(fixture, "calls.txt");
+fs.copyFileSync(new URL("./compile.ps1", import.meta.url), path.join(fixture, "compile.ps1"));
+fs.writeFileSync(path.join(fixture, "run-fluxsdk-script.ps1"), `param([string]$ScriptPath)
+[IO.File]::AppendAllText($env:BYO_COMPILE_TEST_CALLS, $env:PROTOGRAPH_MODULE + [Environment]::NewLine)
+if ($env:PROTOGRAPH_MODULE -eq $env:BYO_COMPILE_TEST_FAIL) { exit 23 }
+exit 0
+`);
+const compile = (target, fail = "") => {
+  fs.writeFileSync(calls, "");
+  const result = spawnSync("powershell", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", path.join(fixture, "compile.ps1"), "-Target", target], {
+    env: { ...process.env, BYO_COMPILE_TEST_CALLS: calls, BYO_COMPILE_TEST_FAIL: fail },
+    encoding: "utf8",
+  });
+  if (result.error) throw result.error;
+  return { status: result.status, modules: fs.readFileSync(calls, "utf8").trim().split(/\r?\n/).filter(Boolean) };
+};
+try {
+  const host = compile("host");
+  assert.equal(host.status, 0);
+  assert.equal(host.modules.length, 6);
+  assert.equal(host.modules[0], "flux/BYOHapticsLifecycle");
+  assert.equal(host.modules.at(-1), "flux/BYOHapticsOutputBus");
+  const plugins = compile("plugins");
+  assert.equal(plugins.status, 0);
+  assert.equal(plugins.modules.length, 4);
+  assert.equal(plugins.modules[0], "flux/BYOHapticsJoyConOSCOutput");
+  assert.equal(plugins.modules.at(-1), "templates/output-plugin/MinimalOutputPlugin");
+  for (const [target, module] of [["host", host.modules[0]], ["plugins", plugins.modules[0]]]) {
+    assert.deepEqual(compile(target, module), { status: 23, modules: [module] }, "Compiler failure must stop the group and preserve its exit code");
+  }
+  const invalid = compile("unknown");
+  assert.notEqual(invalid.status, 0);
+  assert.deepEqual(invalid.modules, []);
+} finally {
+  fs.rmSync(fixture, { recursive: true, force: true });
 }
 
 for (const args of [

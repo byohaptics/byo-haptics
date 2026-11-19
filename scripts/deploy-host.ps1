@@ -8,7 +8,7 @@ $env:RESONITE_SLOTSPEC_OUTPUT = 'build/byo-haptics.generated-ids.json'
 $env:RESONITE_SLOTSPEC_RECREATE = if ($Recreate) { '1' } else { '0' }
 & node "$PSScriptRoot/validate-slotspec.mjs" $env:RESONITE_SLOTSPEC_PATH
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-& "$PSScriptRoot/compile-host.ps1"
+& "$PSScriptRoot/compile.ps1" -Target host
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 & $runner -ScriptPath "$PSScriptRoot/build-from-resonite-slotspec.fsx"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

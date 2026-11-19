@@ -31,8 +31,14 @@ try {
   assert.equal(run(), 1, "Hidden files and case-insensitive matches must be checked");
   fs.writeFileSync(rule, "[");
   assert.notEqual(run(), 0, "Invalid regex must stop publication");
+
+  const runtimeChecker = fileURLToPath(new URL("./check-runtime-ids.mjs", import.meta.url));
+  const checkRuntime = () => spawnSync(process.execPath, [runtimeChecker, source], { cwd: source, env }).status;
+  assert.equal(checkRuntime(), 0, "Clean source must pass runtime-ID checks");
+  fs.writeFileSync(path.join(source, "runtime.txt"), "Res" + "o_123ABC");
+  assert.equal(checkRuntime(), 1, "Fixed runtime IDs must be rejected");
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }
 
-console.log("Publication policy self-check passed.");
+console.log("Source policy self-checks passed.");
