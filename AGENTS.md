@@ -16,7 +16,7 @@ Implementation must follow the specifications. When a test exposes missing or in
 ## Development Loop
 
 1. Read the applicable specifications and change request. In a maintainer checkout, consult `.tools/maintainer-docs/README.md` when present for private task/handoff records.
-2. Confirm `git config core.hooksPath` is `.githooks` and `PUBLICATION_DENYLIST` is available.
+2. Confirm `git config core.hooksPath` is `.githooks` and `byohaptics.publicationDenylistFile` points to a private rule file outside the checkout.
 3. Select an authorized task whose prerequisites are complete.
 4. Make the smallest implementation that satisfies that task.
 5. Run `npm test`.

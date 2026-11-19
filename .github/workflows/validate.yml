@@ -9,8 +9,6 @@ on:
 jobs:
   validate:
     runs-on: windows-latest
-    env:
-      PUBLICATION_DENYLIST: ${{ secrets.PUBLICATION_DENYLIST }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,14 +23,7 @@ jobs:
           choco install ripgrep --no-progress --yes
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet tool install --global Papaltine.FluxSDK --version 1.9.0
-      - name: Require publication policy
-        shell: pwsh
-        run: |
-          if ([string]::IsNullOrWhiteSpace($env:PUBLICATION_DENYLIST)) {
-            throw 'Configure the PUBLICATION_DENYLIST repository secret before enabling CI.'
-          }
       - run: npm test
-      - run: node scripts/check-publication-policy.mjs
 
   compile:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'

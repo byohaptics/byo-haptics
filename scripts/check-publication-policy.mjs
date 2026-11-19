@@ -1,7 +1,9 @@
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 
-const denylist = process.env.PUBLICATION_DENYLIST;
-if (!denylist) throw new Error("PUBLICATION_DENYLIST is required for publication checks.");
+const denylistFile = execFileSync("git", ["config", "--get", "byohaptics.publicationDenylistFile"], { encoding: "utf8" }).trim();
+const denylist = readFileSync(denylistFile, "utf8").trim();
+if (!denylist) throw new Error("The private publication rule file must not be empty.");
 
 try {
   execFileSync("rg", ["-n", "-i", "--hidden", "--glob", "!.git/**", denylist, "."], {
