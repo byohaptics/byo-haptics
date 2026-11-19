@@ -2,6 +2,7 @@ import fs from "node:fs";
 
 const required = [
   "README.md",
+  "CHANGELOG.md",
   "AGENTS.md",
   "CONTRIBUTING.md",
   "SECURITY.md",

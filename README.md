@@ -9,7 +9,7 @@ The BHA device firmware and its OSC plugin are maintained separately in
 
 ## Status
 
-Development version: `0.4.0`. See the [v0.4.0 changes](docs/release-notes-v0.4.0.md).
+Development version: `0.4.0`. See the [changelog](CHANGELOG.md).
 
 ## Using the tool
 

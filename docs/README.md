@@ -5,7 +5,7 @@
 - [Project scope](project-scope.md)
 - [Controls and panel](host-ui.md)
 - [Known limitations](limitations.md)
-- [v0.4.0 changes](release-notes-v0.4.0.md) / [v0.3.0 changes](release-notes-v0.3.0.md)
+- [Changelog](../CHANGELOG.md)
 - [Joy-Con](joycon-plugin.md), [Haptira](haptira-plugin.md) and [Demo](demo-plugin.md) output plugins
 
 ## Specifications and development

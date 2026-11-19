@@ -21,3 +21,6 @@ Host title, the documented Host title and the README development version. The
 Host title retains the current Output Contract label and its 65% size markup.
 Independent plugin, document and Bridge API versions are not changed by a
 product-only update. Versioning does not publish or tag a release automatically.
+
+Keep release notes in the root `CHANGELOG.md`, newest version first. Add a
+version section to that file instead of creating a separate file per release.
