@@ -35,29 +35,24 @@ Host-internal state is grouped by ownership rather than giving every field its o
 
 ## Ownership And Activity
 
-The host is locally active only while its root is under the local user's User Root. This includes an installed host under the avatar and a host currently held in local user space. Samplers are controlled through the `Samplers` slot's per-user active state so another user's client does not sample or emit local output. An always-active Host-root `ValueUserOverride<bool>` drives `Samplers.IsActive`, and ProtoFlux writes that driven field to create the local user's override; the controller does not live on the subtree it can disable.
-
-Shared Host runtime state, Output Bus values, plugin status, and Plugin Package transport state are written only by the client whose `LocalUser` hierarchy contains that Host or Plugin. A non-owner client observes the replicated fields without writing an inactive value back over the owner's state. At World Root, runtime remains inactive and every client may converge the object to the same stopped and visible package state so ejection and inventory spawning cannot leave a hidden or transmitting object.
+Local-user containment determines which client runs the Host. The
+[lifecycle state table](lifecycle.md#derived-state) defines Host activity and
+write ownership; [sampler isolation](sampler.md#local-user-isolation) defines
+the per-user subtree implementation. Plugin runtime follows the separate
+[activation contract](output-plugin-contract.md#plugin-activation).
 
 ## Installation
 
-Install reparents the host below the clicking user's active avatar. Uninstall reparents it to World Root while preserving its world pose. Installed state is derived from actual parentage and is not trusted from a saved boolean alone.
-
-Panel reset places the panel one metre along the local user's Head forward direction. The panel bottom aligns with Head height. The action is disabled while uninstalled.
+The [lifecycle specification](lifecycle.md) defines installation, uninstallation,
+grabbing, Close and panel reset, including parentage and placement rules.
 
 ## Source Binding
 
-Each row supports:
-
-- Node mode: resolve a selected BodyNode on the active avatar.
-- Slot mode: use a manually assigned Slot reference.
-
-A null source disables the row and resets its sampler transform and stored offset. Node mode is the default. Target routing remains explicitly user-configured; the host does not derive transport-specific Target names from BodyNode selections.
-
-## Position Editing
-
-Normal mode follows the source transform plus a stored avatar-relative offset. Edit mode keeps source tracking active while allowing the sampler to be grabbed. Releasing it stores the new offset. Reset clears all stored offsets.
+Each row follows a BodyNode or a manually assigned Slot. The
+[sampler specification](sampler.md) defines Source resolution, Active, gain,
+pulse retention and position editing. [Host UI](host-ui.md) defines their controls.
 
 ## Reproducibility
 
-SlotSpec and ProtoGraph source are authoritative. Runtime IDs, discovery ports, session IDs, and world-specific references are never source data. Every deployment uses IDs generated from a build in the current session.
+SlotSpec and ProtoGraph source are authoritative. Deployment uses
+[generated IDs](slotspec.md#generated-ids) from the current SlotSpec build.

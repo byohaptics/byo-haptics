@@ -57,7 +57,10 @@ Each row and sensation independently retains its last positive output for at lea
 
 ## Local-user Isolation
 
-The `Samplers` slot is active only for the local client whose User Root contains the tool. Remote clients keep it inactive. This controls the sampler subtree as one unit instead of individually driving every sampler component. An always-active Host-root `ValueUserOverride<bool>` drives `Samplers.IsActive`; ProtoFlux writes that driven field to create the local user's override. The controller must not live on its target subtree.
+Implement the [lifecycle activity gate](lifecycle.md#derived-state) on the
+sampler subtree as one unit. An always-active Host-root `ValueUserOverride<bool>`
+drives `Samplers.IsActive`; ProtoFlux writes that driven field to create the
+local user's override. The controller must not live on its target subtree.
 
 ## Edit Offset
 
@@ -69,4 +72,4 @@ SamplerGlobal = SourceGlobal * AvatarRelativeOffset
 
 When edit starts, the sampler becomes grabbable without removing Source tracking. On release, calculate the offset in avatar-local coordinates from the new sampler pose. When edit ends, disable grabbing but retain the offset. `Reset All Positions` sets every offset to identity.
 
-Sampler Edit always lists all four rows. Each action is labeled with its zero-based row index (`0` through `3`), independent of Source and Target values. Selecting an unconfigured row only changes the active edit row; sampling remains disabled until ResolvedSource becomes non-null.
+Row selection and labels are defined in the [context menu specification](host-ui.md#context-menu).

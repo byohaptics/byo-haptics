@@ -48,13 +48,16 @@ Document version: `0.2.0`
 
 ## Plugin Tests
 
+- The World Root card displays name, version, contract and transport; installation hides its visual, collider and Grabbable.
 - Direct card drop installs without Inspector use.
 - Inspector reference assignment reaches the same Package Manager path.
 - Replacing a plugin ejects the old card without destroying it.
-- Unknown connection state is visually distinct from confirmed disconnection.
+- Connection reporting matches actual receiver evidence; Unknown is visually distinct from confirmed disconnection.
+- Inactive, deselected, empty Target, ejection and receiver loss produce final zero output.
 - Joy-Con output stops on heartbeat timeout.
 - Haptira Target values are strictly `00` through `15`.
 - Demo Target `left` and `right` independently vibrate only their matching package-owned device and return it to its base position at zero intensity.
+- Eject, save to inventory, spawn in another world and reinstall the package.
 
 ## Joy-Con Bridge Integration Tests
 

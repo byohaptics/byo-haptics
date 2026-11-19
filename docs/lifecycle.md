@@ -13,6 +13,13 @@ Document version: `0.2.0`
 | Local active avatar | true | true | Uninstall | enabled |
 | Another user's hierarchy | false | false | read-only remote state | disabled |
 
+Only the client whose `LocalUser` hierarchy contains the Host may write its
+shared runtime state and Output Bus values. Other clients observe those fields
+without writing an inactive value over the owner's state. At World Root,
+runtime remains stopped and every client may converge the Host to the same
+inactive, visible state. Sampler isolation is implemented as described in
+[Local-user Isolation](sampler.md#local-user-isolation).
+
 ## Install
 
 1. Resolve the pressing local user.
@@ -48,4 +55,5 @@ Use the local user's `BodyNode.Head`, not an avatar slot guessed by name and not
 
 ## Plugin Runtime
 
-Plugin transport and listeners activate only under local user space and when selected by contract. Inactive state stops output and releases any receive port owned by the plugin.
+Plugin ownership, activation, output shutdown and listener release follow
+[Output Plugin Activation](output-plugin-contract.md#plugin-activation).

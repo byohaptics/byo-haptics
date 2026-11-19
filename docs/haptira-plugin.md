@@ -35,7 +35,9 @@ Each channel owns an independent OSC value field. A row must not accidentally wr
 
 ## Timing
 
-Send changes immediately. While any channel is active and for `250 ms` after the last positive output, resend the current state of all 16 channels every `50 ms`. This bounded tail repeats the final zero state because the device protocol uses UDP without acknowledgement. Outside that window, disable periodic resend. Deactivation immediately writes zero to every channel, resends zero every `50 ms` for `250 ms`, then disables the sender through its locally overridden `Enabled` field. `IsSending` is read-only status from the plugin's perspective.
+Send changes immediately. While any channel is active and for `250 ms` after the last positive output, resend the current state of all 16 channels every `50 ms`. This bounded tail repeats the final zero state because the device protocol uses UDP without acknowledgement. Outside that window, disable periodic resend.
+
+Deactivation zeroes every channel and follows the [common OSC shutdown rules](output-plugin-contract.md#plugin-activation).
 
 Because the device protocol has no acknowledgement, Manifest `CanReportConnection` remains false and the host must not present `Connected=false` as a confirmed disconnection.
 

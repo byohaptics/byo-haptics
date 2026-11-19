@@ -90,14 +90,11 @@ To replace an existing Plugin Package on Windows, call the wrapper directly so t
 scripts/deploy-plugin.ps1 -Plugin demo -Recreate
 ```
 
-Deployment creates fresh runtime IDs under `build/`. These files are disposable and must not be committed.
-
-Wrappers validate and compile before scene construction. Replacement is limited
-to one matching direct child of the declared parent; installed avatar items are
-not searched. The previous item stays intact until the inactive replacement and
-all its graphs are ready. On failure, inspect the inactive staging item; the
-previous generated IDs are not overwritten. Recreate still resets item settings
-on success, so save any custom settings or contained plugins before replacement.
+The [SlotSpec build procedure](slotspec.md#build-order) defines staging,
+replacement boundaries, finalization and failure recovery.
+[Generated IDs](slotspec.md#generated-ids) belong under `build/` and must not be
+committed. Recreate resets item settings on success, so save custom settings
+and contained plugins before replacement.
 
 ## External BYO Haptic Actuator plugin
 

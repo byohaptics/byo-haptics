@@ -42,6 +42,11 @@ Document version: `0.2.0`
 The independently maintained BYO Haptic Actuator plugin uses
 `io.github.byohaptics.output.bha.osc`.
 
+`DisplayName` is the user-facing name, `Transport` is a short identifier such as
+`osc`, `websocket` or `scene`, and `Author` names the plugin author.
+`PluginVersion` is a semantic version prefixed with `v`. Connection-reporting
+capability is defined under [Connection State](#connection-state).
+
 ## Host Variables
 
 All variables use the `BYOHaptics.Output.v2/` prefix.
@@ -51,7 +56,7 @@ All variables use the `BYOHaptics.Output.v2/` prefix.
 | `ActivePluginId` | string | Selected Plugin ID; empty means stopped |
 | `Rows` | reference to `SyncFieldList<float4>` | Ordered normalized sensation vectors owned by `ValueList<float4>` |
 | `Targets` | reference to `SyncFieldList<string>` | One transport-neutral destination for each row |
-| `ConnectionState` | int | `0=Unknown`, `1=Connected`, `2=Disconnected` |
+| `ConnectionState` | int | Plugin-reported status; see [Connection State](#connection-state) |
 
 The host clamps each sensation after applying row and global gain. If Source is null, the row is disabled, or Target is empty, all four output values for that row are zero.
 
@@ -70,6 +75,7 @@ or an empty list makes a plugin inactive and clears its output.
 Because element writes do not change the list reference, plugin readers must
 pass it through `ContinuouslyChangingObjectRelay<SyncFieldList<float4>>` before
 counting or indexing. Otherwise pure collection nodes can retain cached values.
+Use `ReadOnlyCount<_,float4>` for the row count.
 
 `Targets` likewise publishes `ValueList<string>.Values`. Its count must equal
 `Rows.Count`, and index `i` describes `Rows[i]`. The current Host's four Target
@@ -80,8 +86,9 @@ individual row. A Host that changes cardinality must clear `ActivePluginId`,
 resize and initialize both lists, then reactivate output. The count-equality
 guard makes any replicated intermediate state fail closed.
 
-Plugins iterate every row rather than naming fixed indices. Multiple rows may
-share a Target; the plugin combines them according to its device mapping. The
+Plugins iterate every row with `ReadOnlyForEachWithIndexValue` rather than
+naming fixed indices, and read its Target with `ReadOnlyGetAtObject<_,string>`.
+Multiple rows may share a Target; the plugin combines them according to its device mapping. The
 built-in plugins use maximum intensity rather than addition. Unsupported or
 unknown Target values are ignored without invalidating other rows.
 
@@ -96,8 +103,8 @@ DV is not published. Existing contract-1 readers must update.
 The Host writes `ActivePluginId` only when local output is allowed and clears it
 otherwise. It resets `ConnectionState` to unknown when the active ID changes or
 output stops. The selected Plugin publishes one state from its owner-client
-update path; inactive or unreportable states are unknown. Diagnostic booleans
-inside the Plugin remain private implementation details, not bus variables.
+update path according to [Connection State](#connection-state). Diagnostic
+booleans inside the Plugin remain private implementation details, not bus variables.
 
 ## Plugin Activation
 
@@ -127,6 +134,10 @@ While installed, only that owner client may update shared Host or Plugin runtime
 - Connected: `ConnectionState=1`.
 - Disconnected: `ConnectionState=2`.
 
+Manifest `CanReportConnection` is true only when the plugin can obtain positive
+receiver status. Connected requires that evidence; an inactive plugin or one
+whose state cannot be known publishes Unknown.
+
 The UI displays unknown as a gray link symbol, connected as green, and disconnected as a gray link with a red cross. The red cross is disabled outside the disconnected state; transparency alone is not used to hide it.
 
 The Host reflects a state change within one update. Indicators are gated by
@@ -140,9 +151,8 @@ The host does not combine or reinterpret sensation types for a device. Each plug
 
 ## Package Lifecycle
 
-Dropping a tagged plugin card on the Package field sets one `PackageReference`. The Package Manager validates the candidate, ejects an existing plugin without destroying it, reparents the candidate under the socket, and resets its local transform. Eject reverses the operation and restores the card in World Root.
-
-Physical card drop and Inspector reference assignment converge on the same `PackageReference`; installation logic is not duplicated.
+Card installation, replacement and ejection are specified in
+[Output Plugin Package](output-plugin-package.md#direct-drop).
 
 ## Independently maintained plugins
 

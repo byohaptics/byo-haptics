@@ -8,8 +8,8 @@ A plugin root is its own inventory package. In World Root it presents a grabbabl
 
 Package presentation is updated independently of the local-owner runtime gate.
 Every client derives Installed, card visibility and grabbability from the same
-parent-slot test, including when the Host is at World Root. Transport, device
-output and connection-state writes retain their existing owner-client gate.
+parent-slot test, including when the Host is at World Root. Runtime writes
+follow the [owner-client activation rules](output-plugin-contract.md#plugin-activation).
 
 Each plugin root should carry a `License` component that reflects its author's work and included assets. The built-in BYO Haptics plugins require `byohaptics` credit and disable export; third-party plugins choose their own credit and export policy. License values are package metadata and do not affect contract compatibility.
 
@@ -25,6 +25,11 @@ Built-in cards use a rounded outer panel. Any full-width top accent is clipped b
 ## Direct Drop
 
 Each card contains a `ReferenceField<Slot>` that references the plugin root. The host UI owns a tag-filtered `GrabbableReceiverSurface`. Receiving a card writes the root into the same Package reference used by Inspector assignment.
+
+The Package Manager validates the candidate, ejects an existing plugin without
+destroying it, reparents the candidate under the socket, and resets its local
+transform. Physical drop and Inspector assignment use this one installation
+path through `PackageReference`.
 
 Invalid objects do not change the current plugin or remain in the Package field.
 

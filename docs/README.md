@@ -10,6 +10,10 @@
 
 ## Specifications and development
 
+Detailed rules belong in their governing specification. Guides link to those
+rules; the test plan lists verification scenarios and the changelog records
+version-specific changes.
+
 - [Build and verification](building.md)
 - [Architecture](architecture.md)
 - [Sampler](sampler.md) and [lifecycle](lifecycle.md)

@@ -95,32 +95,21 @@ For example, `ValueMultiDriver<T>.Drives` uses the list form:
 
 Nested paths such as `runtime.sender.HandlingUser.User` are valid.
 
-`OSC_Sender.IsSending` is engine-written status, not transport control (verified
-in `OSC_Sender.OnCommonUpdate` and `OSC_Handler.OnChanges` in build
-`2026.9.18.82`). Bind the plugin's `SenderEnabled` to `runtime.sender.Enabled`,
-initially false, with a nonpersistent `ValueUserOverride<bool>` defaulting to
-false. Do not initialize, drive, or override `IsSending`.
+For the [OSC transport rules](output-plugin-contract.md#plugin-activation),
+bind `SenderEnabled` to `runtime.sender.Enabled`, initially false, with a
+nonpersistent `ValueUserOverride<bool>` defaulting to false. Engine status
+ownership was verified in `OSC_Sender.OnCommonUpdate` and `OSC_Handler.OnChanges`
+in build `2026.9.18.82`.
 
 List elements use a zero-based numeric path segment, for example
 `output.bus.rows.Values.0`. A reference to `output.bus.rows.Values` addresses
 the list itself. `float4List` initializes a `SyncFieldList<float4>` using an
 array of `{ "x": 0, "y": 0, "z": 0, "w": 0 }` objects.
 
-For the row bus, `ValueList<float4>.Values` is a `SyncFieldList<float4>`.
-Publish that member through `DynamicReferenceVariable<SyncFieldList<float4>>`;
-each element remains an individually addressable field. Plugins read through
-`ReadOnlyCount<_,float4>` and `ReadOnlyForEachWithIndexValue<_,float4>`, with one
-`ContinuouslyChangingObjectRelay<SyncFieldList<float4>>` before those readers.
-Live testing found that omitting the relay cached element values until the
-reference changed; the relay makes in-place value changes visible.
-
-The Target bus uses the same indexed-field pattern with `ValueList<string>`,
-`stringList` initialization, and a `SyncFieldList<string>` reference. Its reader
-uses `ReadOnlyGetAtObject<_,string>` with a string-list relay. Existing row
-Target fields remain the source of truth and copy into the current Host's four
-list elements. The Output Plugin contract permits any positive list length as
-long as Rows and Targets have equal counts; SlotSpec numeric element paths are
-not limited to indices 0 through 3.
+The Host bus uses `float4List` for Rows and `stringList` for Targets. Their
+runtime types, publication, collection readers and validity rules are defined
+in [Host Variables](output-plugin-contract.md#host-variables). SlotSpec numeric
+element paths are not limited to indices 0 through 3.
 
 `componentReferences` resolves a component alias. `localSlotReferences` resolves a slot path in this specification. `slotFieldReferences` resolves a slot member such as `IsActive`. Scene references are permitted only for explicitly named build context and must fail when ambiguous.
 
@@ -174,6 +163,12 @@ The builder writes `<output>.pending.json`. Consumers deploy using that file,
 then call `finalize-slotspec-build.fsx` with `RESONITE_SLOTSPEC_OUTPUT` set to the
 normal output path. Successful finalization publishes the normal generated IDs.
 This also applies to SlotSpecs without graphs: explicitly finalize after building.
+
+Until finalization, the normal IDs file continues to identify the previous
+item. Deployment consumers reject that file while a pending build exists, so
+an outdated wrapper cannot update the previous item's graphs. Custom and
+independently maintained wrappers must use the same pending/deploy/finalize
+sequence.
 
 ## Generated IDs
 

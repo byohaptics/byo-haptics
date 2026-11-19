@@ -42,11 +42,10 @@ API `0.1.0`.
 
 When the host becomes locally active, the plugin registers its acknowledgement port with the bridge once per second until a heartbeat is received. It sends sensation values only while heartbeat is current. If heartbeat expires, it stops output, reports disconnected, and resumes registration attempts.
 
-When the host becomes inactive, the plugin stops its receiver and releases the acknowledgement port.
-It stops advancing the heartbeat, clears all sensations immediately, resends
-the stopped state every 50 ms for 250 ms, then disables the sender using its
-locally overridden `Enabled` field. It never writes Resonite's `IsSending`
-status. The Bridge timeout remains the fallback if UDP stop packets are lost.
+When the host becomes inactive, the plugin stops its receiver and releases the
+acknowledgement port. Output shutdown follows the [common OSC rules](output-plugin-contract.md#plugin-activation).
+The [Bridge timeout](joycon-bridge-contract.md#registration-and-liveness) remains
+the fallback if UDP stop packets are lost.
 
 ## Bridge Requirements
 

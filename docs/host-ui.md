@@ -42,10 +42,9 @@ Left to right:
 4. `Visual`
 5. `Target`
 
-The `Active` checkbox enables that row's sampler and output; it defaults to
-checked. Turning it off stops sampling and clears held output immediately,
-while preserving the visible Source, selection and offset. Source editing is
-still available while inactive.
+The `Active` checkbox defaults to checked and enables that row's sampler and
+output. Source controls remain editable while inactive. State preservation,
+output clearing and reactivation follow [Source Resolution](sampler.md#source-resolution).
 
 Source defaults to a BodyNode picker (`NONE`) with previous/next (`<`/`>`) arrows.
 Dropping a Slot reference on Source, including on the BodyNode picker, selects
@@ -54,10 +53,9 @@ arrows, is hidden in Slot mode. Clearing Source restores the picker and arrows.
 The displayed control follows whether the
 manual Slot reference is non-null; there is no user-operated mode switch.
 The native reference receiver accepts Slot reference proxies with undo support.
-Clear (`∅`) is immediately to the right of
-Source. It clears the Slot reference, sets BodyNode to `NONE`, returns the display
-to BodyNode selection, resets offsets, and stops output in either mode. It does
-not change Active. Visual follows Source and its clear action; Target is last.
+Clear (`∅`) is immediately to the right of Source. It restores the BodyNode
+picker using the [Source clear behavior](sampler.md#source-resolution).
+Visual follows Source and its clear action; Target is last.
 
 Each row is the same height and structure. The row-index and symbol columns have fixed width `60`. The header includes a matching blank index column so `Active`, `Source`, and later titles align with their row controls. Text must autosize without wrapping column titles.
 
@@ -96,3 +94,5 @@ Sampler Edit submenu:
 - One action per row, labeled with its zero-based row index (`0` through `3`); unconfigured rows remain available for selection but do not sample
 
 Sampler Edit labels are stable row indices and never use Source or Target values. Active edit state uses a distinct color.
+Selecting an unconfigured row changes the active edit row; sampling remains
+disabled until its resolved Source becomes non-null.

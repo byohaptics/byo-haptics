@@ -32,17 +32,10 @@ Do not include a version in the ID. Do not change it after publication. Display 
 
 ## 3. Set Manifest And License
 
-Set every Manifest value:
-
-| Field | Rule |
-| --- | --- |
-| `PluginId` | Stable reverse-domain ID |
-| `DisplayName` | User-facing name |
-| `ContractVersion` | `2` |
-| `CanReportConnection` | `true` only when the plugin has positive receiver status |
-| `Transport` | Short description such as `osc`, `websocket`, or `scene` |
-| `PluginVersion` | Semantic version prefixed with `v` |
-| `Author` | Plugin author's name |
+Set every Manifest field in the contract's
+[Required Package Structure](output-plugin-contract.md#required-package-structure).
+Use [Connection State](output-plugin-contract.md#connection-state) to choose
+`CanReportConnection` for the device.
 
 Update `Package/Visual/Label` to show the same display name, version, contract, and transport to users.
 
@@ -50,21 +43,16 @@ The template License values are examples, not BYO Haptics policy. Set `CreditStr
 
 ## 4. Implement Output
 
-The Host publishes normalized values under `BYOHaptics.Output.v2/`. A plugin must:
+Replace the template's diagnostic field write with the device output while
+retaining its Bus readers and owner-gated update path. Keep the test that
+`PluginRoot` is under `UserRootSlot(LocalUser)` in its `ActiveState` gate.
 
-1. Declare Manifest `ContractVersion=2` and require v2 `ActivePluginId` to equal its own non-empty Plugin ID. Empty/missing means stopped; there is no separate Active or ContractVersion DV.
-2. Read `Rows` as a `SyncFieldList<float4>` reference, pass it through `ContinuouslyChangingObjectRelay<SyncFieldList<float4>>`, require a non-empty list, and interpret X/Y/Z/W as Force/Vibration/Pain/Temperature. The relay refreshes reads when only elements change. Never write to or resize this Host-owned list.
-3. Read `Targets` as a `SyncFieldList<string>` reference through its own continuously-changing relay. Require `Targets.Count == Rows.Count`, then iterate every row by index with `ReadOnlyForEachWithIndexValue`. An invalid or mismatched list stops output; an empty string disables that row.
-4. Map supported Force, Vibration, Pain, and Temperature values to its device.
-5. Write or send zero when inactive, deselected, invalid, or stopped.
-6. Keep device behavior and transport details inside the plugin.
+The implementation must follow these contract sections:
 
-Unsupported sensations and unknown Targets may be ignored. Handle every published row even when several rows share one destination; use the device-appropriate combination rule, normally maximum intensity rather than addition. Do not add a separate row-count variable: the list count is authoritative.
-
-Publish `ConnectionState` from the existing owner-gated update path: `0=Unknown`,
-`1=Connected`, `2=Disconnected`. Connected requires positive receiver evidence.
-If state cannot be known, or the plugin is inactive, publish Unknown. Use named
-integer constants; do not introduce independent status booleans on the bus.
+- [Host Variables](output-plugin-contract.md#host-variables): list types, relays, iteration, validity and routing.
+- [Plugin Activation](output-plugin-contract.md#plugin-activation): ownership, final zero output, listener release and OSC shutdown.
+- [Connection State](output-plugin-contract.md#connection-state): reporting capability and status publication.
+- [Mapping Boundary](output-plugin-contract.md#mapping-boundary): device-specific sensation handling.
 
 ## 5. Validate And Compile
 
@@ -98,26 +86,14 @@ if ($LASTEXITCODE -ne 0) { throw 'Plugin deployment failed; previous item was re
 ./scripts/run-fluxsdk-script.ps1 -ScriptPath scripts/finalize-slotspec-build.fsx
 ```
 
-Generated IDs are session-local build artifacts. Never commit them or copy them into SlotSpec or ProtoGraph source.
-
-Custom and independently maintained plugin wrappers must consume the new
-`.pending.json` file and run the finalizer only after successful graph deployment.
-The normal IDs file continues to identify the previous item until finalization.
-Consumers reject that normal file while a pending build exists, so an outdated
-wrapper fails safely instead of updating the previous item's graphs.
+Custom wrappers must follow the [SlotSpec build procedure](slotspec.md#build-order),
+including pending IDs and finalization, as shown above.
 
 ## 7. Live Acceptance
 
-Before distribution:
-
-1. Confirm the World Root card shows name, version, contract, and transport.
-2. Drop the card into BYO Haptics and confirm its visual and Grabbable disable.
-3. Exercise the current Host's Rows 0 through 3, then test a fixture with more than four paired Rows and Targets.
-4. Confirm inactive, deselected, empty Target, ejection, and receiver loss produce final zero output.
-5. Confirm connection status is connected, disconnected, or unknown according to actual evidence.
-6. Eject, save to inventory, spawn in another world, and reinstall.
-7. Test from each participating client when multi-user behavior matters.
-
-An installed plugin must compare `PluginRoot` with `UserRootSlot(LocalUser)` and run mutable runtime or transport impulses only on the containing user's client. Include that ownership condition in `ActiveState`; do not let a remote client repeatedly write false or zero into shared connection and output fields. The tracked minimal template demonstrates this gate while still allowing an uninstalled World Root card to converge to its stopped, visible state.
+Before distribution, run the [row-list regression](test-plan.md#contract-2-row-list-regression),
+[plugin tests](test-plan.md#plugin-tests) and [multi-user matrix](test-plan.md#multi-user-matrix)
+with the custom plugin. These include card presentation, inventory round trips,
+output stopping and connection reporting.
 
 Built-in examples cover three useful designs: direct scene output in the Demo plugin, acknowledged OSC in the Joy-Con plugin, and unacknowledged OSC with bounded zero resend in the Haptira plugin.
