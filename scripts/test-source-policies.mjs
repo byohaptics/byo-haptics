@@ -33,10 +33,14 @@ try {
   assert.notEqual(run(), 0, "Invalid regex must stop publication");
 
   const runtimeChecker = fileURLToPath(new URL("./check-runtime-ids.mjs", import.meta.url));
-  const checkRuntime = () => spawnSync(process.execPath, [runtimeChecker, source], { cwd: source, env }).status;
+  const checkRuntime = (targets = [source]) => spawnSync(process.execPath, [runtimeChecker, ...targets], { cwd: source, env }).status;
+  for (const dir of ["scripts", "Common", "flux", "specs"]) fs.mkdirSync(path.join(source, dir));
+  fs.writeFileSync(path.join(source, "protograph.toml"), "");
   assert.equal(checkRuntime(), 0, "Clean source must pass runtime-ID checks");
-  fs.writeFileSync(path.join(source, "runtime.txt"), "Res" + "o_123ABC");
+  assert.equal(checkRuntime([]), 0, "Default runtime-ID targets must accept clean source");
+  fs.writeFileSync(path.join(source, "Common", "runtime.txt"), "Res" + "o_123ABC");
   assert.equal(checkRuntime(), 1, "Fixed runtime IDs must be rejected");
+  assert.equal(checkRuntime([]), 1, "Default runtime-ID targets must include shared modules");
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }

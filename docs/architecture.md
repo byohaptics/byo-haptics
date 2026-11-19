@@ -29,6 +29,10 @@ The host ProtoGraph is divided into six operational sheets:
 5. `BYOHapticsPluginPackageManager`
 6. `BYOHapticsOutputBus`
 
+Reusable avatar-root and panel-reset modules live in `Common/`. The deployment
+sheets import them through project-relative paths such as
+`use Common/PanelResetFromUser`.
+
 Read-only diagnostic mirror fields are omitted. Inspect the authoritative sampler and Output Bus fields directly when debugging.
 
 Host-internal state is grouped by ownership rather than giving every field its own Slot. Publicly adjusted settings retain named children under `Config`; row bookkeeping shares `Config/State`, Output Plugin contract variables share the Bus Slot, and the three plugin-state indicators share `Diagnostics/Plugin`. Component aliases and Dynamic Variable names remain the stable references.

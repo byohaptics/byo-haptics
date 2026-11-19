@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 
 const targets = process.argv.slice(2);
-const paths = targets.length ? targets : ["scripts", "flux", "specs", "protograph.toml"];
+const paths = targets.length ? targets : ["scripts", "Common", "flux", "specs", "protograph.toml"];
 const patterns = [
   "Reso_[A-Za-z0-9]+",
   "SlotSpec_[0-9]+",

@@ -13,7 +13,7 @@ in ToolGrabbableLastParentIsUserSpace: bool mutable
 in Installed: bool mutable
 in PanelVisible: bool mutable
 
-use PanelResetFromUser
+use Common/PanelResetFromUser
 
 where {
     WorldRoot = RootSlot;

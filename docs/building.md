@@ -8,7 +8,7 @@ Document version: `0.2.0`
 - PowerShell 7 or Windows PowerShell 5.1
 - Node.js 22
 - ripgrep (`rg`) available on `PATH`
-- .NET SDK `10.0.115`, selected by `global.json`
+- .NET SDK `10.0.404`, selected by `global.json`
 - `Papaltine.FluxSDK` `1.9.0`
 - A local Resonite installation for ProtoGraph compilation; set `RESONITE_DIR`
   when it is not in the default Steam library. Resonite need not be running to compile.
@@ -50,7 +50,7 @@ The compile commands share `scripts/compile.ps1`, selecting `host` or `plugins`
 with `-Target`. External plugins continue to use `compile-protograph-module.fsx`
 through the common FluxSDK runner.
 
-`npm test` validates versions, documents, SlotSpecs including the authoring template, aliases, references, runtime-ID policy, and deployment script type checking. Type checks do not execute the deployment scripts. Use the SDK selected by `global.json`; the F# compiler in SDK `10.0.404` has shown type-check stalls with FluxSDK `1.9.0`. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
+`npm test` validates versions, documents, SlotSpecs including the authoring template, aliases, references, runtime-ID policy, FluxSDK runtime compatibility, and deployment script type checking. Type checks do not execute the deployment scripts. The FluxSDK runner disables parallel F# compilation to avoid FSI stalls. Use the SDK selected by `global.json` so its FSharp.Core matches FluxSDK `1.9.0`. ProtoGraph compilation is separate because it is slower and produces diagnostics for each module.
 
 To run the local publication check separately:
 

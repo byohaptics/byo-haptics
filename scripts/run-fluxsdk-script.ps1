@@ -25,7 +25,8 @@ if (-not $fluxSdkTools -or -not (Test-Path -LiteralPath (Join-Path $fluxSdkTools
 }
 
 $resolvedScript = (Resolve-Path -LiteralPath $ScriptPath).Path
-$fsiArguments = @('--exec', '--gui-', '--readline-', "--lib:$fluxSdkTools")
+# Parallel FSI compilation can stall while resolving FluxSDK assemblies.
+$fsiArguments = @('--exec', '--gui-', '--readline-', '--parallelcompilation-', "--lib:$fluxSdkTools")
 if ($TypeCheckOnly) { $fsiArguments += '--typecheck-only' }
 $fsiArguments += $resolvedScript
 # Close stdin so noninteractive checks also terminate under Git hooks.

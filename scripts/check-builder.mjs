@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const builder = fs.readFileSync(new URL("./build-from-resonite-slotspec.fsx", import.meta.url), "utf8");
 assert(!builder.includes("RemoveSlot"), "Construction must never delete the previous item");
@@ -63,6 +64,12 @@ try {
   const invalid = compile("unknown");
   assert.notEqual(invalid.status, 0);
   assert.deepEqual(invalid.modules, []);
+
+  const runtimeCheck = path.join(fixture, "runtime-check.fsx");
+  const imports = fs.readFileSync(new URL("./compile-protograph-module.fsx", import.meta.url), "utf8").split(/\r?\n/).filter(line => line.startsWith("#r ") || line.startsWith("open ")).join("\n");
+  fs.writeFileSync(runtimeCheck, `${imports}\nBuild.loadManifest Environment.CurrentDirectory |> ignore\n`);
+  const runtime = spawnSync("powershell", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", fileURLToPath(new URL("./run-fluxsdk-script.ps1", import.meta.url)), "-ScriptPath", runtimeCheck], { stdio: "inherit", timeout: 120_000 });
+  assert.equal(runtime.status, 0, "FluxSDK must execute with the selected SDK's FSharp.Core; typechecking alone does not prove compatibility");
 } finally {
   fs.rmSync(fixture, { recursive: true, force: true });
 }
